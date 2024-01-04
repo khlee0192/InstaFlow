@@ -650,6 +650,8 @@ class RectifiedFlowPipeline(DiffusionPipeline, TextualInversionLoaderMixin, Lora
             latents,
         )
 
+        original_latents = latents
+
         # 6. Prepare extra step kwargs. TODO: Logic should ideally just be moved out of the pipeline
         extra_step_kwargs = self.prepare_extra_step_kwargs(generator, eta)
         dt = 1.0 / num_inference_steps
@@ -698,7 +700,7 @@ class RectifiedFlowPipeline(DiffusionPipeline, TextualInversionLoaderMixin, Lora
         if not return_dict:
             return (image, has_nsfw_concept)
 
-        return StableDiffusionPipelineOutput(images=image, nsfw_content_detected=has_nsfw_concept), latents
+        return StableDiffusionPipelineOutput(images=image, nsfw_content_detected=has_nsfw_concept), latents, original_latents
 
 class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
     def exact_inversion(
@@ -708,6 +710,8 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             num_inversion_steps: int = 50,
             guidance_scale: float = 7.5,
             negative_prompt: Optional[Union[str, List[str]]] = None,
+            prompt_embeds: Optional[torch.FloatTensor] = None,
+            negative_prompt_embeds: Optional[torch.FloatTensor] = None,
             num_images_per_prompt: Optional[int] = 1,
             cross_attention_kwargs: Optional[Dict[str, Any]] = None,
         ):
