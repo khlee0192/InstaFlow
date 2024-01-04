@@ -1,4 +1,4 @@
-import gradio as gr
+## This code is for genearting basic image sample, adjusted from local_gradio.py
 
 from pipeline_rf import RectifiedFlowPipeline
 
@@ -10,6 +10,8 @@ from diffusers import StableDiffusionXLImg2ImgPipeline
 import time
 import copy
 import numpy as np
+import argparse
+import matplotlib.pyplot as plt
 
 def merge_dW_to_unet(pipe, dW_dict, alpha=1.0):
     _tmp_sd = pipe.unet.state_dict()
@@ -52,23 +54,18 @@ def get_dW_and_merge(pipe_rf, lora_path='Lykon/dreamshaper-7', save_dW = False, 
     
     return dW_dict
 
-
-
-pipe = StableDiffusionXLImg2ImgPipeline.from_pretrained(
-    "stabilityai/stable-diffusion-xl-refiner-1.0", torch_dtype=torch.float16, variant="fp16", use_safetensors=True
-)
-pipe = pipe.to("cuda")
+# pipe = StableDiffusionXLImg2ImgPipeline.from_pretrained(
+#     "stabilityai/stable-diffusion-xl-refiner-1.0", torch_dtype=torch.float16, variant="fp16", use_safetensors=True
+# )
+# pipe = pipe.to("cuda")
 
 insta_pipe = RectifiedFlowPipeline.from_pretrained("XCLiu/instaflow_0_9B_from_sd_1_5", torch_dtype=torch.float16) 
-dW_dict = get_dW_and_merge(insta_pipe, lora_path="Lykon/dreamshaper-7", save_dW=False, alpha=1.0)     
+#dW_dict = get_dW_and_merge(insta_pipe, lora_path="Lykon/dreamshaper-7", save_dW=False, alpha=1.0)     
 insta_pipe.to("cuda")
-
-global img
 
 @torch.no_grad()
 def set_new_latent_and_generate_new_image(seed, prompt, randomize_seed, num_inference_steps=1, guidance_scale=0.0):
     print('Generate with input seed')
-    global img
     negative_prompt=""
     if randomize_seed:
         seed = np.random.randint(0, 2**32)
@@ -86,47 +83,19 @@ def set_new_latent_and_generate_new_image(seed, prompt, randomize_seed, num_infe
 
     return images[0], inf_time, seed
 
-@torch.no_grad()
-def refine_image_512(prompt):
-    print('Refine with SDXL-Refiner (512)')
-    global img
+def main():
+    image, time, seed = set_new_latent_and_generate_new_image(args.seed, args.prompt, args.randomize_seed, num_inference_steps=1, guidance_scale=0.0)
 
-    t_s = time.time()
-    img = torch.tensor(img).unsqueeze(0).permute(0, 3, 1, 2) / 255.0 
-    img = img.permute(0, 2, 3, 1).squeeze(0).cpu().numpy()
-    new_image = pipe(prompt, image=img).images[0] 
-    print('time consumption:', time.time() - t_s) 
-    new_image = np.array(new_image) * 1.0 / 255.
+    plt.imshow(image)
+    plt.show()
+    print(f"generation time : {time}")
 
-    img = copy.copy(new_image)
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='instaflow - work on inversion')
+    parser.add_argument('--randomize_seed', default=True, type=bool)
+    parser.add_argument('--seed', default=2736710, type=int)
+    parser.add_argument('--prompt', default="A dog in the field", type=str)
 
-    return new_image
+    args = parser.parse_args()
 
-
-with gr.Blocks() as gradio_gui:
-    gr.Markdown(
-    """
-    # InstaFlow! One-Step Stable Diffusion with Rectified Flow [[paper]](https://arxiv.org/abs/2309.06380)
-    ## This is a demo of one-step InstaFlow-0.9B with [dreamshaper-7](https://huggingface.co/Lykon/dreamshaper-7) (a LoRA that improves image quality) and measures the inference time.  
-    """)
-
-    with gr.Row():
-        with gr.Column(scale=0.4):
-            with gr.Group():
-                gr.Markdown("Generation from InstaFlow-0.9B")
-                im = gr.Image()
-        
-        with gr.Column(scale=0.4):
-            inference_time_output = gr.Textbox(value='0.0', label='Inference Time with One-Step InstaFlow (Second)')
-            seed_input = gr.Textbox(value='101098274', label="Random Seed") 
-            randomize_seed = gr.Checkbox(label="Randomly Sample a Random Seed", value=True)
-            prompt_input = gr.Textbox(value='A high-resolution photograph of a waterfall in autumn; muted tone', label="Prompt")
-
-            new_image_button = gr.Button(value="One-Step Generation with InstaFlow and the Random Seed")
-            new_image_button.click(set_new_latent_and_generate_new_image, inputs=[seed_input, prompt_input, randomize_seed], outputs=[im, inference_time_output, seed_input])
-
-            refine_button_512 = gr.Button(value="Refine One-Step Generation with SDXL Refiner (Resolution: 512)")
-            refine_button_512.click(refine_image_512, inputs=[prompt_input], outputs=[im])
-
-
-gradio_gui.launch()
+    main()
