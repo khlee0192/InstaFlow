@@ -1,6 +1,7 @@
 ## This code is for genearting basic image sample, adjusted from local_gradio.py
 
 from pipeline_rf import RectifiedFlowPipeline
+from pipeline_rf import RectifiedInversableFlowPipeline
 
 import torch
 from torchvision.transforms import Compose, Resize, CenterCrop, ToTensor, Normalize
@@ -59,12 +60,12 @@ def get_dW_and_merge(pipe_rf, lora_path='Lykon/dreamshaper-7', save_dW = False, 
 # )
 # pipe = pipe.to("cuda")
 
-insta_pipe = RectifiedFlowPipeline.from_pretrained("XCLiu/instaflow_0_9B_from_sd_1_5", torch_dtype=torch.float16) 
+insta_pipe = RectifiedInversableFlowPipeline.from_pretrained("XCLiu/instaflow_0_9B_from_sd_1_5", torch_dtype=torch.float16) 
 #dW_dict = get_dW_and_merge(insta_pipe, lora_path="Lykon/dreamshaper-7", save_dW=False, alpha=1.0)     
 insta_pipe.to("cuda")
 
 @torch.no_grad()
-def set_new_latent_and_generate_new_image(seed, prompt, randomize_seed, num_inference_steps=1, guidance_scale=0.0):
+def set_and_generate_image_then_reverse(seed, prompt, randomize_seed, num_inference_steps=1, num_inversion_steps=1, guidance_scale=0.0):
     print('Generate with input seed')
     negative_prompt=""
     if randomize_seed:
@@ -76,15 +77,17 @@ def set_new_latent_and_generate_new_image(seed, prompt, randomize_seed, num_infe
 
     t_s = time.time()
     generator = torch.manual_seed(seed)
-    images = insta_pipe(prompt=prompt, num_inference_steps=1, guidance_scale=0.0, generator=generator).images 
+    output, latents = insta_pipe(prompt=prompt, num_inference_steps=num_inference_steps, guidance_scale=0.0, generator=generator).images 
+    original_images = output.images
+
     inf_time = time.time() - t_s 
 
-    img = copy.copy(np.array(images[0]))
+    recon_latents = insta_pipe.exact_inversion(prompt=prompt, latents=latents, num_inversion_steps=num_inversion_steps, guidance_scale=0.0)
 
-    return images[0], inf_time, seed
+    return original_images[0], inf_time, seed
 
 def main():
-    image, time, seed = set_new_latent_and_generate_new_image(args.seed, args.prompt, args.randomize_seed, num_inference_steps=1, guidance_scale=0.0)
+    image, time, seed = set_and_generate_image_then_reverse(args.seed, args.prompt, args.randomize_seed, num_inference_steps=1, num_inversion_steps=1, guidance_scale=0.0)
 
     plt.imshow(image)
     plt.show()

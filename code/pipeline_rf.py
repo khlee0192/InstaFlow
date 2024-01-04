@@ -678,8 +678,6 @@ class RectifiedFlowPipeline(DiffusionPipeline, TextualInversionLoaderMixin, Lora
                         step_idx = i // getattr(self.scheduler, "order", 1)
                         callback(step_idx, t, latents)
 
-
-
         if not output_type == "latent":
             image = self.vae.decode(latents / self.vae.config.scaling_factor, return_dict=False)[0]
             image, has_nsfw_concept = self.run_safety_checker(image, device, prompt_embeds.dtype)
@@ -700,4 +698,71 @@ class RectifiedFlowPipeline(DiffusionPipeline, TextualInversionLoaderMixin, Lora
         if not return_dict:
             return (image, has_nsfw_concept)
 
-        return StableDiffusionPipelineOutput(images=image, nsfw_content_detected=has_nsfw_concept)
+        return StableDiffusionPipelineOutput(images=image, nsfw_content_detected=has_nsfw_concept), latents
+
+class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
+    def exact_inversion(
+            self,
+            prompt: Union[str, List[str]] = None,
+            latents: Optional[torch.FloatTensor] = None,
+            num_inversion_steps: int = 50,
+            guidance_scale: float = 7.5,
+            negative_prompt: Optional[Union[str, List[str]]] = None,
+            num_images_per_prompt: Optional[int] = 1,
+            cross_attention_kwargs: Optional[Dict[str, Any]] = None,
+        ):
+        """
+        Exact inversion of RectifiedFlowPipeline. Gets input of 1,4,64,64 latents (which is denoised), and returns original latents by performing inversion
+        
+        Args:
+            
+        """
+        do_classifier_free_guidance = guidance_scale > 1.0
+        device = self._execution_device
+        text_encoder_lora_scale = (
+            cross_attention_kwargs.get("scale", None) if cross_attention_kwargs is not None else None
+        )
+
+        prompt_embeds, negative_prompt_embeds = self.encode_prompt(
+            prompt,
+            device,
+            num_images_per_prompt,
+            do_classifier_free_guidance,
+            negative_prompt,
+            prompt_embeds=prompt_embeds,
+            negative_prompt_embeds=negative_prompt_embeds,
+            lora_scale=text_encoder_lora_scale,
+        )
+
+
+        if do_classifier_free_guidance:
+            prompt_embeds = torch.cat([negative_prompt_embeds, prompt_embeds])
+
+        # 4. Prepare timesteps
+        timesteps = [(1. - i/num_inversion_steps) * 1000. for i in range(num_inversion_steps)]
+
+        # 5. Prepare extra step kwargs. TODO: Logic should ideally just be moved out of the pipeline
+        #extra_step_kwargs = self.prepare_extra_step_kwargs(generator, eta)
+        dt = 1.0 / num_inversion_steps
+
+        # 6. Inversion loop of Euler discretization from t = 1 to t = 0
+        with self.progress_bar(total=num_inversion_steps) as progress_bar:
+            for i, t in enumerate(timesteps):
+                # expand the latents if we are doing classifier free guidance
+                latent_model_input = torch.cat([latents] * 2) if do_classifier_free_guidance else latents
+
+                vec_t = torch.ones((latent_model_input.shape[0],), device=latents.device) * t 
+
+                v_pred = self.unet(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds).sample
+
+                # perform guidance 
+                if do_classifier_free_guidance:
+                    v_pred_neg, v_pred_text = v_pred.chunk(2)
+                    v_pred = v_pred_neg + guidance_scale * (v_pred_text - v_pred_neg)
+
+                latents = latents - dt * v_pred # instead of + in generation, switch to - since this is inversion process
+
+        # Offload all models
+        self.maybe_free_model_hooks()
+
+        return latents
