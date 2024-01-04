@@ -738,12 +738,12 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             lora_scale=text_encoder_lora_scale,
         )
 
-
         if do_classifier_free_guidance:
             prompt_embeds = torch.cat([negative_prompt_embeds, prompt_embeds])
 
-        # 4. Prepare timesteps
+        # 4. Prepare timesteps, then reverse for inversion
         timesteps = [(1. - i/num_inversion_steps) * 1000. for i in range(num_inversion_steps)]
+        timesteps = reversed(timesteps)
 
         # 5. Prepare extra step kwargs. TODO: Logic should ideally just be moved out of the pipeline
         #extra_step_kwargs = self.prepare_extra_step_kwargs(generator, eta)
@@ -764,9 +764,44 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                     v_pred_neg, v_pred_text = v_pred.chunk(2)
                     v_pred = v_pred_neg + guidance_scale * (v_pred_text - v_pred_neg)
 
+                current_latents = latents
                 latents = latents - dt * v_pred # instead of + in generation, switch to - since this is inversion process
+
+                # Our work : perform forward step method
+                latents = self.forward_step_method(latents, current_latents, t, dt, prompt_embeds=prompt_embeds)
 
         # Offload all models
         self.maybe_free_model_hooks()
 
         return latents
+    
+    @torch.inference_mode()
+    def forward_step_method(
+            self, 
+            latents, 
+            current_latents, 
+            t, dt, prompt_embeds, 
+            verbose=True):
+        """
+        The forward step method assumes that current_latents are at right place(even on multistep), then map latents correctly to current latents
+        The work is done by fixed-point iteration
+        """
+
+        latents_s = latents
+
+        for i in range(100):
+            latent_model_input = torch.cat([latents_s] * 2) if self.do_classifier_free_guidance else latents
+            vec_t = torch.ones((latent_model_input.shape[0],), device=latents.device) * t
+            v_pred = self.unet(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds).sample
+
+            if self.do_classifier_free_guidance:
+                v_pred_neg, v_pred_text = v_pred.chunk(2)
+                v_pred = v_pred_neg + self.guidance_scale * (v_pred_text - v_pred_neg)
+            
+            latents_t = latents_s + dt * v_pred
+
+            # Update
+            latents_s = latents_s - 0.01 * (latents_t - current_latents)
+
+            if verbose:
+                print(i, (latents_t - current_latents).norm()/current_latents.norm() )
