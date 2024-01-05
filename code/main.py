@@ -14,6 +14,8 @@ import numpy as np
 import argparse
 import matplotlib.pyplot as plt
 
+from datetime import datetime
+
 def merge_dW_to_unet(pipe, dW_dict, alpha=1.0):
     _tmp_sd = pipe.unet.state_dict()
     for key in dW_dict.keys():
@@ -60,7 +62,7 @@ def get_dW_and_merge(pipe_rf, lora_path='Lykon/dreamshaper-7', save_dW = False, 
 # )
 # pipe = pipe.to("cuda")
 
-insta_pipe = RectifiedInversableFlowPipeline.from_pretrained("XCLiu/instaflow_0_9B_from_sd_1_5", torch_dtype=torch.float16, safety_checker=None) 
+insta_pipe = RectifiedInversableFlowPipeline.from_pretrained("XCLiu/instaflow_0_9B_from_sd_1_5", torch_dtype=torch.float32, safety_checker=None) 
 #dW_dict = get_dW_and_merge(insta_pipe, lora_path="Lykon/dreamshaper-7", save_dW=False, alpha=1.0)     
 insta_pipe.to("cuda")
 
@@ -87,6 +89,11 @@ def set_and_generate_image_then_reverse(seed, prompt, randomize_seed, num_infere
     recon_output, _, _ = insta_pipe(prompt=prompt, num_inference_steps=num_inference_steps, guidance_scale=0.0, generator=generator, latents=recon_latents)
     recon_images = recon_output.images
 
+    print(f"validation, latents mean : {original_latents.mean()}, latents std : {original_latents.std()}")
+    print(f"validation, reconstructed latents mean : {recon_latents.mean()}, latents std : {recon_latents.std()}")
+
+    print(prompt)
+
     print(f"TOT of inversion {(recon_latents - original_latents).norm()/original_latents.norm()}")
 
     # Visualizing noise
@@ -98,18 +105,22 @@ def set_and_generate_image_then_reverse(seed, prompt, randomize_seed, num_infere
     return original_images[0], recon_images[0], original_latents_visualized, recon_latents_visualized, inf_time, seed
 
 def main():
-    image, recon_image, latents, recon_latents, time, seed = set_and_generate_image_then_reverse(args.seed, args.prompt, args.randomize_seed, num_inference_steps=1, num_inversion_steps=1, guidance_scale=0.0)
+    image, recon_image, latents, recon_latents, time, seed = set_and_generate_image_then_reverse(
+        args.seed, args.prompt, args.randomize_seed, 
+        num_inference_steps=1, num_inversion_steps=1,
+        guidance_scale=0.0
+    )
 
     # Create a figure and axes for the grid
     fig, axs = plt.subplots(2, 2, figsize=(10, 10))
 
     # Display the first PIL image
-    axs[0, 0].imshow(np.array(image))
+    axs[0, 0].imshow(image)
     axs[0, 0].axis('off')
     axs[0, 0].set_title('Image')
 
     # Display the second PIL image
-    axs[0, 1].imshow(np.array(recon_image))
+    axs[0, 1].imshow(recon_image)
     axs[0, 1].axis('off')
     axs[0, 1].set_title('Reconstructed Image')
 
@@ -124,7 +135,9 @@ def main():
     axs[1, 1].set_title('Reconstructed Latents')
 
     plt.tight_layout()
-    plt.savefig("run.png")
+    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    plt.savefig(f"plot_{current_time}.png")
+    plt.show()
 
     print(f"generation time : {time}")
 
@@ -132,7 +145,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='instaflow - work on inversion')
     parser.add_argument('--randomize_seed', default=False, type=bool)
     parser.add_argument('--seed', default=2736710, type=int)
-    parser.add_argument('--prompt', default="A dog in the field", type=str)
+    parser.add_argument('--prompt', default="A dog in the field, colorful", type=str)
 
     args = parser.parse_args()
 
