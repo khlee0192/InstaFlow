@@ -785,8 +785,8 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                 temp = self.vae.decode(latents / self.vae.config.scaling_factor, return_dict=False)[0]
                 temp_image = self.image_processor.postprocess(temp)
                 print(f"check initial guess, {latents.mean()}, {latents.std()}")
-                plt.imshow(temp_image[0])
-                plt.show()
+                # plt.imshow(temp_image[0])
+                # plt.show()
 
                 # Our work : perform forward step method
                 latents = self.forward_step_method(latents, current_latents, t, dt, prompt_embeds=prompt_embeds, 
