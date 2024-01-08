@@ -89,8 +89,9 @@ def set_and_generate_image_then_reverse(seed, prompt, randomize_seed, num_infere
     print(f"TOT of inversion {(recon_latents - original_latents).norm()/original_latents.norm()}")
 
     # Visualizing noise
-    original_latents_visualized = insta_pipe.decode_latents(original_latents)
-    recon_latents_visualized = insta_pipe.decode_latents(recon_latents)
+    original_latents_visualized = insta_pipe.image_processor.postprocess(insta_pipe.vae.decode(original_latents/insta_pipe.vae.config.scaling_factor, return_dict=False)[0])
+    recon_latents_visualized = insta_pipe.image_processor.postprocess(insta_pipe.vae.decode(recon_latents/insta_pipe.vae.config.scaling_factor, return_dict=False)[0])
+
     original_latents_visualized = np.squeeze(original_latents_visualized)
     recon_latents_visualized = np.squeeze(recon_latents_visualized)
 
