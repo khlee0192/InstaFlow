@@ -84,13 +84,8 @@ def set_and_generate_image_then_reverse(seed, prompt, randomize_seed, num_infere
 
     inf_time = time.time() - t_s
 
-    recon_latents, recon_images = insta_pipe.exact_inversion(prompt=prompt, latents=latents, num_inversion_steps=num_inversion_steps, guidance_scale=0.0)
-
-    print(f"validation, latents mean : {original_latents.mean()}, latents std : {original_latents.std()}")
-    print(f"validation, reconstructed latents mean : {recon_latents.mean()}, latents std : {recon_latents.std()}")
-
-    print(prompt)
-
+    recon_latents, recon_images = insta_pipe.exact_inversion(prompt=prompt, latents=latents, num_inversion_steps=num_inversion_steps, num_inference_steps=num_inference_steps, guidance_scale=0.0)
+    
     print(f"TOT of inversion {(recon_latents - original_latents).norm()/original_latents.norm()}")
 
     # Visualizing noise
@@ -99,7 +94,16 @@ def set_and_generate_image_then_reverse(seed, prompt, randomize_seed, num_infere
     original_latents_visualized = np.squeeze(original_latents_visualized)
     recon_latents_visualized = np.squeeze(recon_latents_visualized)
 
-    return original_images[0], recon_images[0], original_latents_visualized, recon_latents_visualized, inf_time, seed
+    # Obtain image, calculate OTO
+    original_image = original_images[0]
+    recon_image = recon_images[0]
+    original_array = np.array(original_image)
+    recon_array = np.array(recon_image)
+    diff = np.linalg.norm(original_array - recon_array)
+
+    print(f"OTO of inversion {diff/np.linalg.norm(original_array)}")
+
+    return original_image, recon_image, original_latents_visualized, recon_latents_visualized, inf_time, seed
 
 def main():
     image, recon_image, latents, recon_latents, time, seed = set_and_generate_image_then_reverse(

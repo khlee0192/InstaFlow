@@ -711,7 +711,9 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             prompt: Union[str, List[str]] = None,
             latents: Optional[torch.FloatTensor] = None,
             num_inversion_steps: int = 50,
+            num_inference_steps: int = 1,
             guidance_scale: float = 7.5,
+            use_random_initial_noise: bool = True,
             negative_prompt: Optional[Union[str, List[str]]] = None,
             prompt_embeds: Optional[torch.FloatTensor] = None,
             negative_prompt_embeds: Optional[torch.FloatTensor] = None,
@@ -763,64 +765,51 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
         # Original concept does not work properly, so we choose to generate a random distribution to make v_pred at the beginning
         with self.progress_bar(total=num_inversion_steps) as progress_bar:
             for i, t in enumerate(timesteps):
-                # New trial
-                
-                # Instead of using latents, perform inital guess (to make scale reliable)
-                initial_latents = randn_tensor(latents.shape, generator=generator, device=device, dtype=latents.dtype)
-                print(f"starting inversion, {initial_latents.mean()}, {initial_latents.std()}")
-                
-                # expand the latents if we are doing classifier free guidance
-                latent_model_input = torch.cat([initial_latents] * 2) if do_classifier_free_guidance else initial_latents
-                vec_t = torch.ones((latent_model_input.shape[0],), device=latents.device) * t
-                v_pred = self.unet(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds).sample
-                # perform guidance 
-                if do_classifier_free_guidance:
-                    v_pred_neg, v_pred_text = v_pred.chunk(2)
-                    v_pred = v_pred_neg + guidance_scale * (v_pred_text - v_pred_neg)
+                if use_random_initial_noise:
+                    # Instead of using latents, perform inital guess (to make scale reliable)
+                    initial_latents = randn_tensor(latents.shape, generator=generator, device=device, dtype=latents.dtype)
+                    
+                    # expand the latents if we are doing classifier free guidance
+                    latent_model_input = torch.cat([initial_latents] * 2) if do_classifier_free_guidance else initial_latents
+                    vec_t = torch.ones((latent_model_input.shape[0],), device=latents.device) * t
+                    v_pred = self.unet(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds).sample
+                    # perform guidance 
+                    if do_classifier_free_guidance:
+                        v_pred_neg, v_pred_text = v_pred.chunk(2)
+                        v_pred = v_pred_neg + guidance_scale * (v_pred_text - v_pred_neg)
 
-                 # instead of + in generation, switch to - since this is inversion process (not that meaningful since this is only process of setting initial value)
-                latents = latents - dt * v_pred
+                    # instead of + in generation, switch to - since this is inversion process (not that meaningful since this is only process of setting initial value)
+                    latents = latents - dt * v_pred
 
-                # DEBUG : check initial guess
-                temp = self.vae.decode(latents / self.vae.config.scaling_factor, return_dict=False)[0]
-                temp_image = self.image_processor.postprocess(temp)
-                print(f"check initial guess, {latents.mean()}, {latents.std()}")
-                # plt.imshow(temp_image[0])
-                # plt.show()
+                    # Our work : perform forward step method
+                    latents = self.forward_step_method(latents, current_latents, t, dt, prompt_embeds=prompt_embeds, 
+                                                    do_classifier_free_guidance=do_classifier_free_guidance, verbose=True)
+                else:
+                    # expand the latents if we are doing classifier free guidance
+                    latent_model_input = torch.cat([latents] * 2) if do_classifier_free_guidance else latents
 
-                # Our work : perform forward step method
-                latents = self.forward_step_method(latents, current_latents, t, dt, prompt_embeds=prompt_embeds, 
-                                                   do_classifier_free_guidance=do_classifier_free_guidance, verbose=True)
-                
-                
-                
-                # Original Implementation
-                """
-                # expand the latents if we are doing classifier free guidance
-                latent_model_input = torch.cat([latents] * 2) if do_classifier_free_guidance else latents
+                    vec_t = torch.ones((latent_model_input.shape[0],), device=latents.device) * t 
 
-                vec_t = torch.ones((latent_model_input.shape[0],), device=latents.device) * t 
+                    v_pred = self.unet(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds).sample
+                    #v_pred = model(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds).sample
 
-                v_pred = self.unet(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds).sample
-                #v_pred = model(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds).sample
+                    # perform guidance 
+                    if do_classifier_free_guidance:
+                        v_pred_neg, v_pred_text = v_pred.chunk(2)
+                        v_pred = v_pred_neg + guidance_scale * (v_pred_text - v_pred_neg)
 
-                # perform guidance 
-                if do_classifier_free_guidance:
-                    v_pred_neg, v_pred_text = v_pred.chunk(2)
-                    v_pred = v_pred_neg + guidance_scale * (v_pred_text - v_pred_neg)
+                    current_latents = latents
+                    latents = latents - dt * v_pred # instead of + in generation, switch to - since this is inversion process (not that meaningful since this is only process of setting initial value)
+                    #latents = randn_tensor(latents.shape, generator=generator, device=device, dtype=latents.dtype)
 
-                current_latents = latents
-                latents = latents - dt * v_pred # instead of + in generation, switch to - since this is inversion process (not that meaningful since this is only process of setting initial value)
-                #latents = randn_tensor(latents.shape, generator=generator, device=device, dtype=latents.dtype)
-
-                # Our work : perform forward step method
-                latents = self.forward_step_method(latents, current_latents, t, dt, prompt_embeds=prompt_embeds, do_classifier_free_guidance=do_classifier_free_guidance, verbose=True)
-                """
+                    # Our work : perform forward step method
+                    latents = self.forward_step_method(latents, current_latents, t, dt, prompt_embeds=prompt_embeds, do_classifier_free_guidance=do_classifier_free_guidance, verbose=True)
 
         # Offload all models
         self.maybe_free_model_hooks()
 
         # Creating image
+        timesteps = [(1. - i/num_inference_steps) * 1000. for i in range(num_inference_steps)]
         for i, t in enumerate(timesteps):
             # expand the latents if we are doing classifier free guidance
             latent_model_input = torch.cat([latents] * 2) if do_classifier_free_guidance else latents
@@ -877,19 +866,6 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                 latents_s = latents_s - 0.001 * (latents_t - current_latents)
 
             if verbose:
-                #print(i, (latents_t - current_latents).norm()/current_latents.norm(), latents_s.mean().item(), latents_s.std().item())
                 print(i, (latents_t - current_latents).norm()/current_latents.norm(), latents_s.mean().item(), latents_s.std().item())
-            
-            if i==0 or i==50 or i==100 or i==150 or i==199:
 
-                image = self.vae.decode(latents_t / self.vae.config.scaling_factor, return_dict=False)[0]
-                image = self.image_processor.postprocess(image)[0]
-                plt.imshow(image)
-                plt.show()
-
-                print(latents_t.mean(), latents_t.std())
-                print(current_latents.mean(), current_latents.std())
-                print((latents_t - current_latents).norm()/current_latents.norm() )
-
-        print(f"forward step result : {latents_s.mean().item()}, {latents_s.std().item()}")
         return latents_s
