@@ -785,7 +785,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                 # DEBUG : check initial guess
                 temp = self.vae.decode(latents / self.vae.config.scaling_factor, return_dict=False)[0]
                 temp_image = self.image_processor.postprocess(temp)
-                print(latents.mean(), latents.std())
+                print(f"check initial guess, {latents.mean()}, {latents.std()}")
                 # plt.imshow(temp_image[0])
                 # plt.show()
 
@@ -819,9 +819,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
 
         # Creating image
         image = self.vae.decode(latents / self.vae.config.scaling_factor, return_dict=False)[0]
-
         do_denormalize = [True] * image.shape[0]
-
         image = self.image_processor.postprocess(image, output_type=output_type, do_denormalize=do_denormalize)
 
         return latents, image
@@ -877,5 +875,5 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
 
                 print((latents_t - current_latents).norm()/current_latents.norm() )
 
-        
+        print(f"forward step result : {latents_s.mean().item()}, {latents.std().item()}")
         return latents_s
