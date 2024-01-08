@@ -716,6 +716,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             num_images_per_prompt: Optional[int] = 1,
             cross_attention_kwargs: Optional[Dict[str, Any]] = None,
             generator: Optional[Union[torch.Generator, List[torch.Generator]]] = None,
+            output_type: Optional[str] = "pil",
         ):
         """
         Exact inversion of RectifiedFlowPipeline. Gets input of 1,4,64,64 latents (which is denoised), and returns original latents by performing inversion
@@ -771,7 +772,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                     v_pred = v_pred_neg + guidance_scale * (v_pred_text - v_pred_neg)
 
                 current_latents = latents
-                latents = latents - dt * v_pred # instead of + in generation, switch to - since this is inversion process
+                latents = latents - dt * v_pred # instead of + in generation, switch to - since this is inversion process (not that meaningful since this is only process of setting initial value)
                 #latents = randn_tensor(latents.shape, generator=generator, device=device, dtype=latents.dtype)
 
                 # Our work : perform forward step method
@@ -780,7 +781,14 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
         # Offload all models
         self.maybe_free_model_hooks()
 
-        return latents
+        # Creating image
+        image = self.vae.decode(latents / self.vae.config.scaling_factor, return_dict=False)[0]
+
+        do_denormalize = [True] * image.shape[0]
+
+        image = self.image_processor.postprocess(image, output_type=output_type, do_denormalize=do_denormalize)
+
+        return latents, image
     
     @torch.inference_mode()
     def forward_step_method(

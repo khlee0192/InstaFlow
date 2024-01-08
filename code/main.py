@@ -84,10 +84,7 @@ def set_and_generate_image_then_reverse(seed, prompt, randomize_seed, num_infere
 
     inf_time = time.time() - t_s 
 
-    recon_latents = insta_pipe.exact_inversion(prompt=prompt, latents=latents, num_inversion_steps=num_inversion_steps, guidance_scale=0.0)
-
-    recon_output, _, _ = insta_pipe(prompt=prompt, num_inference_steps=num_inference_steps, guidance_scale=0.0, generator=generator, latents=recon_latents)
-    recon_images = recon_output.images
+    recon_latents, recon_images = insta_pipe.exact_inversion(prompt=prompt, latents=latents, num_inversion_steps=num_inversion_steps, guidance_scale=0.0)
 
     print(f"validation, latents mean : {original_latents.mean()}, latents std : {original_latents.std()}")
     print(f"validation, reconstructed latents mean : {recon_latents.mean()}, latents std : {recon_latents.std()}")
