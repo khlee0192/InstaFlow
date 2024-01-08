@@ -98,8 +98,8 @@ def set_and_generate_image_then_reverse(seed, prompt, randomize_seed, num_infere
     # Obtain image, calculate OTO
     original_image = original_images[0]
     recon_image = recon_images[0]
-    original_array = np.array(original_image)
-    recon_array = np.array(recon_image)
+    original_array = insta_pipe.image_processor.pil_to_numpy(original_image)
+    recon_array = insta_pipe.image_processor.pil_to_numpy(recon_image)
     diff = np.linalg.norm(original_array - recon_array)
 
     print(f"OTO of inversion {diff/np.linalg.norm(original_array)}")
