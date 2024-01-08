@@ -780,7 +780,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                     v_pred_neg, v_pred_text = v_pred.chunk(2)
                     v_pred = v_pred_neg + guidance_scale * (v_pred_text - v_pred_neg)
 
-                latents = latents - dt * v_pred # instead of + in generation, switch to - since this is inversion process (not that meaningful since this is only process of setting initial value)
+                latents = latents + dt * v_pred # instead of + in generation, switch to - since this is inversion process (not that meaningful since this is only process of setting initial value)
 
                 # DEBUG : check initial guess
                 temp = self.vae.decode(latents / self.vae.config.scaling_factor, return_dict=False)[0]
@@ -790,7 +790,11 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                 # plt.show()
 
                 # Our work : perform forward step method
-                latents = self.forward_step_method(latents, current_latents, t, dt, prompt_embeds=prompt_embeds, do_classifier_free_guidance=do_classifier_free_guidance, verbose=True)
+                latents = self.forward_step_method(latents, current_latents, t, dt, prompt_embeds=prompt_embeds, 
+                                                   do_classifier_free_guidance=do_classifier_free_guidance, verbose=True)
+                
+                
+                
                 # Original Implementation
                 """
                 # expand the latents if we are doing classifier free guidance
@@ -818,7 +822,22 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
         self.maybe_free_model_hooks()
 
         # Creating image
-        image = self.vae.decode(latents / self.vae.config.scaling_factor, return_dict=False)[0]
+        for i, t in enumerate(timesteps):
+            # expand the latents if we are doing classifier free guidance
+            latent_model_input = torch.cat([latents] * 2) if do_classifier_free_guidance else latents
+
+            vec_t = torch.ones((latent_model_input.shape[0],), device=latents.device) * t 
+
+            v_pred = self.unet(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds).sample
+
+            # perform guidance 
+            if do_classifier_free_guidance:
+                v_pred_neg, v_pred_text = v_pred.chunk(2)
+                v_pred = v_pred_neg + guidance_scale * (v_pred_text - v_pred_neg)
+
+            recon_latents = latents + dt * v_pred
+
+        image = self.vae.decode(recon_latents / self.vae.config.scaling_factor, return_dict=False)[0]
         do_denormalize = [True] * image.shape[0]
         image = self.image_processor.postprocess(image, output_type=output_type, do_denormalize=do_denormalize)
 
@@ -859,21 +878,19 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                 latents_s = latents_s - 0.001 * (latents_t - current_latents)
 
             if verbose:
+                #print(i, (latents_t - current_latents).norm()/current_latents.norm(), latents_s.mean().item(), latents_s.std().item())
                 print(i, (latents_t - current_latents).norm()/current_latents.norm(), latents_s.mean().item(), latents_s.std().item())
             
-            if i==199:
+            if i==0 or i==50 or i==100 or i==150 or i==199:
 
                 image = self.vae.decode(latents_t / self.vae.config.scaling_factor, return_dict=False)[0]
                 image = self.image_processor.postprocess(image)[0]
                 plt.imshow(image)
                 plt.show()
 
-                print(latents_t)
                 print(latents_t.mean(), latents_t.std())
-                print(current_latents)
                 print(current_latents.mean(), current_latents.std())
-
                 print((latents_t - current_latents).norm()/current_latents.norm() )
 
-        print(f"forward step result : {latents_s.mean().item()}, {latents.std().item()}")
+        print(f"forward step result : {latents_s.mean().item()}, {latents_s.std().item()}")
         return latents_s
