@@ -652,6 +652,7 @@ class RectifiedFlowPipeline(DiffusionPipeline, TextualInversionLoaderMixin, Lora
             latents,
         )
 
+        # Save original latents before generation
         original_latents = latents
 
         # 6. Prepare extra step kwargs. TODO: Logic should ideally just be moved out of the pipeline
@@ -756,38 +757,36 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
         # model = copy.deepcopy(self.unet)
         # model = model.float()
 
+        current_latents = latents # Save latents, this is our target
+
         # 6. Inversion loop of Euler discretization from t = 1 to t = 0
         # Original concept does not work properly, so we choose to generate a random distribution to make v_pred at the beginning
         with self.progress_bar(total=num_inversion_steps) as progress_bar:
             for i, t in enumerate(timesteps):
                 # New trial
-                current_latents = latents # Save latents, this is our target
                 
                 # Instead of using latents, perform inital guess (to make scale reliable)
                 initial_latents = randn_tensor(latents.shape, generator=generator, device=device, dtype=latents.dtype)
-                print(initial_latents.mean(), initial_latents.std())
+                print(f"starting inversion, {initial_latents.mean()}, {initial_latents.std()}")
                 
                 # expand the latents if we are doing classifier free guidance
-                latent_model_input = torch.cat([initial_latents] * 2) if do_classifier_free_guidance else latents
-
+                latent_model_input = torch.cat([initial_latents] * 2) if do_classifier_free_guidance else initial_latents
                 vec_t = torch.ones((latent_model_input.shape[0],), device=latents.device) * t
-
                 v_pred = self.unet(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds).sample
-                #v_pred = model(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds).sample
-
                 # perform guidance 
                 if do_classifier_free_guidance:
                     v_pred_neg, v_pred_text = v_pred.chunk(2)
                     v_pred = v_pred_neg + guidance_scale * (v_pred_text - v_pred_neg)
 
-                latents = latents + dt * v_pred # instead of + in generation, switch to - since this is inversion process (not that meaningful since this is only process of setting initial value)
+                 # instead of + in generation, switch to - since this is inversion process (not that meaningful since this is only process of setting initial value)
+                latents = latents - dt * v_pred
 
                 # DEBUG : check initial guess
                 temp = self.vae.decode(latents / self.vae.config.scaling_factor, return_dict=False)[0]
                 temp_image = self.image_processor.postprocess(temp)
                 print(f"check initial guess, {latents.mean()}, {latents.std()}")
-                # plt.imshow(temp_image[0])
-                # plt.show()
+                plt.imshow(temp_image[0])
+                plt.show()
 
                 # Our work : perform forward step method
                 latents = self.forward_step_method(latents, current_latents, t, dt, prompt_embeds=prompt_embeds, 
@@ -859,7 +858,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
         latents_s = latents
 
         for i in range(200):
-            latent_model_input = torch.cat([latents_s] * 2) if do_classifier_free_guidance else latents
+            latent_model_input = torch.cat([latents_s] * 2) if do_classifier_free_guidance else latents_s
             vec_t = torch.ones((latent_model_input.shape[0],), device=latents.device) * t
             v_pred = self.unet(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds).sample
 

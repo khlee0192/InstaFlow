@@ -82,7 +82,7 @@ def set_and_generate_image_then_reverse(seed, prompt, randomize_seed, num_infere
     output, latents, original_latents = insta_pipe(prompt=prompt, num_inference_steps=num_inference_steps, guidance_scale=0.0, generator=generator)
     original_images = output.images
 
-    inf_time = time.time() - t_s 
+    inf_time = time.time() - t_s
 
     recon_latents, recon_images = insta_pipe.exact_inversion(prompt=prompt, latents=latents, num_inversion_steps=num_inversion_steps, guidance_scale=0.0)
 
