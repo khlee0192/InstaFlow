@@ -713,7 +713,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             num_inversion_steps: int = 50,
             num_inference_steps: int = 1,
             guidance_scale: float = 7.5,
-            use_random_initial_noise: bool = True,
+            use_random_initial_noise: bool = False,
             negative_prompt: Optional[Union[str, List[str]]] = None,
             prompt_embeds: Optional[torch.FloatTensor] = None,
             negative_prompt_embeds: Optional[torch.FloatTensor] = None,
@@ -834,7 +834,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
     @torch.inference_mode()
     def forward_step_method(
             self, 
-            latents, 
+            latents,
             current_latents, 
             t, dt, prompt_embeds,
             do_classifier_free_guidance,
@@ -858,9 +858,9 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             latents_t = latents_s + dt * v_pred
 
             # Update
-            if i < 100:
+            if i < 50:
                 latents_s = latents_s - 0.1 * (latents_t - current_latents)
-            elif i < 200:
+            elif i < 150:
                 latents_s = latents_s - 0.01 * (latents_t - current_latents)
             else:
                 latents_s = latents_s - 0.001 * (latents_t - current_latents)

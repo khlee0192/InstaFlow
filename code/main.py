@@ -139,7 +139,7 @@ def main():
     plt.tight_layout()
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     plt.savefig(f"plot_{current_time}.png")
-    plt.show()
+    #plt.show()
 
     print(f"generation time : {time}")
 
