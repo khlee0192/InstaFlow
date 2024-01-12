@@ -61,13 +61,13 @@ def get_dW_and_merge(pipe_rf, lora_path='Lykon/dreamshaper-7', save_dW = False, 
 #     "stabilityai/stable-diffusion-xl-refiner-1.0", torch_dtype=torch.float16, variant="fp16", use_safetensors=True
 # )
 # pipe = pipe.to("cuda")
-
+0
 insta_pipe = RectifiedInversableFlowPipeline.from_pretrained("XCLiu/instaflow_0_9B_from_sd_1_5", torch_dtype=torch.float32, safety_checker=None) 
 #dW_dict = get_dW_and_merge(insta_pipe, lora_path="Lykon/dreamshaper-7", save_dW=False, alpha=1.0)     
 insta_pipe.to("cuda")
 
 @torch.no_grad()
-def set_and_generate_image_then_reverse(seed, prompt, randomize_seed, num_inference_steps=1, num_inversion_steps=1, guidance_scale=0.0):
+def set_and_generate_image_then_reverse(seed, prompt, randomize_seed, num_inference_steps=1, num_inversion_steps=1, guidance_scale=3.0):
     print('Generate with input seed')
     negative_prompt=""
     if randomize_seed:
@@ -75,16 +75,21 @@ def set_and_generate_image_then_reverse(seed, prompt, randomize_seed, num_infere
     seed = int(seed)
     num_inference_steps = int(num_inference_steps)
     guidance_scale = float(guidance_scale)
-    print(seed, num_inference_steps, guidance_scale)
 
     t_s = time.time()
     generator = torch.manual_seed(seed)
-    output, latents, original_latents = insta_pipe(prompt=prompt, num_inference_steps=num_inference_steps, guidance_scale=0.0, generator=generator)
+    output, latents, original_latents = insta_pipe(prompt=prompt, num_inference_steps=num_inference_steps, guidance_scale=guidance_scale, generator=generator)
     original_images = output.images
 
     inf_time = time.time() - t_s
 
-    recon_latents, recon_images = insta_pipe.exact_inversion(prompt=prompt, latents=latents, num_inversion_steps=num_inversion_steps, num_inference_steps=num_inference_steps, guidance_scale=0.0)
+    recon_latents, recon_images = insta_pipe.exact_inversion(
+        prompt=prompt, 
+        latents=latents, 
+        num_inversion_steps=num_inversion_steps, num_inference_steps=num_inference_steps, 
+        guidance_scale=guidance_scale, verbose=True,
+        use_random_initial_noise=False
+        )
     
     print(f"TOT of inversion {(recon_latents - original_latents).norm()/original_latents.norm()}")
 
@@ -104,13 +109,15 @@ def set_and_generate_image_then_reverse(seed, prompt, randomize_seed, num_infere
 
     print(f"OTO of inversion {diff/np.linalg.norm(original_array)}")
 
+    print(seed, num_inference_steps, guidance_scale)
+
     return original_image, recon_image, original_latents_visualized, recon_latents_visualized, inf_time, seed
 
 def main():
     image, recon_image, latents, recon_latents, time, seed = set_and_generate_image_then_reverse(
         args.seed, args.prompt, args.randomize_seed, 
         num_inference_steps=1, num_inversion_steps=1,
-        guidance_scale=0.0
+        guidance_scale=1.0
     )
 
     # Create a figure and axes for the grid
@@ -146,8 +153,9 @@ def main():
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='instaflow - work on inversion')
     parser.add_argument('--randomize_seed', default=False, type=bool)
-    parser.add_argument('--seed', default=2736710, type=int)
-    parser.add_argument('--prompt', default="A dog in the field, colorful", type=str)
+    parser.add_argument('--seed', default=1049551870, type=int)
+    parser.add_argument('--prompt', default="castle and river, High quality", type=str)
+    #parser.add_argument('--prompt', default="A high resolution photo of an yellow porsche under sunshine", type=str)
 
     args = parser.parse_args()
 

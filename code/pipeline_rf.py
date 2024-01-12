@@ -15,6 +15,7 @@
 import inspect
 from typing import Any, Callable, Dict, List, Optional, Union
 import copy
+import time
 
 import torch
 from torch.optim.lr_scheduler import ReduceLROnPlateau
@@ -715,6 +716,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             num_inference_steps: int = 1,
             guidance_scale: float = 7.5,
             use_random_initial_noise: bool = False,
+            verbose: bool = False,
             negative_prompt: Optional[Union[str, List[str]]] = None,
             prompt_embeds: Optional[torch.FloatTensor] = None,
             negative_prompt_embeds: Optional[torch.FloatTensor] = None,
@@ -722,6 +724,8 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             cross_attention_kwargs: Optional[Dict[str, Any]] = None,
             generator: Optional[Union[torch.Generator, List[torch.Generator]]] = None,
             output_type: Optional[str] = "pil",
+            callback: Optional[Callable[[int, int, torch.FloatTensor], None]] = None,
+            callback_steps: int = 1,
         ):
         """
         Exact inversion of RectifiedFlowPipeline. Gets input of 1,4,64,64 latents (which is denoised), and returns original latents by performing inversion
@@ -729,6 +733,9 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
         Args:
             
         """
+        # To calculate inversion time
+        t_s = time.time()
+
         do_classifier_free_guidance = guidance_scale > 1.0
         device = self._execution_device
         text_encoder_lora_scale = (
@@ -751,7 +758,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
 
         # 4. Prepare timesteps, then reverse for inversion
         timesteps = [(1. - i/num_inversion_steps) * 1000. for i in range(num_inversion_steps)]
-        #timesteps = reversed(timesteps)
+        timesteps = reversed(timesteps)
 
         # 5. Prepare extra step kwargs. TODO: Logic should ideally just be moved out of the pipeline
         #extra_step_kwargs = self.prepare_extra_step_kwargs(generator, eta)
@@ -783,8 +790,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                     latents = latents - dt * v_pred
 
                     # Our work : perform forward step method
-                    latents = self.forward_step_method(latents, current_latents, t, dt, prompt_embeds=prompt_embeds, 
-                                                    do_classifier_free_guidance=do_classifier_free_guidance, verbose=True)
+                    latents = self.forward_step_method(latents, current_latents, t, dt, prompt_embeds=prompt_embeds, do_classifier_free_guidance=do_classifier_free_guidance, guidance_scale=guidance_scale, verbose=verbose)
                 else:
                     # expand the latents if we are doing classifier free guidance
                     latent_model_input = torch.cat([latents] * 2) if do_classifier_free_guidance else latents
@@ -804,10 +810,21 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                     #latents = randn_tensor(latents.shape, generator=generator, device=device, dtype=latents.dtype)
 
                     # Our work : perform forward step method
-                    latents = self.forward_step_method(latents, current_latents, t, dt, prompt_embeds=prompt_embeds, do_classifier_free_guidance=do_classifier_free_guidance, verbose=True)
+                    latents = self.forward_step_method(latents, current_latents, t, dt, prompt_embeds=prompt_embeds, do_classifier_free_guidance=do_classifier_free_guidance, guidance_scale=guidance_scale, verbose=verbose)
+            
+
+                # if i == len(timesteps) - 1 or ((i + 1) % self.scheduler.order == 0):
+                #     progress_bar.update()
+                #     if callback is not None and i % callback_steps == 0:
+                #         step_idx = i // getattr(self.scheduler, "order", 1)
+                #         callback(step_idx, t, latents)
 
         # Offload all models
         self.maybe_free_model_hooks()
+
+        inv_time = time.time() - t_s
+
+        print(f"inversion time : {inv_time}")
 
         # Creating image
         timesteps = [(1. - i/num_inference_steps) * 1000. for i in range(num_inference_steps)]
@@ -839,11 +856,12 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             current_latents, 
             t, dt, prompt_embeds,
             do_classifier_free_guidance,
+            guidance_scale,
             verbose=True,
             warmup = False,
             warmup_time = 0,
-            original_step_size = 0.1,
-            factor=0.5, patience=20, th=1e-3
+            original_step_size=0.1, step_size=0.1,
+            factor=0.5, patience=40, th=1e-3
             ):
         """
         The forward step method assumes that current_latents are at right place(even on multistep), then map latents correctly to current latents
@@ -853,10 +871,10 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
         latents_s = latents
         step_scheduler = StepScheduler(current_lr=step_size, factor=factor, patience=patience)
 
-        for i in range(200):
+        for i in range(500):
             if warmup:
-                    if i < warmup_time:
-                        step_size = original_step_size * (i+1)/(warmup_time)
+                if i < warmup_time:
+                    step_size = original_step_size * (i+1)/(warmup_time)
 
             latent_model_input = torch.cat([latents_s] * 2) if do_classifier_free_guidance else latents_s
             vec_t = torch.ones((latent_model_input.shape[0],), device=latents.device) * t
@@ -864,7 +882,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
 
             if do_classifier_free_guidance:
                 v_pred_neg, v_pred_text = v_pred.chunk(2)
-                v_pred = v_pred_neg + self.guidance_scale * (v_pred_text - v_pred_neg)
+                v_pred = v_pred_neg + guidance_scale * (v_pred_text - v_pred_neg)
             
             latents_t = latents_s + dt * v_pred
 
@@ -884,9 +902,15 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             else:
                 latents_s = latents_s - 0.001 * (latents_t - current_latents)
             """
-                
+            
+            # debug_image = self.vae.decode(latents_s / self.vae.config.scaling_factor, return_dict=False)[0]
+            # do_denormalize = [True] * debug_image.shape[0]
+            # debug_image = self.image_processor.postprocess(debug_image, output_type="pil", do_denormalize=do_denormalize)[0]
+            # plt.imshow(debug_image)
+            # plt.show()
+
             if verbose:
-                print(i, (latents_t - current_latents).norm()/current_latents.norm(), latents_s.mean().item(), latents_s.std().item())
+                print(i, (latents_t - current_latents).norm()/current_latents.norm(), step_size)
 
         return latents_s
     
