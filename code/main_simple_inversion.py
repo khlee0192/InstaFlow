@@ -87,11 +87,12 @@ def set_and_generate_image_then_reverse(seed, prompt, randomize_seed, num_infere
         prompt=prompt, 
         latents=latents, 
         num_inversion_steps=num_inversion_steps, num_inference_steps=num_inference_steps, 
-        guidance_scale=guidance_scale, verbose=True,
+        guidance_scale=guidance_scale,
+        verbose=False,
         use_random_initial_noise=False
         )
     
-    print(f"TOT of inversion {(recon_latents - original_latents).norm()/original_latents.norm()}")
+    print(f"TOT of inversiogn {(recon_latents - original_latents).norm()/original_latents.norm()}")
 
     # Visualizing noise
     original_latents_visualized = insta_pipe.image_processor.postprocess(insta_pipe.vae.decode(original_latents/insta_pipe.vae.config.scaling_factor, return_dict=False)[0])
@@ -125,7 +126,7 @@ def main():
 
     # Display the first PIL image
     axs[0, 0].imshow(image)
-    axs[0, 0].axis('off')
+    axs[0, 0].axis('off') 
     axs[0, 0].set_title('Image')
 
     # Display the second PIL image
