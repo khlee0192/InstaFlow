@@ -11,8 +11,10 @@ from diffusers import StableDiffusionXLImg2ImgPipeline
 import time
 import copy
 import numpy as np
+import pywt
 import argparse
 import matplotlib.pyplot as plt
+from scipy.stats import shapiro
 
 from datetime import datetime
 
@@ -66,67 +68,13 @@ insta_pipe = RectifiedInversableFlowPipeline.from_pretrained("XCLiu/instaflow_0_
 #dW_dict = get_dW_and_merge(insta_pipe, lora_path="Lykon/dreamshaper-7", save_dW=False, alpha=1.0)     
 insta_pipe.to("cuda")
 
-@torch.no_grad()
-def set_and_generate_image_then_reverse(seed, prompt, randomize_seed, num_inference_steps=1, num_inversion_steps=1, guidance_scale=3.0):
-    print('Generate with input seed')
-    negative_prompt=""
-    if randomize_seed:
-        seed = np.random.randint(0, 2**32)
-    seed = int(seed)
-    num_inference_steps = int(num_inference_steps)
-    guidance_scale = float(guidance_scale)
-
-    t_s = time.time()
-    generator = torch.manual_seed(seed)
-    output, latents, original_latents = insta_pipe(prompt=prompt, num_inference_steps=num_inference_steps, guidance_scale=guidance_scale, generator=generator)
-    original_images = output.images
-
-    inf_time = time.time() - t_s
-
-    recon_latents, recon_images = insta_pipe.exact_inversion(
-        prompt=prompt, 
-        latents=latents, 
-        num_inversion_steps=num_inversion_steps, num_inference_steps=num_inference_steps, 
-        guidance_scale=guidance_scale,
-        verbose=False,
-        use_random_initial_noise=False
-        )
-    
-    print(f"TOT of inversiogn {(recon_latents - original_latents).norm()/original_latents.norm()}")
-
-    # Visualizing noise
-    original_latents_visualized = insta_pipe.image_processor.postprocess(insta_pipe.vae.decode(original_latents/insta_pipe.vae.config.scaling_factor, return_dict=False)[0])
-    recon_latents_visualized = insta_pipe.image_processor.postprocess(insta_pipe.vae.decode(recon_latents/insta_pipe.vae.config.scaling_factor, return_dict=False)[0])
-
-    original_latents_visualized = np.squeeze(original_latents_visualized)
-    recon_latents_visualized = np.squeeze(recon_latents_visualized)
-
-    # Obtain image, calculate OTO
-    original_image = original_images[0]
-    recon_image = recon_images[0]
-    original_array = insta_pipe.image_processor.pil_to_numpy(original_image)
-    recon_array = insta_pipe.image_processor.pil_to_numpy(recon_image)
-    diff = np.linalg.norm(original_array - recon_array)
-
-    print(f"OTO of inversion {diff/np.linalg.norm(original_array)}")
-
-    print(seed, num_inference_steps, guidance_scale)
-
-    return original_image, recon_image, original_latents_visualized, recon_latents_visualized, inf_time, seed
-
-def main():
-    image, recon_image, latents, recon_latents, time, seed = set_and_generate_image_then_reverse(
-        args.seed, args.prompt, args.randomize_seed, 
-        num_inference_steps=1, num_inversion_steps=1,
-        guidance_scale=1.0
-    )
-
+def plot_and_save_image(image, recon_image, latents, recon_latents):
     # Create a figure and axes for the grid
     fig, axs = plt.subplots(2, 2, figsize=(10, 10))
 
     # Display the first PIL image
     axs[0, 0].imshow(image)
-    axs[0, 0].axis('off') 
+    axs[0, 0].axis('off')
     axs[0, 0].set_title('Image')
 
     # Display the second PIL image
@@ -149,13 +97,156 @@ def main():
     plt.savefig(f"plot_{current_time}.png")
     #plt.show()
 
+def plot_distribution(original_latents, recon_latents, version="fourier"):
+        # Create a 2x2 plot
+    fig, axs = plt.subplots(2, 2, figsize=(12, 8))
+
+    original_latents = original_latents[0]
+    recon_latents = recon_latents[0]
+
+    all_latents = np.concatenate((original_latents, recon_latents))
+    vmin_latents = all_latents.min()
+    vmax_latents = all_latents.max()
+
+    axs[0, 0].imshow(original_latents, vmin=vmin_latents, vmax=vmax_latents)
+    axs[0, 0].set_title('Original Latents')
+
+    axs[0, 1].imshow(recon_latents, vmin=vmin_latents, vmax=vmax_latents)
+    axs[0, 1].set_title('Reconstructed Latents')
+
+    if version == "fourier":
+        # Plot the Fourier transform of original_latents_data
+        fft_result_original = torch.fft.fftshift(torch.fft.fft2(original_latents))
+        fft_result_recon = torch.fft.fftshift(torch.fft.fft2(recon_latents))
+
+        all_fft_latents = np.concatenate([fft_result_original, fft_result_recon])
+        all_fft_latents = np.abs(all_fft_latents)
+        vmin_fft = all_fft_latents.min()
+        vmax_fft = all_fft_latents.max()
+
+        magnitude_spectrum_original = np.abs(fft_result_original)
+        axs[1, 0].imshow(magnitude_spectrum_original, vmin=vmin_fft, vmax=vmax_fft)
+        axs[1, 0].set_title('Fourier Transform - Original Latents')
+
+        # Plot the Fourier transform of recon_latents_data
+        magnitude_spectrum_recon = np.abs(fft_result_recon)
+        axs[1, 1].imshow(magnitude_spectrum_recon, vmin=vmin_fft, vmax=vmax_fft)
+        axs[1, 1].set_title('Fourier Transform - Reconstructed Latents')
+    
+    elif version == "wavelet":
+        wavelet = 'db1'  # Daubechies wavelet of order 1 (Haar wavelet)
+        level = 4
+        
+        # Perform 2D wavelet transform on original_latents
+        coeffs_original = pywt.wavedec2(original_latents, wavelet, level=level)
+
+        # Perform 2D wavelet transform on recon_latents
+        coeffs_recon = pywt.wavedec2(recon_latents, wavelet, level=level)
+
+        # Reconstruct the signals from the coefficients (inverse wavelet transform)
+        reconstructed_original = pywt.waverec2(coeffs_original, wavelet)
+        reconstructed_recon = pywt.waverec2(coeffs_recon, wavelet)
+
+        all_wavelets = np.concatenate([reconstructed_original, reconstructed_recon])
+        vmin_wavelet = all_wavelets.min()
+        vmax_wavelet = all_wavelets.max()
+
+        axs[1, 0].imshow(reconstructed_original, vmin=vmin_wavelet, vmax=vmax_wavelet)
+        axs[1, 0].set_title("Wavelet Transform - Original latents")
+
+        axs[1, 1].imshow(reconstructed_recon, vmin=vmin_wavelet, vmax=vmax_wavelet)
+        axs[1, 1].set_title("Wavelet Transform - Reconstructed latents")
+
+    # Adjust layout for better visualization
+    plt.tight_layout()
+    plt.show()
+
+@torch.no_grad()
+def set_and_generate_image_then_reverse(seed, prompt, inversion_prompt, randomize_seed, num_inference_steps=1, num_inversion_steps=1, guidance_scale=3.0):
+    print('Generate with input seed')
+    negative_prompt=""
+    if randomize_seed:
+        seed = np.random.randint(0, 2**32)
+    seed = int(seed)
+    num_inference_steps = int(num_inference_steps)
+    guidance_scale = float(guidance_scale)
+
+    t_s = time.time()
+    generator = torch.manual_seed(seed)
+    output, latents, original_latents = insta_pipe(prompt=prompt, num_inference_steps=num_inference_steps, guidance_scale=guidance_scale, generator=generator)
+    original_images = output.images
+    original_image = original_images[0]
+    original_array = insta_pipe.image_processor.pil_to_numpy(original_image)
+
+    inf_time = time.time() - t_s
+
+    recon_latents, recon_images = insta_pipe.exact_inversion(
+        prompt=inversion_prompt,
+        latents=original_array,
+        input_type="image",
+        # latents=latents,
+        # input_type="latents",
+        num_inversion_steps=num_inversion_steps, num_inference_steps=num_inference_steps, 
+        guidance_scale=guidance_scale,
+        verbose=True,
+        use_random_initial_noise=False
+        )
+    
+    print(f"TOT of inversion {(recon_latents - original_latents).norm()/original_latents.norm()}")
+
+    # Visualizing noise
+    original_latents_visualized = insta_pipe.image_processor.postprocess(insta_pipe.vae.decode(original_latents/insta_pipe.vae.config.scaling_factor, return_dict=False)[0])
+    recon_latents_visualized = insta_pipe.image_processor.postprocess(insta_pipe.vae.decode(recon_latents/insta_pipe.vae.config.scaling_factor, return_dict=False)[0])
+
+    original_latents_visualized = np.squeeze(original_latents_visualized)
+    recon_latents_visualized = np.squeeze(recon_latents_visualized)
+
+    # Obtain image, calculate OTO
+    recon_image = recon_images[0]
+    recon_array = insta_pipe.image_processor.pil_to_numpy(recon_image)
+    diff = np.linalg.norm(original_array - recon_array)
+
+    print(f"OTO of inversion {diff/np.linalg.norm(original_array)}")
+
+    print(seed, num_inference_steps, guidance_scale)
+
+    original_latents_data = original_latents.cpu()[0].flatten()
+    recon_latents_data = recon_latents.cpu()[0].flatten()
+
+    # Section : Test with value
+    print(f"original latents (mean/std) : {original_latents.mean().item():.5f}, {original_latents.std().item():.5f}")
+    print(f"reconstructed latents (mean/std) : {recon_latents.mean().item():.5f}, {recon_latents.std().item():.5f}")
+
+    # Shapiro-Wilk test for original_latents
+    stat_original, p_value_original = shapiro(original_latents_data)
+    print(f'Shapiro-Wilk test for Original Latents: W={stat_original:.8f}, p-value={p_value_original:.8f}')
+
+    # Shapiro-Wilk test for recon_latents
+    stat_recon, p_value_recon = shapiro(recon_latents_data)
+    print(f'Shapiro-Wilk test for Reconstructed Latents: W={stat_recon:.8f}, p-value={p_value_recon:.8f}')
+
+    # Section : Check with plot
+    plot_distribution(original_latents.cpu()[0], recon_latents.cpu()[0], version="wavelet")
+
+    return original_image, recon_image, original_latents_visualized, recon_latents_visualized, inf_time, seed
+
+def main():
+    image, recon_image, latents, recon_latents, time, seed = set_and_generate_image_then_reverse(
+        args.seed, args.prompt, args.inversion_prompt, args.randomize_seed, 
+        num_inference_steps=1, num_inversion_steps=1,
+        guidance_scale=1.0
+    )
+
+    plot_and_save_image(image, recon_image, latents, recon_latents)
+
     print(f"generation time : {time}")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='instaflow - work on inversion')
-    parser.add_argument('--randomize_seed', default=False, type=bool)
-    parser.add_argument('--seed', default=1049551870, type=int)
-    parser.add_argument('--prompt', default="castle and river, High quality", type=str)
+    parser.add_argument('--randomize_seed', default=True, type=bool)
+    parser.add_argument('--seed', default=1947430911, type=int)
+    parser.add_argument('--prompt', default="A stone bridge spanned across the river, connecting the castle to the outside world. This symbolic link between the fortress and the flowing currents beneath emphasized the strategic significance of the location, while adding an element of romantic allure to the landscape.", type=str)
+    parser.add_argument('--inversion_prompt', default="Spanning the river, a sturdy stone bridge served as the vital link connecting the fortress to the vast expanse beyond. This emblematic tie between the stronghold and the flowing waters underscored the strategic importance of the site, while infusing the panorama with a captivating romanticism.", type=str)
     #parser.add_argument('--prompt', default="A high resolution photo of an yellow porsche under sunshine", type=str)
 
     args = parser.parse_args()

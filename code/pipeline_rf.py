@@ -38,6 +38,8 @@ from diffusers.pipelines.pipeline_utils import DiffusionPipeline
 from diffusers.pipelines.stable_diffusion import StableDiffusionPipelineOutput
 from diffusers.pipelines.stable_diffusion.safety_checker import StableDiffusionSafetyChecker
 
+from transformers import get_cosine_schedule_with_warmup
+
 import matplotlib.pyplot as plt
 
 logger = logging.get_logger(__name__)  # pylint: disable=invalid-name
@@ -55,7 +57,6 @@ def rescale_noise_cfg(noise_cfg, noise_pred_text, guidance_rescale=0.0):
     # mix with the original results from guidance by factor guidance_rescale to avoid "plain looking" images
     noise_cfg = guidance_rescale * noise_pred_rescaled + (1 - guidance_rescale) * noise_cfg
     return noise_cfg
-
 
 class RectifiedFlowPipeline(DiffusionPipeline, TextualInversionLoaderMixin, LoraLoaderMixin, FromSingleFileMixin):
     r"""
@@ -712,6 +713,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             self,
             prompt: Union[str, List[str]] = None,
             latents: Optional[torch.FloatTensor] = None,
+            input_type: str = "latents",
             num_inversion_steps: int = 50,
             num_inference_steps: int = 1,
             guidance_scale: float = 7.5,
@@ -764,8 +766,14 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
         #extra_step_kwargs = self.prepare_extra_step_kwargs(generator, eta)
         dt = 1.0 / num_inversion_steps
 
-        # model = copy.deepcopy(self.unet)
-        # model = model.float()
+        if input_type == "latents":
+            latents = latents
+        else:
+            image = torch.Tensor(latents).permute(0, 3, 1, 2)
+            image = image.to('cuda')
+            torch.set_grad_enabled(True)
+            latents = self.edcorrector(image)
+            torch.set_grad_enabled(False)
 
         current_latents = latents # Save latents, this is our target
 
@@ -849,6 +857,113 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
 
         return latents, image
     
+    @torch.inference_mode()
+    def forward_step_method(
+            self, 
+            latents,
+            current_latents, 
+            t, dt, prompt_embeds,
+            do_classifier_free_guidance,
+            guidance_scale,
+            verbose=True,
+            warmup = False,
+            warmup_time = 0,
+            original_step_size=0.1, step_size=0.1,
+            factor=0.5, patience=20, th=1e-3
+            ):
+        """
+        The forward step method assumes that current_latents are at right place(even on multistep), then map latents correctly to current latents
+        The work is done by fixed-point iteration
+        """
+
+        latents_s = latents
+        step_scheduler = StepScheduler(current_lr=step_size, factor=factor, patience=patience)
+        steps = 300
+
+        # with self.progress_bar(total=steps) as progress_bar:
+        for i in range(steps):
+            if warmup:
+                if i < warmup_time:
+                    step_size = original_step_size * (i+1)/(warmup_time)
+
+            latent_model_input = torch.cat([latents_s] * 2) if do_classifier_free_guidance else latents_s
+            vec_t = torch.ones((latent_model_input.shape[0],), device=latents.device) * t
+            v_pred = self.unet(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds).sample
+
+            if do_classifier_free_guidance:
+                v_pred_neg, v_pred_text = v_pred.chunk(2)
+                v_pred = v_pred_neg + guidance_scale * (v_pred_text - v_pred_neg)
+            
+            latents_t = latents_s + dt * v_pred
+
+            loss = torch.nn.functional.mse_loss(latents_t, current_latents, reduction='sum')
+            if loss.item() < th:
+                break
+
+            latents_s = latents_s - step_size * (latents_t - current_latents)
+            step_size = step_scheduler.step(loss)
+
+            # progress_bar.update()
+
+            if verbose:
+                print(i, ((latents_t - current_latents).norm()/current_latents.norm()).item(), step_size)
+
+        return latents_s
+
+    def edcorrector(self, x):
+        """
+        edcorrector calculates latents z of the image x by solving optimization problem ||E(x)-z||,
+        not by directly encoding with VAE encoder. "Decoder inversion"
+
+        INPUT
+        x : image data (1, 3, 512, 512) -> given data
+        OUTPUT
+        z : modified latent data (1, 4, 64, 64)
+
+        Goal : minimize norm(e(x)-z), working on adding regularizer
+        """
+        input = copy.deepcopy(x)
+        z = self.get_image_latents(x, sample=False).clone().float() # initial z
+        z.requires_grad_(True)
+
+        loss_function = torch.nn.MSELoss(reduction='mean')
+
+        ## Adjusting Adam
+        optimizer = torch.optim.Adam([z], lr=0.1)
+        lr_scheduler = get_cosine_schedule_with_warmup(optimizer, num_warmup_steps=10, num_training_steps=100)
+
+        #for i in self.progress_bar(range(100)):
+        for i in range(100):
+            x_pred = self.decode_latents_for_gradient(z) # x_pred = D(z)
+
+            loss = loss_function(x_pred, input)
+
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+            lr_scheduler.step()
+
+            print(f"{i}, {loss.item()}")
+
+        return z
+
+    @torch.inference_mode()
+    def get_image_latents(self, image, sample=True, rng_generator=None):
+        encoding_dist = self.vae.encode(image).latent_dist
+        if sample:
+            encoding = encoding_dist.sample(generator=rng_generator)
+        else:
+            encoding = encoding_dist.mode()
+        latents = encoding * 0.18215
+        return latents
+
+    def decode_latents_for_gradient(self, latents):
+        latents = 1 / self.vae.config.scaling_factor * latents
+        image = self.vae.decode(latents, return_dict=False)[0]
+        image = (image / 2 + 0.5).clamp(0, 1)
+        # we always cast to float32 as this does not cause significant overhead and is compatible with bfloat16
+        return image
+
     def prompt_optimization(
             self,
             prompt: Union[str, List[str]] = None,
@@ -964,15 +1079,13 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                     #latents = randn_tensor(latents.shape, generator=generator, device=device, dtype=latents.dtype)
 
                     # Our work : perform forward step method
-                    torch.set_grad_enabled(True)
-                    latents, prompt_embeds = self.prompt_optimization_gradient_method(
+                    latents = self.forward_step_method(
                         latents, 
                         current_latents, t, dt, 
                         prompt_embeds=prompt_embeds,
                         answer_prompt_embeds=answer_prompt_embeds,
                         do_classifier_free_guidance=do_classifier_free_guidance, 
                         guidance_scale=guidance_scale, verbose=verbose)
-                    torch.set_grad_enabled(False)
             
 
                 if i == len(timesteps) - 1 or ((i + 1) % self.scheduler.order == 0):
@@ -1014,67 +1127,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
         image = self.image_processor.postprocess(image, output_type=output_type, do_denormalize=do_denormalize)
 
         return latents, image
-    
 
-    @torch.inference_mode()
-    def forward_step_method(
-            self, 
-            latents,
-            current_latents, 
-            t, dt, prompt_embeds,
-            do_classifier_free_guidance,
-            guidance_scale,
-            verbose=True,
-            warmup = False,
-            warmup_time = 0,
-            original_step_size=0.1, step_size=0.1,
-            factor=0.5, patience=20, th=1e-3
-            ):
-        """
-        The forward step method assumes that current_latents are at right place(even on multistep), then map latents correctly to current latents
-        The work is done by fixed-point iteration
-        """
-
-        latents_s = latents
-        step_scheduler = StepScheduler(current_lr=step_size, factor=factor, patience=patience)
-        steps = 200
-
-        with self.progress_bar(total=steps) as progress_bar:
-            for i in range(steps):
-                if warmup:
-                    if i < warmup_time:
-                        step_size = original_step_size * (i+1)/(warmup_time)
-
-                latent_model_input = torch.cat([latents_s] * 2) if do_classifier_free_guidance else latents_s
-                vec_t = torch.ones((latent_model_input.shape[0],), device=latents.device) * t
-                v_pred = self.unet(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds).sample
-
-                if do_classifier_free_guidance:
-                    v_pred_neg, v_pred_text = v_pred.chunk(2)
-                    v_pred = v_pred_neg + guidance_scale * (v_pred_text - v_pred_neg)
-                
-                latents_t = latents_s + dt * v_pred
-
-                loss = torch.nn.functional.mse_loss(latents_t, current_latents, reduction='sum')
-                if loss.item() < th:
-                    break
-
-                latents_s = latents_s - step_size * (latents_t - current_latents)
-                step_size = step_scheduler.step(loss)
-                
-                # debug_image = self.vae.decode(latents_s / self.vae.config.scaling_factor, return_dict=False)[0]
-                # do_denormalize = [True] * debug_image.shape[0]
-                # debug_image = self.image_processor.postprocess(debug_image, output_type="pil", do_denormalize=do_denormalize)[0]
-                # plt.imshow(debug_image)
-                # plt.show()
-
-                progress_bar.update()
-
-                if verbose:
-                    print(i, (latents_t - current_latents).norm()/current_latents.norm(), step_size)
-
-        return latents_s
-    
     def prompt_optimization_method(
         self, 
         latents,
@@ -1149,7 +1202,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
         latents_s = latents.clone().requires_grad_(True)
         prompt_embeds_s = prompt_embeds.clone().requires_grad_(True)
         step_scheduler = StepScheduler(current_lr=step_size, factor=factor, patience=patience)
-        steps = 1000
+        steps = 10000
 
         for i in range(steps):
             if warmup:
@@ -1191,43 +1244,6 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                 print(step_size)
 
         return latents_s.detach(), prompt_embeds_s.detach()
-
-        """
-        latents_s = copy.deepcopy(latents).requires_grad_(True)
-        prompt_embeds_s = copy.deepcopy(prompt_embeds).requires_grad_(True)
-        model = copy.deepcopy(self.unet)
-
-        optimizer = torch.optim.SGD([latents_s, prompt_embeds_s], lr=0.1)
-
-        steps = 200
-
-        for i in range(steps):
-            latent_model_input = torch.cat([latents_s] * 2) if do_classifier_free_guidance else latents_s
-            vec_t = torch.ones((latent_model_input.shape[0],), device=latents.device) * t
-            v_pred = model(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds_s).sample
-
-            if do_classifier_free_guidance:
-                v_pred_neg, v_pred_text = v_pred.chunk(2)
-                v_pred = v_pred_neg + guidance_scale * (v_pred_text - v_pred_neg)
-            
-            latents_t = latents_s + dt * v_pred
-
-            loss1 = torch.nn.functional.mse_loss(latents_t, current_latents, reduction='sum')
-            loss2 = torch.nn.functional.mse_loss(prompt_embeds, answer_prompt_embeds, reduction='sum')
-            loss = loss1 + loss2
-            if loss.item() < th:
-                break
-            
-            optimizer.zero_grad()
-            loss.backward()
-            optimizer.step()
-
-            if verbose:
-                print(i, (latents_t - current_latents).norm().item()/current_latents.norm().item(), end = " ")
-                print((prompt_embeds_s - answer_prompt_embeds).norm().item()/(answer_prompt_embeds).norm().item())
-
-        return latents_s, prompt_embeds_s
-        """
 
 class StepScheduler(ReduceLROnPlateau):
     def __init__(self, mode='min', current_lr=0, factor=0.1, patience=10,
