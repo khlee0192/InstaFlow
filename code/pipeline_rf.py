@@ -1079,7 +1079,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                     #latents = randn_tensor(latents.shape, generator=generator, device=device, dtype=latents.dtype)
 
                     # Our work : perform forward step method
-                    latents = self.forward_step_method(
+                    latents, prompt_embeds = self.prompt_optimization_gradient_method(
                         latents, 
                         current_latents, t, dt, 
                         prompt_embeds=prompt_embeds,

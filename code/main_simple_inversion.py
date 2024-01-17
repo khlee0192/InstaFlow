@@ -12,6 +12,8 @@ import time
 import copy
 import numpy as np
 import pywt
+from pywt._doc_utils import wavedec2_keys, draw_2d_wp_basis
+from scipy.stats import chi2_contingency
 import argparse
 import matplotlib.pyplot as plt
 from scipy.stats import shapiro
@@ -63,10 +65,36 @@ def get_dW_and_merge(pipe_rf, lora_path='Lykon/dreamshaper-7', save_dW = False, 
 #     "stabilityai/stable-diffusion-xl-refiner-1.0", torch_dtype=torch.float16, variant="fp16", use_safetensors=True
 # )
 # pipe = pipe.to("cuda")
-0
+
 insta_pipe = RectifiedInversableFlowPipeline.from_pretrained("XCLiu/instaflow_0_9B_from_sd_1_5", torch_dtype=torch.float32, safety_checker=None) 
 #dW_dict = get_dW_and_merge(insta_pipe, lora_path="Lykon/dreamshaper-7", save_dW=False, alpha=1.0)     
 insta_pipe.to("cuda")
+
+def chi_square_test(x):
+    # Flatten the 2D noise to a 1D array
+    flattened_noise = x.flatten()
+    flattened_noise = np.array(flattened_noise)
+
+    # Define expected frequencies based on a Gaussian distribution
+    expected_freq, _ = np.histogram(flattened_noise, bins='auto', density=True)
+    expected_freq *= len(flattened_noise)
+
+    # Calculate observed frequencies
+    observed_freq, _ = np.histogram(flattened_noise, bins='auto')
+
+    # Perform the Chi-square test
+    chi2_stat, p_value, _, _ = chi2_contingency([observed_freq, expected_freq])
+
+    # Output results
+    print(f"Chi-square statistic: {chi2_stat}")
+    print(f"P-value: {p_value}")
+
+    # Interpret the results
+    alpha = 0.05
+    if p_value < alpha:
+        print("Reject the null hypothesis: The noise distribution is significantly different from a Gaussian distribution.")
+    else:
+        print("Fail to reject the null hypothesis: The noise distribution is consistent with a Gaussian distribution.")
 
 def plot_and_save_image(image, recon_image, latents, recon_latents):
     # Create a figure and axes for the grid
@@ -97,27 +125,62 @@ def plot_and_save_image(image, recon_image, latents, recon_latents):
     plt.savefig(f"plot_{current_time}.png")
     #plt.show()
 
+def plot_wavelet_transformation(x):
+    shape = x.shape
+
+    max_lev = 3       # how many levels of decomposition to draw
+    label_levels = 3  # how many levels to explicitly label on the plots
+
+    fig, axes = plt.subplots(2, 4, figsize=[14, 8])
+    for level in range(0, max_lev + 1):
+        if level == 0:
+            # show the original image before decomposition
+            axes[0, 0].set_axis_off()
+            axes[1, 0].imshow(x, cmap=plt.cm.gray)
+            axes[1, 0].set_title('Image')
+            axes[1, 0].set_axis_off()
+            continue
+
+        # plot subband boundaries of a standard DWT basis
+        draw_2d_wp_basis(shape, wavedec2_keys(level), ax=axes[0, level],
+                        label_levels=label_levels)
+        axes[0, level].set_title('{} level\ndecomposition'.format(level))
+
+        # compute the 2D DWT
+        c = pywt.wavedec2(x, 'db2', mode='periodization', level=level)
+        # normalize each coefficient array independently for better visibility
+        c[0] /= np.abs(c[0]).max()
+        for detail_level in range(level):
+            c[detail_level + 1] = [d/np.abs(d).max() for d in c[detail_level + 1]]
+        # show the normalized coefficients
+        arr, slices = pywt.coeffs_to_array(c)
+        axes[1, level].imshow(arr, cmap=plt.cm.gray)
+        axes[1, level].set_title('Coefficients\n({} level)'.format(level))
+        axes[1, level].set_axis_off()
+
+    plt.tight_layout()
+    plt.show()
+
 def plot_distribution(original_latents, recon_latents, version="fourier"):
-        # Create a 2x2 plot
-    fig, axs = plt.subplots(2, 2, figsize=(12, 8))
-
-    original_latents = original_latents[0]
-    recon_latents = recon_latents[0]
-
-    all_latents = np.concatenate((original_latents, recon_latents))
-    vmin_latents = all_latents.min()
-    vmax_latents = all_latents.max()
-
-    axs[0, 0].imshow(original_latents, vmin=vmin_latents, vmax=vmax_latents)
-    axs[0, 0].set_title('Original Latents')
-
-    axs[0, 1].imshow(recon_latents, vmin=vmin_latents, vmax=vmax_latents)
-    axs[0, 1].set_title('Reconstructed Latents')
-
     if version == "fourier":
+        fig, axs = plt.subplots(2, 2, figsize=(12, 8))
+
+        original_latents = original_latents[0]
+        recon_latents = recon_latents[0]
+
+        all_latents = np.concatenate((original_latents, recon_latents))
+        vmin_latents = all_latents.min()
+        vmax_latents = all_latents.max()
+
+        axs[0, 0].imshow(original_latents, vmin=vmin_latents, vmax=vmax_latents)
+        axs[0, 0].set_title('Original Latents')
+
+        axs[0, 1].imshow(recon_latents, vmin=vmin_latents, vmax=vmax_latents)
+        axs[0, 1].set_title('Reconstructed Latents')
+    
         # Plot the Fourier transform of original_latents_data
-        fft_result_original = torch.fft.fftshift(torch.fft.fft2(original_latents))
-        fft_result_recon = torch.fft.fftshift(torch.fft.fft2(recon_latents))
+        fft_result_original = torch.fft.fftshift(torch.fft.fft2(original_latents))[23:40, 23:40]
+        fft_result_recon = torch.fft.fftshift(torch.fft.fft2(recon_latents))[23:40, 23:40]
 
         all_fft_latents = np.concatenate([fft_result_original, fft_result_recon])
         all_fft_latents = np.abs(all_fft_latents)
@@ -133,33 +196,19 @@ def plot_distribution(original_latents, recon_latents, version="fourier"):
         axs[1, 1].imshow(magnitude_spectrum_recon, vmin=vmin_fft, vmax=vmax_fft)
         axs[1, 1].set_title('Fourier Transform - Reconstructed Latents')
     
+        # Adjust layout for better visualization
+        plt.tight_layout()
+        plt.show()
+
     elif version == "wavelet":
-        wavelet = 'db1'  # Daubechies wavelet of order 1 (Haar wavelet)
-        level = 4
-        
-        # Perform 2D wavelet transform on original_latents
-        coeffs_original = pywt.wavedec2(original_latents, wavelet, level=level)
+        original_latents = original_latents[0]
+        recon_latents = recon_latents[0]
 
-        # Perform 2D wavelet transform on recon_latents
-        coeffs_recon = pywt.wavedec2(recon_latents, wavelet, level=level)
+        plot_wavelet_transformation(original_latents)
+        plot_wavelet_transformation(recon_latents)
 
-        # Reconstruct the signals from the coefficients (inverse wavelet transform)
-        reconstructed_original = pywt.waverec2(coeffs_original, wavelet)
-        reconstructed_recon = pywt.waverec2(coeffs_recon, wavelet)
-
-        all_wavelets = np.concatenate([reconstructed_original, reconstructed_recon])
-        vmin_wavelet = all_wavelets.min()
-        vmax_wavelet = all_wavelets.max()
-
-        axs[1, 0].imshow(reconstructed_original, vmin=vmin_wavelet, vmax=vmax_wavelet)
-        axs[1, 0].set_title("Wavelet Transform - Original latents")
-
-        axs[1, 1].imshow(reconstructed_recon, vmin=vmin_wavelet, vmax=vmax_wavelet)
-        axs[1, 1].set_title("Wavelet Transform - Reconstructed latents")
-
-    # Adjust layout for better visualization
-    plt.tight_layout()
-    plt.show()
+        # chi_square_test(original_latents)
+        # chi_square_test(recon_latents)
 
 @torch.no_grad()
 def set_and_generate_image_then_reverse(seed, prompt, inversion_prompt, randomize_seed, num_inference_steps=1, num_inversion_steps=1, guidance_scale=3.0):
@@ -243,8 +292,8 @@ def main():
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='instaflow - work on inversion')
-    parser.add_argument('--randomize_seed', default=True, type=bool)
-    parser.add_argument('--seed', default=1947430911, type=int)
+    parser.add_argument('--randomize_seed', default=False, type=bool)
+    parser.add_argument('--seed', default=1671257906, type=int)
     parser.add_argument('--prompt', default="A stone bridge spanned across the river, connecting the castle to the outside world. This symbolic link between the fortress and the flowing currents beneath emphasized the strategic significance of the location, while adding an element of romantic allure to the landscape.", type=str)
     parser.add_argument('--inversion_prompt', default="Spanning the river, a sturdy stone bridge served as the vital link connecting the fortress to the vast expanse beyond. This emblematic tie between the stronghold and the flowing waters underscored the strategic importance of the site, while infusing the panorama with a captivating romanticism.", type=str)
     #parser.add_argument('--prompt', default="A high resolution photo of an yellow porsche under sunshine", type=str)
