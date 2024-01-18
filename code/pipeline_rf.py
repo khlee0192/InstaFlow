@@ -868,8 +868,8 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             verbose=True,
             warmup = False,
             warmup_time = 0,
-            original_step_size=0.1, step_size=0.1,
-            factor=0.5, patience=20, th=1e-3
+            original_step_size=0.1, step_size=0.5,
+            factor=0.5, patience=15, th=1e-3
             ):
         """
         The forward step method assumes that current_latents are at right place(even on multistep), then map latents correctly to current latents
@@ -878,7 +878,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
 
         latents_s = latents
         step_scheduler = StepScheduler(current_lr=step_size, factor=factor, patience=patience)
-        steps = 300
+        steps = 150
 
         # with self.progress_bar(total=steps) as progress_bar:
         for i in range(steps):

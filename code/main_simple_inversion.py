@@ -132,11 +132,50 @@ def plot_wavelet_transformation(x):
     label_levels = 3  # how many levels to explicitly label on the plots
 
     fig, axes = plt.subplots(2, 4, figsize=[14, 8])
+    
+    # Calculate the global maximum absolute value across all coefficients
+    global_max = np.abs(x).max()
+
     for level in range(0, max_lev + 1):
         if level == 0:
             # show the original image before decomposition
             axes[0, 0].set_axis_off()
-            axes[1, 0].imshow(x, cmap=plt.cm.gray)
+            axes[1, 0].imshow(x)
+            axes[1, 0].set_title('Image')
+            axes[1, 0].set_axis_off()
+            continue
+
+        # plot subband boundaries of a standard DWT basis
+        draw_2d_wp_basis(shape, wavedec2_keys(level), ax=axes[0, level],
+                        label_levels=label_levels)
+        axes[0, level].set_title('{} level\ndecomposition'.format(level))
+
+        # compute the 2D DWT without normalization
+        c = pywt.wavedec2(x, 'db2', mode='periodization', level=level)
+
+        # show the coefficients without normalization
+        arr, slices = pywt.coeffs_to_array(c)
+        axes[1, level].imshow(arr, cmap='gray', vmin=-global_max, vmax=global_max)
+        axes[1, level].set_title('Coefficients\n({} level)'.format(level))
+        axes[1, level].set_axis_off()
+
+    plt.tight_layout()
+    plt.show()
+
+    # Previous version : normalizes on each range
+    """
+    shape = x.shape
+
+    max_lev = 3       # how many levels of decomposition to draw
+    label_levels = 3  # how many levels to explicitly label on the plots
+
+    fig, axes = plt.subplots(2, 4, figsize=[14, 8])
+    for level in range(0, max_lev + 1):
+        if level == 0:
+            # show the original image before decomposition
+            axes[0, 0].set_axis_off()
+            # axes[1, 0].imshow(x, cmap=plt.cm.gray)
+            axes[1, 0].imshow(x)
             axes[1, 0].set_title('Image')
             axes[1, 0].set_axis_off()
             continue
@@ -154,48 +193,93 @@ def plot_wavelet_transformation(x):
             c[detail_level + 1] = [d/np.abs(d).max() for d in c[detail_level + 1]]
         # show the normalized coefficients
         arr, slices = pywt.coeffs_to_array(c)
-        axes[1, level].imshow(arr, cmap=plt.cm.gray)
+        # axes[1, level].imshow(arr, cmap=plt.cm.gray)
+        axes[1, level].imshow(arr)
         axes[1, level].set_title('Coefficients\n({} level)'.format(level))
         axes[1, level].set_axis_off()
 
     plt.tight_layout()
     plt.show()
+    """
+
+def plot_wt_hv(x):
+    # Wavelet transform of image, and plot approximation and details
+    titles = ['Approximation', ' Horizontal detail',
+            'Vertical detail', 'Diagonal detail']
+    coeffs2 = pywt.dwt2(x, 'bior1.3')
+    LL, (LH, HL, HH) = coeffs2
+    fig = plt.figure(figsize=(12, 3))
+    for i, a in enumerate([LL, LH, HL, HH]):
+        ax = fig.add_subplot(1, 4, i + 1)
+        ax.imshow(a, interpolation="nearest", cmap=plt.cm.gray)
+        ax.set_title(titles[i], fontsize=10)
+        ax.set_xticks([])
+        ax.set_yticks([])
+
+    fig.tight_layout()
+    plt.show()
 
 def plot_distribution(original_latents, recon_latents, version="fourier"):
     if version == "fourier":
-        fig, axs = plt.subplots(2, 2, figsize=(12, 8))
+        fig, axs = plt.subplots(2, 3, figsize=(18, 8))  # Adjust the number of columns
 
         original_latents = original_latents[0]
         recon_latents = recon_latents[0]
+        latent_difference = original_latents - recon_latents
 
-        all_latents = np.concatenate((original_latents, recon_latents))
+        all_latents = np.concatenate((original_latents, recon_latents, latent_difference))
         vmin_latents = all_latents.min()
         vmax_latents = all_latents.max()
 
-        axs[0, 0].imshow(original_latents, vmin=vmin_latents, vmax=vmax_latents)
+        # Plot Original Latents
+        im1 = axs[0, 0].imshow(original_latents, vmin=vmin_latents, vmax=vmax_latents)
         axs[0, 0].set_title('Original Latents')
 
-        axs[0, 1].imshow(recon_latents, vmin=vmin_latents, vmax=vmax_latents)
+        # Plot Reconstructed Latents
+        im2 = axs[0, 1].imshow(recon_latents, vmin=vmin_latents, vmax=vmax_latents)
         axs[0, 1].set_title('Reconstructed Latents')
-    
-        # Plot the Fourier transform of original_latents_data
-        fft_result_original = torch.fft.fftshift(torch.fft.fft2(original_latents))[23:40, 23:40]
-        fft_result_recon = torch.fft.fftshift(torch.fft.fft2(recon_latents))[23:40, 23:40]
 
-        all_fft_latents = np.concatenate([fft_result_original, fft_result_recon])
-        all_fft_latents = np.abs(all_fft_latents)
-        vmin_fft = all_fft_latents.min()
-        vmax_fft = all_fft_latents.max()
+        # Plot Latents Difference
+        im3 = axs[0, 2].imshow(latent_difference, vmin=vmin_latents, vmax=vmax_latents)
+        axs[0, 2].set_title('Latents Difference')
 
-        magnitude_spectrum_original = np.abs(fft_result_original)
-        axs[1, 0].imshow(magnitude_spectrum_original, vmin=vmin_fft, vmax=vmax_fft)
+        # Plot Fourier Transform - Original Latents
+        fft_result_original = torch.fft.fftshift(torch.fft.fft2(original_latents))
+        magnitude_spectrum_original = np.log(1+np.abs(fft_result_original))
+
+        # Plot Fourier Transform - Reconstructed Latents
+        fft_result_recon = torch.fft.fftshift(torch.fft.fft2(recon_latents))
+        magnitude_spectrum_recon = np.log(1+np.abs(fft_result_recon))
+
+        fft_difference = magnitude_spectrum_original - magnitude_spectrum_recon
+
+        vmin_fft = np.min(np.concatenate([magnitude_spectrum_original, magnitude_spectrum_recon, fft_difference]))
+        vmax_fft = np.max(np.concatenate([magnitude_spectrum_original, magnitude_spectrum_recon, fft_difference]))
+
+        im4 = axs[1, 0].imshow(magnitude_spectrum_original, vmin=vmin_fft, vmax=vmax_fft)
         axs[1, 0].set_title('Fourier Transform - Original Latents')
 
-        # Plot the Fourier transform of recon_latents_data
-        magnitude_spectrum_recon = np.abs(fft_result_recon)
-        axs[1, 1].imshow(magnitude_spectrum_recon, vmin=vmin_fft, vmax=vmax_fft)
+        im5 = axs[1, 1].imshow(magnitude_spectrum_recon, vmin=vmin_fft, vmax=vmax_fft)
         axs[1, 1].set_title('Fourier Transform - Reconstructed Latents')
-    
+
+        # Plot FFT Difference
+        im6 = axs[1, 2].imshow(fft_difference, vmin=vmin_fft, vmax=vmax_fft)
+        axs[1, 2].set_title('FFT Difference')
+
+        # Set up axes for unified colorbar for im1 to im3
+        cax1 = fig.add_axes([0.93, 0.58, 0.01, 0.3])  # [x, y, width, height]
+
+        # Add unified colorbar for im1 to im3
+        cbar1 = plt.colorbar(im3, cax=cax1)
+        cbar1.set_label('Colorbar Label 1')
+
+        # Set up axes for unified colorbar for im4 to im6
+        cax2 = fig.add_axes([0.93, 0.1, 0.01, 0.3])  # [x, y, width, height]
+
+        # Add unified colorbar for im4 to im6
+        cbar2 = plt.colorbar(im6, cax=cax2)
+        cbar2.set_label('Colorbar Label 2')
+
         # Adjust layout for better visualization
         plt.tight_layout()
         plt.show()
@@ -206,6 +290,9 @@ def plot_distribution(original_latents, recon_latents, version="fourier"):
 
         plot_wavelet_transformation(original_latents)
         plot_wavelet_transformation(recon_latents)
+
+        plot_wt_hv(original_latents)
+        plot_wt_hv(recon_latents)
 
         # chi_square_test(original_latents)
         # chi_square_test(recon_latents)
@@ -266,16 +353,16 @@ def set_and_generate_image_then_reverse(seed, prompt, inversion_prompt, randomiz
     print(f"original latents (mean/std) : {original_latents.mean().item():.5f}, {original_latents.std().item():.5f}")
     print(f"reconstructed latents (mean/std) : {recon_latents.mean().item():.5f}, {recon_latents.std().item():.5f}")
 
-    # Shapiro-Wilk test for original_latents
-    stat_original, p_value_original = shapiro(original_latents_data)
-    print(f'Shapiro-Wilk test for Original Latents: W={stat_original:.8f}, p-value={p_value_original:.8f}')
+    # # Shapiro-Wilk test for original_latents
+    # stat_original, p_value_original = shapiro(original_latents_data)
+    # print(f'Shapiro-Wilk test for Original Latents: W={stat_original:.8f}, p-value={p_value_original:.8f}')
 
-    # Shapiro-Wilk test for recon_latents
-    stat_recon, p_value_recon = shapiro(recon_latents_data)
-    print(f'Shapiro-Wilk test for Reconstructed Latents: W={stat_recon:.8f}, p-value={p_value_recon:.8f}')
+    # # Shapiro-Wilk test for recon_latents
+    # stat_recon, p_value_recon = shapiro(recon_latents_data)
+    # print(f'Shapiro-Wilk test for Reconstructed Latents: W={stat_recon:.8f}, p-value={p_value_recon:.8f}')
 
-    # Section : Check with plot
-    plot_distribution(original_latents.cpu()[0], recon_latents.cpu()[0], version="wavelet")
+    # Section : Check with plot distribution
+    plot_distribution(original_latents.cpu()[0], recon_latents.cpu()[0], version="fourier")
 
     return original_image, recon_image, original_latents_visualized, recon_latents_visualized, inf_time, seed
 
@@ -294,8 +381,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='instaflow - work on inversion')
     parser.add_argument('--randomize_seed', default=False, type=bool)
     parser.add_argument('--seed', default=1671257906, type=int)
-    parser.add_argument('--prompt', default="A stone bridge spanned across the river, connecting the castle to the outside world. This symbolic link between the fortress and the flowing currents beneath emphasized the strategic significance of the location, while adding an element of romantic allure to the landscape.", type=str)
-    parser.add_argument('--inversion_prompt', default="Spanning the river, a sturdy stone bridge served as the vital link connecting the fortress to the vast expanse beyond. This emblematic tie between the stronghold and the flowing waters underscored the strategic importance of the site, while infusing the panorama with a captivating romanticism.", type=str)
+    parser.add_argument('--prompt', default="Generate an image of a calm lakeside scene at sunset. Showcase vibrant wildflowers in the foreground, and distant mountains painted in the soft hues of twilight. Capture the serene beauty of nature in this tranquil", type=str)
+    parser.add_argument('--inversion_prompt', default="Create a serene lakeside sunset scene with vivid wildflowers in the foreground and distant mountains adorned in the gentle twilight palette. Bring to life the tranquility and beauty of nature in this peaceful image.", type=str)
     #parser.add_argument('--prompt', default="A high resolution photo of an yellow porsche under sunshine", type=str)
 
     args = parser.parse_args()
