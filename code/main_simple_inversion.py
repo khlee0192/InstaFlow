@@ -17,6 +17,7 @@ from scipy.stats import chi2_contingency
 import argparse
 import matplotlib.pyplot as plt
 from scipy.stats import shapiro
+from scipy.signal import correlate2d
 
 from datetime import datetime
 
@@ -297,6 +298,17 @@ def plot_distribution(original_latents, recon_latents, version="fourier"):
         # chi_square_test(original_latents)
         # chi_square_test(recon_latents)
 
+    elif version == "correlation":
+        original_latents = original_latents[0]
+        recon_latents = recon_latents[0]
+
+        corr = correlate2d(original_latents, recon_latents)
+        y, x = np.unravel_index(np.argmax(corr), corr.shape)
+
+        plt.imshow(corr)
+        plt.show()
+
+
 @torch.no_grad()
 def set_and_generate_image_then_reverse(seed, prompt, inversion_prompt, randomize_seed, num_inference_steps=1, num_inversion_steps=1, guidance_scale=3.0):
     print('Generate with input seed')
@@ -353,6 +365,39 @@ def set_and_generate_image_then_reverse(seed, prompt, inversion_prompt, randomiz
     print(f"original latents (mean/std) : {original_latents.mean().item():.5f}, {original_latents.std().item():.5f}")
     print(f"reconstructed latents (mean/std) : {recon_latents.mean().item():.5f}, {recon_latents.std().item():.5f}")
 
+    # Section : Calculating correlation of noise and latents
+    # We will compare correlation of original_latents & latents, then recon_latents & latents
+    latents_comparison_first_channel = latents.cpu()[0][0]
+    original_latents_first_channel = original_latents.cpu()[0][0]
+    recon_latents_first_channel = recon_latents.cpu()[0][0]
+
+    corr1 = correlate2d(original_latents_first_channel, latents_comparison_first_channel)
+    corr2 = correlate2d(recon_latents_first_channel, latents_comparison_first_channel)
+
+    corr1[63, 63] = 0
+    corr2[63, 63] = 0
+
+    min_val = min(np.min(corr1), np.min(corr2))
+    max_val = max(np.max(corr1), np.max(corr2))
+    
+    # Plot corr1
+    plt.subplot(1, 2, 1)
+    plt.imshow(corr1, cmap='viridis', vmin=min_val, vmax=max_val)
+    plt.title('Corr1')
+
+    # Plot corr2
+    plt.subplot(1, 2, 2)
+    plt.imshow(corr2, cmap='viridis', vmin=min_val, vmax=max_val)
+    plt.title('Corr2')
+
+    # Show the plots
+    #plt.show()
+
+    print(np.mean(corr1))
+    print(np.mean(corr2))
+
+    # Section : statistical test
+
     # # Shapiro-Wilk test for original_latents
     # stat_original, p_value_original = shapiro(original_latents_data)
     # print(f'Shapiro-Wilk test for Original Latents: W={stat_original:.8f}, p-value={p_value_original:.8f}')
@@ -379,8 +424,8 @@ def main():
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='instaflow - work on inversion')
-    parser.add_argument('--randomize_seed', default=False, type=bool)
-    parser.add_argument('--seed', default=1671257906, type=int)
+    parser.add_argument('--randomize_seed', default=True, type=bool)
+    parser.add_argument('--seed', default=2506277268, type=int) # worst case of correlation, which we desire
     parser.add_argument('--prompt', default="Generate an image of a calm lakeside scene at sunset. Showcase vibrant wildflowers in the foreground, and distant mountains painted in the soft hues of twilight. Capture the serene beauty of nature in this tranquil", type=str)
     parser.add_argument('--inversion_prompt', default="Create a serene lakeside sunset scene with vivid wildflowers in the foreground and distant mountains adorned in the gentle twilight palette. Bring to life the tranquility and beauty of nature in this peaceful image.", type=str)
     #parser.add_argument('--prompt', default="A high resolution photo of an yellow porsche under sunshine", type=str)
