@@ -17,7 +17,7 @@ from scipy.stats import chi2_contingency
 import argparse
 import matplotlib.pyplot as plt
 from scipy.stats import shapiro
-from scipy.signal import correlate2d
+from scipy.signal import correlate2d, correlate
 
 from datetime import datetime
 
@@ -371,11 +371,20 @@ def set_and_generate_image_then_reverse(seed, prompt, inversion_prompt, randomiz
     original_latents_first_channel = original_latents.cpu()[0][0]
     recon_latents_first_channel = recon_latents.cpu()[0][0]
 
-    corr1 = correlate2d(original_latents_first_channel, latents_comparison_first_channel)
-    corr2 = correlate2d(recon_latents_first_channel, latents_comparison_first_channel)
+    # # Calculate the correlation coefficient matrix for each pair of columns
+    # correlation_matrix1 = np.corrcoef(original_latents_first_channel, latents_comparison_first_channel, rowvar=False)
+    # correlation_matrix2 = np.corrcoef(recon_latents_first_channel, latents_comparison_first_channel, rowvar=False)
 
-    corr1[63, 63] = 0
-    corr2[63, 63] = 0
+    # # Extract the correlation coefficient between the two arrays
+    # correlation_coefficient1 = correlation_matrix1[0, 1]
+    # correlation_coefficient2 = correlation_matrix2[0, 1]
+
+    
+    corr1 = correlate(original_latents_first_channel, latents_comparison_first_channel)
+    corr2 = correlate(recon_latents_first_channel, latents_comparison_first_channel)
+
+    # corr1[63, 63] = 0
+    # corr2[63, 63] = 0
 
     min_val = min(np.min(corr1), np.min(corr2))
     max_val = max(np.max(corr1), np.max(corr2))
