@@ -730,6 +730,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             callback_steps: int = 1,
             decoder_inv_steps: int = 100,
             forward_steps: int = 100,
+            tuning_steps: int = 100,
         ):
         """
         Exact inversion of RectifiedFlowPipeline. Gets input of 1,4,64,64 latents (which is denoised), and returns original latents by performing inversion
@@ -774,7 +775,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             image = torch.Tensor(latents).permute(0, 3, 1, 2)
             image = image.to('cuda')
             torch.set_grad_enabled(True)
-            latents = self.edcorrector(image, decoder_inv_steps=decoder_inv_steps)
+            latents = self.edcorrector(image, decoder_inv_steps=decoder_inv_steps, verbose=verbose)
             torch.set_grad_enabled(False)
 
         current_latents = latents # Save latents, this is our target
@@ -823,13 +824,26 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                     latents = self.forward_step_method(latents, current_latents, t, dt, prompt_embeds=prompt_embeds, do_classifier_free_guidance=do_classifier_free_guidance, 
                                                        guidance_scale=guidance_scale, verbose=verbose,
                                                        steps=forward_steps)
-            
 
                 if i == len(timesteps) - 1 or ((i + 1) % self.scheduler.order == 0):
                     progress_bar.update()
                     if callback is not None and i % callback_steps == 0:
                         step_idx = i // getattr(self.scheduler, "order", 1)
                         callback(step_idx, t, latents)
+
+        # Add another procedure, end-to-end correction of noise
+        torch.set_grad_enabled(True)
+        if input_type == "images":
+            latents = self.one_step_inversion_tuning_sampler(
+                prompt=prompt,
+                num_inference_steps=num_inference_steps,
+                guidance_scale=guidance_scale,
+                negative_prompt=negative_prompt,
+                latents=latents,
+                image=image,
+                steps=tuning_steps,
+            )
+        torch.set_grad_enabled(False)
 
         # Offload all models
         self.maybe_free_model_hooks()
@@ -860,6 +874,113 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
         image = self.image_processor.postprocess(image, output_type=output_type, do_denormalize=do_denormalize)
 
         return latents, image
+    
+    def one_step_inversion_tuning_sampler(
+        self,
+        prompt: Union[str, List[str]] = None,
+        height: Optional[int] = None,
+        width: Optional[int] = None,
+        num_inference_steps: int = 50,
+        guidance_scale: float = 7.5,
+        negative_prompt: Optional[Union[str, List[str]]] = None,
+        num_images_per_prompt: Optional[int] = 1,
+        eta: float = 0.0,
+        generator: Optional[Union[torch.Generator, List[torch.Generator]]] = None,
+        latents: Optional[torch.FloatTensor] = None,
+        image: Optional[torch.FloatTensor] = None,
+        steps: int = 100,
+        prompt_embeds: Optional[torch.FloatTensor] = None,
+        negative_prompt_embeds: Optional[torch.FloatTensor] = None,
+        output_type: Optional[str] = "pil",
+        return_dict: bool = True,
+        callback: Optional[Callable[[int, int, torch.FloatTensor], None]] = None,
+        callback_steps: int = 1,
+        cross_attention_kwargs: Optional[Dict[str, Any]] = None,
+        guidance_rescale: float = 0.0,
+        verbose: bool = True
+    ):
+        r"""
+        The simplified call function to the pipeline for tuning inversion. Creates a network form.
+        Inputs:
+            latents - initial noise obtained by inverse process
+            image - target image to match
+        
+        Returns:
+            latents - fine-tuned latents
+        """
+
+        device = self._execution_device
+        do_classifier_free_guidance = guidance_scale > 1.0
+
+        text_encoder_lora_scale = (
+            cross_attention_kwargs.get("scale", None) if cross_attention_kwargs is not None else None
+        )
+        prompt_embeds, negative_prompt_embeds = self.encode_prompt(
+            prompt,
+            device,
+            num_images_per_prompt,
+            do_classifier_free_guidance,
+            negative_prompt,
+            prompt_embeds=prompt_embeds,
+            negative_prompt_embeds=negative_prompt_embeds,
+            lora_scale=text_encoder_lora_scale,
+        )
+
+        if do_classifier_free_guidance:
+            prompt_embeds = torch.cat([negative_prompt_embeds, prompt_embeds])
+
+        timesteps = [(1. - i/num_inference_steps) * 1000. for i in range(num_inference_steps)]
+
+        extra_step_kwargs = self.prepare_extra_step_kwargs(generator, eta)
+        dt = 1.0 / num_inference_steps
+        t = timesteps[0]
+
+        # Performing gradient descent, to tune the latents
+        image_answer = image.clone()
+        do_denormalize = [True] * image.shape[0]
+        input = copy.deepcopy(latents)
+        unet = copy.deepcopy(self.unet)
+        vae = copy.deepcopy(self.vae)
+        input.requires_grad_(True)
+
+        loss_function = torch.nn.MSELoss(reduction='mean')
+
+        optimizer = torch.optim.SGD([input], lr=0.0001)
+        
+        for i in range(steps):
+            latent_model_input = torch.cat([input] * 2) if do_classifier_free_guidance else input
+            vec_t = torch.ones((latent_model_input.shape[0],), device=latents.device) * t 
+            v_pred = unet(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds).sample
+            v_pred = v_pred.detach()
+
+            # perform guidance 
+            if do_classifier_free_guidance:
+                v_pred_neg, v_pred_text = v_pred.chunk(2)
+                v_pred = v_pred_neg + guidance_scale * (v_pred_text - v_pred_neg)
+
+            temp = input + dt * v_pred
+            # Stop here, check by below
+            # visual = self.image_processor.postprocess(self.vae.decode(input/self.vae.config.scaling_factor, return_dict=False)[0].detach().cpu())
+            
+            image_recon = vae.decode(temp / self.vae.config.scaling_factor, return_dict=False)[0]
+
+            image_recon = self.image_processor.postprocess(image_recon, output_type="pt", do_denormalize=do_denormalize)
+
+            loss = loss_function(image_recon, image_answer)
+
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+            
+            if verbose:
+                print(f"tuning, {i}, {loss.item()}")
+
+        input.detach()
+
+        # Offload all models
+        self.maybe_free_model_hooks()
+
+        return input
     
     @torch.inference_mode()
     def forward_step_method(
@@ -914,7 +1035,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
 
         return latents_s
 
-    def edcorrector(self, x, decoder_inv_steps=100):
+    def edcorrector(self, x, decoder_inv_steps=100, verbose=False):
         """
         edcorrector calculates latents z of the image x by solving optimization problem ||E(x)-z||,
         not by directly encoding with VAE encoder. "Decoder inversion"
@@ -947,7 +1068,8 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             optimizer.step()
             lr_scheduler.step()
 
-            print(f"{i}, {loss.item()}")
+            if verbose:
+                print(f"{i}, {loss.item()}")
 
         return z
 

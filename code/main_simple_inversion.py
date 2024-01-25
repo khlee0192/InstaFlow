@@ -1,7 +1,6 @@
 ## This code is for genearting basic image sample, adjusted from local_gradio.py
 
-from pipeline_rf import RectifiedFlowPipeline
-from pipeline_rf import RectifiedInversableFlowPipeline
+from pipeline_rf_adjusting import RectifiedInversableFlowPipeline
 
 import torch
 from torchvision.transforms import Compose, Resize, CenterCrop, ToTensor, Normalize
@@ -18,6 +17,7 @@ import argparse
 import matplotlib.pyplot as plt
 from scipy.stats import shapiro
 from scipy.signal import correlate2d, correlate
+from sklearn.metrics.pairwise import cosine_similarity
 
 from datetime import datetime
 
@@ -331,13 +331,16 @@ def set_and_generate_image_then_reverse(seed, prompt, inversion_prompt, randomiz
     recon_latents, recon_images = insta_pipe.exact_inversion(
         prompt=inversion_prompt,
         latents=original_array,
-        input_type="image",
+        input_type="images",
         # latents=latents,
         # input_type="latents",
         num_inversion_steps=num_inversion_steps, num_inference_steps=num_inference_steps, 
         guidance_scale=guidance_scale,
         verbose=True,
-        use_random_initial_noise=False
+        use_random_initial_noise=False,
+        decoder_inv_steps=1000,
+        forward_steps=1000,
+        tuning_steps=200,
         )
     
     print(f"TOT of inversion {(recon_latents - original_latents).norm()/original_latents.norm()}")
@@ -345,6 +348,8 @@ def set_and_generate_image_then_reverse(seed, prompt, inversion_prompt, randomiz
     # Visualizing noise
     original_latents_visualized = insta_pipe.image_processor.postprocess(insta_pipe.vae.decode(original_latents/insta_pipe.vae.config.scaling_factor, return_dict=False)[0])
     recon_latents_visualized = insta_pipe.image_processor.postprocess(insta_pipe.vae.decode(recon_latents/insta_pipe.vae.config.scaling_factor, return_dict=False)[0])
+
+    # visual = self.image_processor.postprocess(self.vae.decode(input.cpu()/self.vae.config.scaling_factor, return_dict=False)[0])
 
     original_latents_visualized = np.squeeze(original_latents_visualized)
     recon_latents_visualized = np.squeeze(recon_latents_visualized)
@@ -367,10 +372,11 @@ def set_and_generate_image_then_reverse(seed, prompt, inversion_prompt, randomiz
 
     # Section : Calculating correlation of noise and latents
     # We will compare correlation of original_latents & latents, then recon_latents & latents
-    latents_comparison_first_channel = latents.cpu()[0][0]
-    original_latents_first_channel = original_latents.cpu()[0][0]
-    recon_latents_first_channel = recon_latents.cpu()[0][0]
+    latents_cpu = latents.cpu()[0]
+    original_noise_cpu = original_latents.cpu()[0]
+    recon_noise_cpu = recon_latents.cpu()[0]
 
+    """
     # # Calculate the correlation coefficient matrix for each pair of columns
     # correlation_matrix1 = np.corrcoef(original_latents_first_channel, latents_comparison_first_channel, rowvar=False)
     # correlation_matrix2 = np.corrcoef(recon_latents_first_channel, latents_comparison_first_channel, rowvar=False)
@@ -379,31 +385,67 @@ def set_and_generate_image_then_reverse(seed, prompt, inversion_prompt, randomiz
     # correlation_coefficient1 = correlation_matrix1[0, 1]
     # correlation_coefficient2 = correlation_matrix2[0, 1]
 
-    
-    corr1 = correlate(original_latents_first_channel, latents_comparison_first_channel)
-    corr2 = correlate(recon_latents_first_channel, latents_comparison_first_channel)
-
+    # corr1 = correlate2d(original_latents_first_channel, latents_comparison_first_channel)
+    # corr2 = correlate2d(recon_latents_first_channel, latents_comparison_first_channel)
     # corr1[63, 63] = 0
     # corr2[63, 63] = 0
+    """
 
-    min_val = min(np.min(corr1), np.min(corr2))
-    max_val = max(np.max(corr1), np.max(corr2))
-    
-    # Plot corr1
-    plt.subplot(1, 2, 1)
-    plt.imshow(corr1, cmap='viridis', vmin=min_val, vmax=max_val)
-    plt.title('Corr1')
+    """
+    # Calculate correlations
+    corrs = [np.array(latents_cpu[i] - original_noise_cpu[i]) for i in range(4)]
+    corrs += [np.array(latents_cpu[i] - recon_noise_cpu[i]) for i in range(4)]
 
-    # Plot corr2
-    plt.subplot(1, 2, 2)
-    plt.imshow(corr2, cmap='viridis', vmin=min_val, vmax=max_val)
-    plt.title('Corr2')
+    # Determine min and max values
+    min_val = min(np.min(corr) for corr in corrs)
+    max_val = max(np.max(corr) for corr in corrs)
+
+    # Create subplots
+    fig, axes = plt.subplots(nrows=4, ncols=2, figsize=(12, 16))
+
+    # Plot correlations
+    for i, ax in enumerate(axes.flat):
+        im = ax.imshow(corrs[i], cmap='viridis', vmin=min_val, vmax=max_val)
+        ax.set_title(f'Corr{i + 1}')
+
+    # Add a single colorbar for all subplots
+    cax = fig.add_axes([0.94, 0.1, 0.02, 0.8])
+    cbar = fig.colorbar(im, cax=cax, orientation='vertical')
+    cbar.set_ticks([min_val, max_val])
+
+    # Adjust layout
+    fig.tight_layout()
 
     # Show the plots
-    #plt.show()
+    plt.show()
+    """
 
-    print(np.mean(corr1))
-    print(np.mean(corr2))
+    # Calculate pixelwise similarity
+    cosinesim_orig = []
+    cosinesim_recon = []
+
+    for i in range(64):
+        for j in range(64):
+            val_orig = cosine_similarity([latents_cpu[:, i, j]], [original_noise_cpu[:, i, j]])
+            val_recon = cosine_similarity([latents_cpu[:, i, j]], [recon_noise_cpu[:, i, j]])
+            cosinesim_orig.append(val_orig)
+            cosinesim_recon.append(val_recon)
+
+    cosinesim_orig = np.array(cosinesim_orig).reshape(64, 64)
+    cosinesim_recon = np.array(cosinesim_recon).reshape(64, 64)
+
+    fig, axs = plt.subplots(1, 2, figsize=(12, 5))
+    im1 = axs[0].imshow(cosinesim_orig)
+    axs[0].set_title('Cosine similarity (latents & origianl noise)')    
+
+    im2 = axs[1].imshow(cosinesim_recon)
+    axs[1].set_title('Cosine similarity (latents & reconstructed noise)')
+
+    cax = fig.add_axes([0.94, 0.1, 0.02, 0.8])
+    cbar = fig.colorbar(im1, cax=cax, orientation='vertical')
+
+    fig.tight_layout()
+    plt.show()
 
     # Section : statistical test
 
@@ -417,6 +459,13 @@ def set_and_generate_image_then_reverse(seed, prompt, inversion_prompt, randomiz
 
     # Section : Check with plot distribution
     plot_distribution(original_latents.cpu()[0], recon_latents.cpu()[0], version="fourier")
+
+    latents_plot = latents_cpu[0:3]
+    latents_plot = (latents_plot - latents_plot.min())/(latents_plot.max() - latents_plot.min())
+    original_noise_cpu = original_noise_cpu[0:3]
+    original_noise_cpu = (original_noise_cpu - original_noise_cpu.min())/(original_noise_cpu.max() - original_noise_cpu.min())
+    recon_noise_cpu = recon_noise_cpu[0:3]
+    recon_noise_cpu = (recon_noise_cpu - recon_noise_cpu.min())/(recon_noise_cpu.max() - recon_noise_cpu.min())
 
     return original_image, recon_image, original_latents_visualized, recon_latents_visualized, inf_time, seed
 
@@ -433,8 +482,8 @@ def main():
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='instaflow - work on inversion')
-    parser.add_argument('--randomize_seed', default=True, type=bool)
-    parser.add_argument('--seed', default=2506277268, type=int) # worst case of correlation, which we desire
+    parser.add_argument('--randomize_seed', default=False, type=bool)
+    parser.add_argument('--seed', default=3993109412, type=int)
     parser.add_argument('--prompt', default="Generate an image of a calm lakeside scene at sunset. Showcase vibrant wildflowers in the foreground, and distant mountains painted in the soft hues of twilight. Capture the serene beauty of nature in this tranquil", type=str)
     parser.add_argument('--inversion_prompt', default="Create a serene lakeside sunset scene with vivid wildflowers in the foreground and distant mountains adorned in the gentle twilight palette. Bring to life the tranquility and beauty of nature in this peaceful image.", type=str)
     #parser.add_argument('--prompt', default="A high resolution photo of an yellow porsche under sunshine", type=str)
