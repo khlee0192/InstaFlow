@@ -282,7 +282,6 @@ def plot_distribution(original_latents, recon_latents, version="fourier"):
         cbar2.set_label('Colorbar Label 2')
 
         # Adjust layout for better visualization
-        plt.tight_layout()
         plt.show()
 
     elif version == "wavelet":
@@ -338,9 +337,9 @@ def set_and_generate_image_then_reverse(seed, prompt, inversion_prompt, randomiz
         guidance_scale=guidance_scale,
         verbose=True,
         use_random_initial_noise=False,
-        decoder_inv_steps=1000,
-        forward_steps=1000,
-        tuning_steps=200,
+        decoder_inv_steps=10,
+        forward_steps=100,
+        tuning_steps=40,
         )
     
     print(f"TOT of inversion {(recon_latents - original_latents).norm()/original_latents.norm()}")
@@ -434,6 +433,9 @@ def set_and_generate_image_then_reverse(seed, prompt, inversion_prompt, randomiz
     cosinesim_orig = np.array(cosinesim_orig).reshape(64, 64)
     cosinesim_recon = np.array(cosinesim_recon).reshape(64, 64)
 
+    print(f"original cosine sim : mean {np.abs(cosinesim_orig).mean():.3f}, max {cosinesim_orig.max():.3f}")
+    print(f"recon cosine sim : mean {np.abs(cosinesim_recon).mean():.3f}, max {cosinesim_recon.max():.3f}")
+
     fig, axs = plt.subplots(1, 2, figsize=(12, 5))
     im1 = axs[0].imshow(cosinesim_orig)
     axs[0].set_title('Cosine similarity (latents & origianl noise)')    
@@ -444,7 +446,6 @@ def set_and_generate_image_then_reverse(seed, prompt, inversion_prompt, randomiz
     cax = fig.add_axes([0.94, 0.1, 0.02, 0.8])
     cbar = fig.colorbar(im1, cax=cax, orientation='vertical')
 
-    fig.tight_layout()
     plt.show()
 
     # Section : statistical test

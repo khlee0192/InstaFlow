@@ -945,8 +945,9 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
 
         loss_function = torch.nn.MSELoss(reduction='mean')
 
-        optimizer = torch.optim.SGD([input], lr=0.0001)
-        
+        optimizer = torch.optim.Adam([input], lr=0.01)
+        #lr_scheduler = get_cosine_schedule_with_warmup(optimizer, num_warmup_steps=0, num_training_steps=100)
+
         for i in range(steps):
             latent_model_input = torch.cat([input] * 2) if do_classifier_free_guidance else input
             vec_t = torch.ones((latent_model_input.shape[0],), device=latents.device) * t 
@@ -971,7 +972,8 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
-            
+            # lr_scheduler.step()
+
             if verbose:
                 print(f"tuning, {i}, {loss.item()}")
 
