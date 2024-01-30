@@ -731,6 +731,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             decoder_inv_steps: int = 100,
             forward_steps: int = 100,
             tuning_steps: int = 100,
+            pnp_adjust: bool = True,
         ):
         """
         Exact inversion of RectifiedFlowPipeline. Gets input of 1,4,64,64 latents (which is denoised), and returns original latents by performing inversion
@@ -801,7 +802,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                     latents = latents - dt * v_pred
 
                     # Our work : perform forward step method
-                    latents = self.forward_step_method(latents, current_latents, t, dt, prompt_embeds=prompt_embeds, do_classifier_free_guidance=do_classifier_free_guidance, guidance_scale=guidance_scale, verbose=verbose)
+                    latents = self.forward_step_method(latents, current_latents, t, dt, prompt_embeds=prompt_embeds, do_classifier_free_guidance=do_classifier_free_guidance, guidance_scale=guidance_scale, verbose=verbose, pnp_adjust=pnp_adjust)
                 else:
                     # expand the latents if we are doing classifier free guidance
                     latent_model_input = torch.cat([latents] * 2) if do_classifier_free_guidance else latents
@@ -823,7 +824,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                     # Our work : perform forward step method
                     latents = self.forward_step_method(latents, current_latents, t, dt, prompt_embeds=prompt_embeds, do_classifier_free_guidance=do_classifier_free_guidance, 
                                                        guidance_scale=guidance_scale, verbose=verbose,
-                                                       steps=forward_steps)
+                                                       steps=forward_steps, pnp_adjust=pnp_adjust)
 
                 if i == len(timesteps) - 1 or ((i + 1) % self.scheduler.order == 0):
                     progress_bar.update()
@@ -997,7 +998,8 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             warmup_time = 0,
             steps=100,
             original_step_size=0.1, step_size=0.5,
-            factor=0.5, patience=15, th=1e-3
+            factor=0.5, patience=15, th=1e-3,
+            pnp_adjust=False,
             ):
         """
         The forward step method assumes that current_latents are at right place(even on multistep), then map latents correctly to current latents
@@ -1031,6 +1033,9 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             step_size = step_scheduler.step(loss)
 
             # progress_bar.update()
+            if pnp_adjust:
+                add_noise = randn_tensor(latents_s.shape, device=latents_s.device, dtype=latents_s.dtype)
+                latents_s = latents_s + 0.01 * add_noise
 
             if verbose:
                 print(i, ((latents_t - current_latents).norm()/current_latents.norm()).item(), step_size)

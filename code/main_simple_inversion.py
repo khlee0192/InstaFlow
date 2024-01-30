@@ -339,10 +339,11 @@ def set_and_generate_image_then_reverse(seed, prompt, inversion_prompt, randomiz
         use_random_initial_noise=False,
         decoder_inv_steps=10,
         forward_steps=100,
-        tuning_steps=40,
+        tuning_steps=50,
+        pnp_adjust=False,
         )
     
-    print(f"TOT of inversion {(recon_latents - original_latents).norm()/original_latents.norm()}")
+    print(f"TOT of inversion {torch.mean((recon_latents-original_latents)**2)/torch.norm(original_latents)**2}")
 
     # Visualizing noise
     original_latents_visualized = insta_pipe.image_processor.postprocess(insta_pipe.vae.decode(original_latents/insta_pipe.vae.config.scaling_factor, return_dict=False)[0])
@@ -356,9 +357,9 @@ def set_and_generate_image_then_reverse(seed, prompt, inversion_prompt, randomiz
     # Obtain image, calculate OTO
     recon_image = recon_images[0]
     recon_array = insta_pipe.image_processor.pil_to_numpy(recon_image)
-    diff = np.linalg.norm(original_array - recon_array)
+    diff = np.mean((original_array - recon_array)**2)
 
-    print(f"OTO of inversion {diff/np.linalg.norm(original_array)}")
+    print(f"OTO of inversion {diff/np.mean(original_array ** 2)}")
 
     print(seed, num_inference_steps, guidance_scale)
 
