@@ -1,6 +1,6 @@
 ## This code is for genearting basic image sample, adjusted from local_gradio.py
 
-from pipeline_rf_adjusting import RectifiedInversableFlowPipeline
+from pipeline_rf import RectifiedInversableFlowPipeline
 
 import torch
 from torchvision.transforms import Compose, Resize, CenterCrop, ToTensor, Normalize
@@ -50,8 +50,8 @@ def set_and_generate_image_then_reverse(seed, prompt, inversion_prompt, randomiz
         use_random_initial_noise=False,
         decoder_inv_steps=10,
         forward_steps=100,
-        tuning_steps=50,
-        pnp_adjust=False,
+        tuning_steps=10,
+        pnp_adjust=True,
         )
     
     print(f"TOT of inversion {torch.mean((recon_latents-original_latents)**2)/torch.norm(original_latents)**2}")
@@ -97,7 +97,8 @@ def set_and_generate_image_then_reverse(seed, prompt, inversion_prompt, randomiz
     # print(f'Shapiro-Wilk test for Reconstructed Latents: W={stat_recon:.8f}, p-value={p_value_recon:.8f}')
 
     # Section : Check with plot distribution
-    plot_distribution(original_noise_cpu, recon_noise_cpu, latents_cpu, version="cosinesim", plot_dist=plot_dist)
+    if plot_dist:
+        plot_distribution(original_noise_cpu, recon_noise_cpu, latents_cpu, version="fourier")
 
     # Return values with normalization
     latents_plot = latents_cpu[0:3]
@@ -117,7 +118,7 @@ def main():
         plot_dist=True,
     )
 
-    plot_and_save_image(image, recon_image, latents, recon_latents, show=True)
+    plot_and_save_image(image, recon_image, latents, recon_latents, show=False)
 
     print(f"generation time : {time}")
 
