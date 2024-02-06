@@ -21,6 +21,7 @@ import torch
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from packaging import version
 from transformers import CLIPImageProcessor, CLIPTextModel, CLIPTokenizer
+import numpy as np
 
 from diffusers.configuration_utils import FrozenDict
 from diffusers.image_processor import VaeImageProcessor
@@ -41,6 +42,7 @@ from diffusers.pipelines.stable_diffusion.safety_checker import StableDiffusionS
 from transformers import get_cosine_schedule_with_warmup
 
 import matplotlib.pyplot as plt
+from sklearn.metrics.pairwise import cosine_similarity
 
 logger = logging.get_logger(__name__)  # pylint: disable=invalid-name
 
@@ -1000,6 +1002,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             original_step_size=0.1, step_size=0.5,
             factor=0.5, patience=15, th=1e-3,
             pnp_adjust=False,
+            regularizer=True,
             ):
         """
         The forward step method assumes that current_latents are at right place(even on multistep), then map latents correctly to current latents
@@ -1025,7 +1028,24 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             
             latents_t = latents_s + dt * v_pred
 
-            loss = torch.nn.functional.mse_loss(latents_t, current_latents, reduction='sum')
+            if regularizer:
+                latents_s_np = latents_s.cpu().detach().numpy()
+                latents_t_np = latents_t.cpu().detach().numpy()
+
+                cosinesim_orig = np.array([
+                    np.abs(cosine_similarity([latents_s_np[:, i, j]], [latents_t_np[:, i, j]]))
+                    for i in range(64) for j in range(64)
+                ]).reshape(64, 64)
+                
+                # Convert cosinesim_orig to PyTorch tensor
+                cosinesim_orig_tensor = torch.from_numpy(cosinesim_orig).float().to(latents_s.device)
+
+                reg = torch.mean(cosinesim_orig_tensor)
+
+                loss = torch.nn.functional.mse_loss(latents_t, current_latents, reduction='sum') + reg
+            else:
+                loss = torch.nn.functional.mse_loss(latents_t, current_latents, reduction='sum')
+            
             if loss.item() < th:
                 break
 
