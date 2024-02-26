@@ -68,6 +68,46 @@ def plot_and_save_image(image, recon_image, latents, recon_latents, show):
     else:
         plt.savefig(f"plot_{current_time}.png")
 
+def plot_and_save_image_with_difference(image, recon_image, diff_image, latents, recon_latents, diff_latents, show):
+    # Create a figure and axes for the grid
+    fig, axs = plt.subplots(2, 3, figsize=(10, 15))
+
+    # Display the first PIL image
+    axs[0, 0].imshow(image)
+    axs[0, 0].axis('off')
+    axs[0, 0].set_title('Image')
+
+    # Display the second PIL image
+    axs[0, 1].imshow(recon_image)
+    axs[0, 1].axis('off')
+    axs[0, 1].set_title('Reconstructed Image')
+
+    axs[0, 2].imshow(diff_image[0])
+    axs[0, 2].axis('off')
+    axs[0, 2].set_title('Image Error')
+
+    # Display the first numpy array (latents) as an RGB image
+    axs[1, 0].imshow(latents)
+    axs[1, 0].axis('off')
+    axs[1, 0].set_title('Latents')
+
+    # Display the second numpy array (recon_latents) as an RGB image
+    axs[1, 1].imshow(recon_latents)
+    axs[1, 1].axis('off')
+    axs[1, 1].set_title('Reconstructed Latents')
+
+    axs[1, 2].imshow(diff_latents)
+    axs[1, 2].axis('off')
+    axs[1, 2].set_title('Latents Error')
+
+    plt.tight_layout()
+    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    if show:
+        plt.show()
+    else:
+        plt.savefig(f"plot_{current_time}.png")
+
 def plot_wavelet_transformation(x):
     shape = x.shape
 

@@ -715,6 +715,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             self,
             prompt: Union[str, List[str]] = None,
             latents: Optional[torch.FloatTensor] = None,
+            image: Optional[torch.FloatTensor] = None,
             input_type: str = "latents",
             num_inversion_steps: int = 50,
             num_inference_steps: int = 1,
@@ -733,7 +734,8 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             decoder_inv_steps: int = 100,
             forward_steps: int = 100,
             tuning_steps: int = 100,
-            pnp_adjust: bool = True,
+            pnp_adjust: bool = False,
+            reg_coeff: float = 0.0,
         ):
         """
         Exact inversion of RectifiedFlowPipeline. Gets input of 1,4,64,64 latents (which is denoised), and returns original latents by performing inversion
@@ -772,14 +774,21 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
         #extra_step_kwargs = self.prepare_extra_step_kwargs(generator, eta)
         dt = 1.0 / num_inversion_steps
 
-        if input_type == "latents":
+        if input_type == "answer":
             latents = latents
-        else:
-            image = torch.Tensor(latents).permute(0, 3, 1, 2)
+        elif input_type == "dec_inv":
+            image = torch.Tensor(image).permute(0, 3, 1, 2)
             image = image.to('cuda')
             torch.set_grad_enabled(True)
             latents = self.edcorrector(image, decoder_inv_steps=decoder_inv_steps, verbose=verbose)
             torch.set_grad_enabled(False)
+        elif input_type == "encoder":
+            # TODO : something wrong
+            image = torch.Tensor(image).permute(0, 3, 1, 2)
+            image = image.to('cuda')
+            latents = self.get_image_latents(image, sample=False)
+        else:
+            pass
 
         current_latents = latents # Save latents, this is our target
 
@@ -804,7 +813,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                     latents = latents - dt * v_pred
 
                     # Our work : perform forward step method
-                    latents = self.forward_step_method(latents, current_latents, t, dt, prompt_embeds=prompt_embeds, do_classifier_free_guidance=do_classifier_free_guidance, guidance_scale=guidance_scale, verbose=verbose, pnp_adjust=pnp_adjust)
+                    latents = self.forward_step_method(latents, current_latents, t, dt, prompt_embeds=prompt_embeds, do_classifier_free_guidance=do_classifier_free_guidance, guidance_scale=guidance_scale, steps=forward_steps, verbose=verbose, pnp_adjust=pnp_adjust)
                 else:
                     # expand the latents if we are doing classifier free guidance
                     latent_model_input = torch.cat([latents] * 2) if do_classifier_free_guidance else latents
@@ -826,7 +835,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                     # Our work : perform forward step method
                     latents = self.forward_step_method(latents, current_latents, t, dt, prompt_embeds=prompt_embeds, do_classifier_free_guidance=do_classifier_free_guidance, 
                                                        guidance_scale=guidance_scale, verbose=verbose,
-                                                       steps=forward_steps, pnp_adjust=pnp_adjust)
+                                                       steps=forward_steps, pnp_adjust=pnp_adjust, reg_coeff=reg_coeff)
 
                 if i == len(timesteps) - 1 or ((i + 1) % self.scheduler.order == 0):
                     progress_bar.update()
@@ -1000,9 +1009,10 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             warmup_time = 0,
             steps=100,
             original_step_size=0.1, step_size=0.5,
-            factor=0.5, patience=15, th=1e-3,
+            factor=0.5, patience=15, th=1e-5,
             pnp_adjust=False,
-            regularizer=True,
+            regularizer=False,
+            reg_coeff=1,
             ):
         """
         The forward step method assumes that current_latents are at right place(even on multistep), then map latents correctly to current latents
@@ -1028,23 +1038,26 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             
             latents_t = latents_s + dt * v_pred
 
-            if regularizer:
-                latents_s_np = latents_s.cpu().detach().numpy()
-                latents_t_np = latents_t.cpu().detach().numpy()
+            diff = torch.nn.functional.mse_loss(latents_t, current_latents, reduction='mean').detach()
 
-                cosinesim_orig = np.array([
-                    np.abs(cosine_similarity([latents_s_np[:, i, j]], [latents_t_np[:, i, j]]))
-                    for i in range(64) for j in range(64)
-                ]).reshape(64, 64)
+            if reg_coeff == 0:
+                loss = torch.nn.functional.mse_loss(latents_t, current_latents, reduction='mean')
                 
-                # Convert cosinesim_orig to PyTorch tensor
-                cosinesim_orig_tensor = torch.from_numpy(cosinesim_orig).float().to(latents_s.device)
-
-                reg = torch.mean(cosinesim_orig_tensor)
-
-                loss = torch.nn.functional.mse_loss(latents_t, current_latents, reduction='sum') + reg
             else:
-                loss = torch.nn.functional.mse_loss(latents_t, current_latents, reduction='sum')
+                state = 2
+
+                if state == 1:
+                    cos_sim = torch.nn.functional.cosine_similarity(latents_s.view(-1), latents_t.view(-1), dim=0, eps=1e-8)
+                    mask = cos_sim >= 0
+                    cos_sim = cos_sim[mask]
+                    reg = torch.mean(cos_sim)
+                elif state == 2:
+                    cos_sim = torch.nn.functional.cosine_similarity(latents_s.view(-1), latents_t.view(-1), dim=0, eps=1e-8)
+                    reg = torch.mean(cos_sim)
+                elif state == 0:
+                    reg = torch.norm(latents_t) ** 2
+
+                loss = torch.nn.functional.mse_loss(latents_t, current_latents, reduction='mean') + reg_coeff * reg    
             
             if loss.item() < th:
                 break
@@ -1058,7 +1071,10 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                 latents_s = latents_s + 0.01 * add_noise
 
             if verbose:
-                print(i, ((latents_t - current_latents).norm()/current_latents.norm()).item(), step_size)
+                if regularizer:
+                    print(i, ((latents_t - current_latents).norm()/current_latents.norm()).item(), step_size, diff.item(), reg.item())
+                else:
+                    print(i, ((latents_t - current_latents).norm()/current_latents.norm()).item(), step_size, diff.item())
 
         return latents_s
 
@@ -1082,7 +1098,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
 
         ## Adjusting Adam
         optimizer = torch.optim.Adam([z], lr=0.1)
-        lr_scheduler = get_cosine_schedule_with_warmup(optimizer, num_warmup_steps=10, num_training_steps=100)
+        lr_scheduler = get_cosine_schedule_with_warmup(optimizer, num_warmup_steps=5, num_training_steps=decoder_inv_steps)
 
         #for i in self.progress_bar(range(100)):
         for i in range(decoder_inv_steps):
