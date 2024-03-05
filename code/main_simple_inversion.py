@@ -22,7 +22,6 @@ insta_pipe.to("cuda")
 @torch.no_grad()
 def set_and_generate_image_then_reverse(seed, prompt, inversion_prompt, randomize_seed, num_inference_steps=1, num_inversion_steps=1, guidance_scale=3.0, plot_dist=False):
     print('Generate with input seed')
-    negative_prompt=""
     if randomize_seed:
         seed = np.random.randint(0, 2**32)
     seed = int(seed)
@@ -42,7 +41,7 @@ def set_and_generate_image_then_reverse(seed, prompt, inversion_prompt, randomiz
         prompt=inversion_prompt,
         latents=latents,
         image=original_array,
-        input_type="answer",
+        input_type="dec_inv",
         num_inversion_steps=num_inversion_steps, num_inference_steps=num_inference_steps, 
         guidance_scale=guidance_scale,
         verbose=True,
