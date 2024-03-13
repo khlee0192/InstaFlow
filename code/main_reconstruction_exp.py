@@ -20,7 +20,7 @@ insta_pipe = RectifiedInversableFlowPipeline.from_pretrained("XCLiu/instaflow_0_
 insta_pipe.to("cuda")
 
 @torch.no_grad()
-def set_and_generate_image_then_reverse(seed, prompt, inversion_prompt, randomize_seed, num_inference_steps=1, num_inversion_steps=1, guidance_scale=3.0, plot_dist=False):
+def set_and_generate_image_then_reverse_with_nmse(seed, prompt, inversion_prompt, randomize_seed, num_inference_steps=1, num_inversion_steps=1, guidance_scale=3.0, plot_dist=False):
     print('Generate with input seed')
     if randomize_seed:
         seed = np.random.randint(0, 2**32)
@@ -46,9 +46,9 @@ def set_and_generate_image_then_reverse(seed, prompt, inversion_prompt, randomiz
         guidance_scale=guidance_scale,
         verbose=True,
         use_random_initial_noise=False,
-        decoder_inv_steps=30,
-        forward_steps=100,
-        tuning_steps=10,
+        decoder_inv_steps=1000,
+        forward_steps=1000,
+        tuning_steps=0,
         pnp_adjust=False,
         reg_coeff=1,
         )
@@ -117,23 +117,23 @@ def set_and_generate_image_then_reverse(seed, prompt, inversion_prompt, randomiz
     return original_image, recon_image, diff_image, original_latents_visualized, recon_latents_visualized, diff_latents_visualized, inf_time, seed
 
 def main():
-    image, recon_image, diff_image, latents, recon_latents, diff_latents, time, seed = set_and_generate_image_then_reverse(
+    image, recon_image, diff_image, latents, recon_latents, diff_latents, time, seed = set_and_generate_image_then_reverse_with_nmse(
         args.seed, args.prompt, args.inversion_prompt, args.randomize_seed, 
         num_inference_steps=1, num_inversion_steps=1,
         guidance_scale=1.0,
         plot_dist=True,
     )
 
-    plot_and_save_image_with_difference(image, recon_image, diff_image, latents, recon_latents, diff_latents, show=False)
+    plot_and_save_image_with_difference(image, recon_image, diff_image, latents, recon_latents, diff_latents, show=True)
 
     print(f"generation time : {time}")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='instaflow - work on inversion')
-    parser.add_argument('--randomize_seed', default=False, type=bool)
+    parser.add_argument('--randomize_seed', default=True, type=bool)
     parser.add_argument('--seed', default=2993109412, type=int)
     parser.add_argument('--prompt', default="Delicious looking cheeze pizza", type=str)
-    parser.add_argument('--inversion_prompt', default="Delicious looking peperoni pizza", type=str)
+    parser.add_argument('--inversion_prompt', default="Delicious looking cheeze pizza", type=str)
 
     args = parser.parse_args()
 

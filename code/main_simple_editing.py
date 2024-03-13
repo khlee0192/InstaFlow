@@ -39,7 +39,7 @@ def main():
         #latents=latents,
         image=img_tensor,
         input_type="dec_inv",
-        num_inversion_steps=1, num_inference_steps=1, 
+        num_inversion_steps=args.num_inversion_steps, num_inference_steps=args.num_inference_steps, 
         guidance_scale=guidance_scale,
         verbose=True,
         use_random_initial_noise=False,
@@ -47,17 +47,35 @@ def main():
         forward_steps=100,
         tuning_steps=10,
         pnp_adjust=False,
-        reg_coeff=1,
+        reg_coeff=0,
     )
+
+    seed = np.random.randint(0, 2**32)
+
+    generator = torch.manual_seed(seed)
+    output, latents, original_latents = insta_pipe(
+        prompt=args.edit_prompt, 
+        num_inference_steps=args.num_inference_steps, 
+        guidance_scale=guidance_scale, 
+        generator=generator, 
+        latents=recon_latents
+    )
+
+    image = output.images[0]
+    image.show()
+
+    recon_latents_visualized = insta_pipe.image_processor.postprocess(insta_pipe.vae.decode(recon_latents/insta_pipe.vae.config.scaling_factor, return_dict=False)[0])
 
     print("..Editing task Done!")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='instaflow - work on inversion')
-    parser.add_argument("--image_number", default=1, type=int)
-    parser.add_argument('--inverse_prompt', default="", type=str)
-    parser.add_argument('--edit_prompt', default="", type=str)
-    parser.add_argument('--guidance_scale', default=3, type=int)
+    parser.add_argument("--image_number", default=3, type=int)
+    parser.add_argument('--inverse_prompt', default="A high-resolution photo of an orange Porsche under sunshine", type=str)
+    parser.add_argument('--edit_prompt', default="A high-resolution photo of an  Porsche under sunshine", type=str)
+    parser.add_argument('--guidance_scale', default=1, type=int)
+    parser.add_argument('--num_inference_steps', default=1, type=int)
+    parser.add_argument('--num_inversion_steps', default=1, type=int)
 
     args = parser.parse_args()
 

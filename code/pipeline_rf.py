@@ -845,7 +845,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
 
         # Add another procedure, end-to-end correction of noise
         torch.set_grad_enabled(True)
-        if input_type == "images":
+        if input_type == "images" or input_type == "dec_inv":
             latents = self.one_step_inversion_tuning_sampler(
                 prompt=prompt,
                 num_inference_steps=num_inference_steps,
