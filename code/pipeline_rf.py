@@ -665,28 +665,28 @@ class RectifiedFlowPipeline(DiffusionPipeline, TextualInversionLoaderMixin, Lora
         dt = 1.0 / num_inference_steps
 
         # 7. Denoising loop of Euler discretization from t = 0 to t = 1
-        with self.progress_bar(total=num_inference_steps) as progress_bar:
-            for i, t in enumerate(timesteps):
-                # expand the latents if we are doing classifier free guidance
-                latent_model_input = torch.cat([latents] * 2) if do_classifier_free_guidance else latents
+        # with self.progress_bar(total=num_inference_steps) as progress_bar:
+        for i, t in enumerate(timesteps):
+            # expand the latents if we are doing classifier free guidance
+            latent_model_input = torch.cat([latents] * 2) if do_classifier_free_guidance else latents
 
-                vec_t = torch.ones((latent_model_input.shape[0],), device=latents.device) * t 
+            vec_t = torch.ones((latent_model_input.shape[0],), device=latents.device) * t 
 
-                v_pred = self.unet(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds).sample
+            v_pred = self.unet(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds).sample
 
-                # perform guidance 
-                if do_classifier_free_guidance:
-                    v_pred_neg, v_pred_text = v_pred.chunk(2)
-                    v_pred = v_pred_neg + guidance_scale * (v_pred_text - v_pred_neg)
+            # perform guidance 
+            if do_classifier_free_guidance:
+                v_pred_neg, v_pred_text = v_pred.chunk(2)
+                v_pred = v_pred_neg + guidance_scale * (v_pred_text - v_pred_neg)
 
-                latents = latents + dt * v_pred 
+            latents = latents + dt * v_pred 
 
-                # call the callback, if provided
-                if i == len(timesteps) - 1 or ((i + 1) % self.scheduler.order == 0):
-                    progress_bar.update()
-                    if callback is not None and i % callback_steps == 0:
-                        step_idx = i // getattr(self.scheduler, "order", 1)
-                        callback(step_idx, t, latents)
+            # # call the callback, if provided
+            # if i == len(timesteps) - 1 or ((i + 1) % self.scheduler.order == 0):
+            #     progress_bar.update()
+            #     if callback is not None and i % callback_steps == 0:
+            #         step_idx = i // getattr(self.scheduler, "order", 1)
+            #         callback(step_idx, t, latents)
 
         if not output_type == "latent":
             image = self.vae.decode(latents / self.vae.config.scaling_factor, return_dict=False)[0]
@@ -711,6 +711,146 @@ class RectifiedFlowPipeline(DiffusionPipeline, TextualInversionLoaderMixin, Lora
         return StableDiffusionPipelineOutput(images=image, nsfw_content_detected=has_nsfw_concept), latents, original_latents
 
 class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
+    @torch.no_grad()
+    def generate_with_wm(
+        self,
+        prompt: Union[str, List[str]] = None,
+        height: Optional[int] = None,
+        width: Optional[int] = None,
+        num_inference_steps: int = 50,
+        guidance_scale: float = 7.5,
+        negative_prompt: Optional[Union[str, List[str]]] = None,
+        num_images_per_prompt: Optional[int] = 1,
+        eta: float = 0.0,
+        generator: Optional[Union[torch.Generator, List[torch.Generator]]] = None,
+        latents: Optional[torch.FloatTensor] = None,
+        prompt_embeds: Optional[torch.FloatTensor] = None,
+        negative_prompt_embeds: Optional[torch.FloatTensor] = None,
+        output_type: Optional[str] = "pil",
+        return_dict: bool = True,
+        callback: Optional[Callable[[int, int, torch.FloatTensor], None]] = None,
+        callback_steps: int = 1,
+        cross_attention_kwargs: Optional[Dict[str, Any]] = None,
+        guidance_rescale: float = 0.0,
+        wm_radius : int = 6,
+        ):
+        
+        # 0. Default height and width to unet
+        height = height or self.unet.config.sample_size * self.vae_scale_factor
+        width = width or self.unet.config.sample_size * self.vae_scale_factor
+
+        # 1. Check inputs. Raise error if not correct
+        self.check_inputs(
+            prompt, height, width, callback_steps, negative_prompt, prompt_embeds, negative_prompt_embeds
+        )
+
+        # 2. Define call parameters
+        if prompt is not None and isinstance(prompt, str):
+            batch_size = 1
+        elif prompt is not None and isinstance(prompt, list):
+            batch_size = len(prompt)
+        else:
+            batch_size = prompt_embeds.shape[0]
+
+        device = self._execution_device
+        # here `guidance_scale` is defined analog to the guidance weight `w` of equation (2)
+        # of the Imagen paper: https://arxiv.org/pdf/2205.11487.pdf . `guidance_scale = 1`
+        # corresponds to doing no classifier free guidance.
+        do_classifier_free_guidance = guidance_scale > 1.0
+
+        # 3. Encode input prompt
+        text_encoder_lora_scale = (
+            cross_attention_kwargs.get("scale", None) if cross_attention_kwargs is not None else None
+        )
+        prompt_embeds, negative_prompt_embeds = self.encode_prompt(
+            prompt,
+            device,
+            num_images_per_prompt,
+            do_classifier_free_guidance,
+            negative_prompt,
+            prompt_embeds=prompt_embeds,
+            negative_prompt_embeds=negative_prompt_embeds,
+            lora_scale=text_encoder_lora_scale,
+        )
+        # For classifier free guidance, we need to do two forward passes.
+        # Here we concatenate the unconditional and text embeddings into a single batch
+        # to avoid doing two forward passes
+        if do_classifier_free_guidance:
+            prompt_embeds = torch.cat([negative_prompt_embeds, prompt_embeds])
+
+        # 4. Prepare timesteps
+        timesteps = [(1. - i/num_inference_steps) * 1000. for i in range(num_inference_steps)]
+
+        # 5. Prepare latent variables
+        num_channels_latents = self.unet.config.in_channels
+        latents = self.prepare_latents(
+            batch_size * num_images_per_prompt,
+            num_channels_latents,
+            height,
+            width,
+            prompt_embeds.dtype,
+            device,
+            generator,
+            latents,
+        )
+
+        # Save original latents before generation
+        original_latents = latents
+
+        ### sub-process : adding WM
+
+
+        # 6. Prepare extra step kwargs. TODO: Logic should ideally just be moved out of the pipeline
+        extra_step_kwargs = self.prepare_extra_step_kwargs(generator, eta)
+        dt = 1.0 / num_inference_steps
+
+        # 7. Denoising loop of Euler discretization from t = 0 to t = 1
+        # with self.progress_bar(total=num_inference_steps) as progress_bar:
+        for i, t in enumerate(timesteps):
+            # expand the latents if we are doing classifier free guidance
+            latent_model_input = torch.cat([latents] * 2) if do_classifier_free_guidance else latents
+
+            vec_t = torch.ones((latent_model_input.shape[0],), device=latents.device) * t 
+
+            v_pred = self.unet(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds).sample
+
+            # perform guidance 
+            if do_classifier_free_guidance:
+                v_pred_neg, v_pred_text = v_pred.chunk(2)
+                v_pred = v_pred_neg + guidance_scale * (v_pred_text - v_pred_neg)
+
+            latents = latents + dt * v_pred 
+
+            # # call the callback, if provided
+            # if i == len(timesteps) - 1 or ((i + 1) % self.scheduler.order == 0):
+            #     progress_bar.update()
+            #     if callback is not None and i % callback_steps == 0:
+            #         step_idx = i // getattr(self.scheduler, "order", 1)
+            #         callback(step_idx, t, latents)
+
+        if not output_type == "latent":
+            image = self.vae.decode(latents / self.vae.config.scaling_factor, return_dict=False)[0]
+            image, has_nsfw_concept = self.run_safety_checker(image, device, prompt_embeds.dtype)
+        else:
+            image = latents
+            has_nsfw_concept = None
+
+        if has_nsfw_concept is None:
+            do_denormalize = [True] * image.shape[0]
+        else:
+            do_denormalize = [not has_nsfw for has_nsfw in has_nsfw_concept]
+
+        image = self.image_processor.postprocess(image, output_type=output_type, do_denormalize=do_denormalize)
+
+        # Offload all models
+        self.maybe_free_model_hooks()
+
+        if not return_dict:
+            return (image, has_nsfw_concept)
+
+        # latents : decoder space latent, original_latents : random noise, watermarked_latents : WM applied noise
+        return StableDiffusionPipelineOutput(images=image, nsfw_content_detected=has_nsfw_concept), latents, original_latents, watermarked_latents
+
     def exact_inversion(
             self,
             prompt: Union[str, List[str]] = None,
@@ -743,9 +883,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
         Args:
             
         """
-        # To calculate inversion time
-        t_s = time.time()
-
+        
         do_classifier_free_guidance = guidance_scale > 1.0
         device = self._execution_device
         text_encoder_lora_scale = (
@@ -774,6 +912,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
         #extra_step_kwargs = self.prepare_extra_step_kwargs(generator, eta)
         dt = 1.0 / num_inversion_steps
 
+        t_s = time.time()
         if input_type == "answer":
             latents = latents
         elif input_type == "dec_inv":
@@ -789,80 +928,90 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             latents = self.get_image_latents(image, sample=False)
         else:
             pass
+        t_save = time.time() - t_s
 
         current_latents = latents # Save latents, this is our target
+        output_latents = latents
 
         # 6. Inversion loop of Euler discretization from t = 1 to t = 0
         # Original concept does not work properly, so we choose to generate a random distribution to make v_pred at the beginning
-        with self.progress_bar(total=num_inversion_steps) as progress_bar:
-            for i, t in enumerate(timesteps):
-                if use_random_initial_noise:
-                    # Instead of using latents, perform inital guess (to make scale reliable)
-                    initial_latents = randn_tensor(latents.shape, generator=generator, device=device, dtype=latents.dtype)
-                    
-                    # expand the latents if we are doing classifier free guidance
-                    latent_model_input = torch.cat([initial_latents] * 2) if do_classifier_free_guidance else initial_latents
-                    vec_t = torch.ones((latent_model_input.shape[0],), device=latents.device) * t
-                    v_pred = self.unet(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds).sample
-                    # perform guidance 
-                    if do_classifier_free_guidance:
-                        v_pred_neg, v_pred_text = v_pred.chunk(2)
-                        v_pred = v_pred_neg + guidance_scale * (v_pred_text - v_pred_neg)
+        # with self.progress_bar(total=num_inversion_steps) as progress_bar:
+        for i, t in enumerate(timesteps):
+            if use_random_initial_noise:
+                # Instead of using latents, perform inital guess (to make scale reliable)
+                initial_latents = randn_tensor(latents.shape, generator=generator, device=device, dtype=latents.dtype)
+                
+                # expand the latents if we are doing classifier free guidance
+                latent_model_input = torch.cat([initial_latents] * 2) if do_classifier_free_guidance else initial_latents
+                vec_t = torch.ones((latent_model_input.shape[0],), device=latents.device) * t
+                v_pred = self.unet(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds).sample
+                # perform guidance 
+                if do_classifier_free_guidance:
+                    v_pred_neg, v_pred_text = v_pred.chunk(2)
+                    v_pred = v_pred_neg + guidance_scale * (v_pred_text - v_pred_neg)
 
-                    # instead of + in generation, switch to - since this is inversion process (not that meaningful since this is only process of setting initial value)
-                    latents = latents - dt * v_pred
+                # instead of + in generation, switch to - since this is inversion process (not that meaningful since this is only process of setting initial value)
+                latents = latents - dt * v_pred
 
-                    # Our work : perform forward step method
-                    latents = self.forward_step_method(latents, current_latents, t, dt, prompt_embeds=prompt_embeds, do_classifier_free_guidance=do_classifier_free_guidance, guidance_scale=guidance_scale, steps=forward_steps, verbose=verbose, pnp_adjust=pnp_adjust)
-                else:
-                    # expand the latents if we are doing classifier free guidance
-                    latent_model_input = torch.cat([latents] * 2) if do_classifier_free_guidance else latents
+                # Our work : perform forward step method
+                latents, output_loss_temp = self.forward_step_method(latents, current_latents, t, dt, prompt_embeds=prompt_embeds, do_classifier_free_guidance=do_classifier_free_guidance, guidance_scale=guidance_scale, steps=forward_steps, verbose=verbose, pnp_adjust=pnp_adjust)
+            else:
+                # expand the latents if we are doing classifier free guidance
+                latent_model_input = torch.cat([latents] * 2) if do_classifier_free_guidance else latents
 
-                    vec_t = torch.ones((latent_model_input.shape[0],), device=latents.device) * t 
+                vec_t = torch.ones((latent_model_input.shape[0],), device=latents.device) * t 
 
-                    v_pred = self.unet(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds).sample
-                    #v_pred = model(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds).sample
+                v_pred = self.unet(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds).sample
+                #v_pred = model(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds).sample
 
-                    # perform guidance 
-                    if do_classifier_free_guidance:
-                        v_pred_neg, v_pred_text = v_pred.chunk(2)
-                        v_pred = v_pred_neg + guidance_scale * (v_pred_text - v_pred_neg)
+                # perform guidance 
+                if do_classifier_free_guidance:
+                    v_pred_neg, v_pred_text = v_pred.chunk(2)
+                    v_pred = v_pred_neg + guidance_scale * (v_pred_text - v_pred_neg)
 
-                    current_latents = latents
-                    latents = latents - dt * v_pred # instead of + in generation, switch to - since this is inversion process (not that meaningful since this is only process of setting initial value)
-                    #latents = randn_tensor(latents.shape, generator=generator, device=device, dtype=latents.dtype)
+                current_latents = latents
+                latents = latents - dt * v_pred # instead of + in generation, switch to - since this is inversion process (not that meaningful since this is only process of setting initial value)
+                #latents = randn_tensor(latents.shape, generator=generator, device=device, dtype=latents.dtype)
 
-                    # Our work : perform forward step method
-                    latents = self.forward_step_method(latents, current_latents, t, dt, prompt_embeds=prompt_embeds, do_classifier_free_guidance=do_classifier_free_guidance, 
-                                                       guidance_scale=guidance_scale, verbose=verbose,
-                                                       steps=forward_steps, pnp_adjust=pnp_adjust, reg_coeff=reg_coeff)
+                # Our work : perform forward step method
+                latents, output_loss_temp = self.forward_step_method(latents, current_latents, t, dt, prompt_embeds=prompt_embeds, do_classifier_free_guidance=do_classifier_free_guidance, 
+                                                    guidance_scale=guidance_scale, verbose=verbose,
+                                                    steps=forward_steps, pnp_adjust=pnp_adjust, reg_coeff=reg_coeff)
 
-                if i == len(timesteps) - 1 or ((i + 1) % self.scheduler.order == 0):
-                    progress_bar.update()
-                    if callback is not None and i % callback_steps == 0:
-                        step_idx = i // getattr(self.scheduler, "order", 1)
-                        callback(step_idx, t, latents)
+            # if i == len(timesteps) - 1 or ((i + 1) % self.scheduler.order == 0):
+            #     progress_bar.update()
+            #     if callback is not None and i % callback_steps == 0:
+            #         step_idx = i // getattr(self.scheduler, "order", 1)
+            #         callback(step_idx, t, latents)
 
         # Add another procedure, end-to-end correction of noise
-        torch.set_grad_enabled(True)
-        if input_type == "images" or input_type == "dec_inv":
-            latents = self.one_step_inversion_tuning_sampler(
-                prompt=prompt,
-                num_inference_steps=num_inference_steps,
-                guidance_scale=guidance_scale,
-                negative_prompt=negative_prompt,
-                latents=latents,
-                image=image,
-                steps=tuning_steps,
-            )
-        torch.set_grad_enabled(False)
+        output_loss = output_loss_temp
+        if tuning_steps != 0:
+            torch.set_grad_enabled(True)
+            t_s = time.time()
+            if input_type == "images" or input_type == "dec_inv":
+                latents, output_latents, output_loss = self.one_step_inversion_tuning_sampler(
+                    prompt=prompt,
+                    num_inference_steps=num_inference_steps,
+                    guidance_scale=guidance_scale,
+                    negative_prompt=negative_prompt,
+                    latents=latents,
+                    image=image,
+                    steps=tuning_steps,
+                )
+            t_save = t_save + (time.time() - t_s)
+            torch.set_grad_enabled(False)
+
+        if output_loss == None:
+            output_loss = output_loss_temp
 
         # Offload all models
         self.maybe_free_model_hooks()
 
-        inv_time = time.time() - t_s
+        inv_time = t_save
 
-        print(f"inversion time : {inv_time}")
+        if verbose:
+            print(f"inversion time : {inv_time}")
 
         # Creating image
         timesteps = [(1. - i/num_inference_steps) * 1000. for i in range(num_inference_steps)]
@@ -885,7 +1034,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
         do_denormalize = [True] * image.shape[0]
         image = self.image_processor.postprocess(image, output_type=output_type, do_denormalize=do_denormalize)
 
-        return latents, image
+        return image, output_latents, latents, output_loss
     
     def one_step_inversion_tuning_sampler(
         self,
@@ -956,9 +1105,10 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
         input.requires_grad_(True)
 
         loss_function = torch.nn.MSELoss(reduction='mean')
+        output_loss = None
 
         optimizer = torch.optim.Adam([input], lr=0.01)
-        #lr_scheduler = get_cosine_schedule_with_warmup(optimizer, num_warmup_steps=0, num_training_steps=100)
+        lr_scheduler = get_cosine_schedule_with_warmup(optimizer, num_warmup_steps=10, num_training_steps=steps) # Not good
 
         for i in range(steps):
             latent_model_input = torch.cat([input] * 2) if do_classifier_free_guidance else input
@@ -984,17 +1134,21 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
-            # lr_scheduler.step()
+            lr_scheduler.step()
+
+            if i == steps-1:
+                output_loss = loss.detach()
 
             if verbose:
                 print(f"tuning, {i}, {loss.item()}")
 
         input.detach()
+        temp.detach()
 
         # Offload all models
         self.maybe_free_model_hooks()
 
-        return input
+        return input, temp, output_loss
     
     @torch.inference_mode()
     def forward_step_method(
@@ -1008,16 +1162,16 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             warmup = False,
             warmup_time = 0,
             steps=100,
-            original_step_size=0.1, step_size=0.5,
-            factor=0.5, patience=15, th=1e-5,
+            original_step_size=0.1, step_size=0.05,
+            factor=0.5, patience=15, th=1e-8,
             pnp_adjust=False,
-            regularizer=False,
             reg_coeff=1,
             ):
         """
         The forward step method assumes that current_latents are at right place(even on multistep), then map latents correctly to current latents
         The work is done by fixed-point iteration
         """
+        regularizer = reg_coeff > 0
 
         latents_s = latents
         step_scheduler = StepScheduler(current_lr=step_size, factor=factor, patience=patience)
@@ -1058,9 +1212,6 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                     reg = torch.norm(latents_t) ** 2
 
                 loss = torch.nn.functional.mse_loss(latents_t, current_latents, reduction='mean') + reg_coeff * reg    
-            
-            if loss.item() < th:
-                break
 
             latents_s = latents_s - step_size * (latents_t - current_latents)
             step_size = step_scheduler.step(loss)
@@ -1076,7 +1227,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                 else:
                     print(i, ((latents_t - current_latents).norm()/current_latents.norm()).item(), step_size, diff.item())
 
-        return latents_s
+        return latents_s, loss.detach()
 
     def edcorrector(self, x, decoder_inv_steps=100, verbose=False):
         """

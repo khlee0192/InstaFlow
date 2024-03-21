@@ -1,0 +1,858 @@
+2024-03-21 14:45:57,783 INFO    StreamThr :756759 [internal.py:wandb_internal():86] W&B internal server running at pid: 756759, started at: 2024-03-21 14:45:57.783667
+2024-03-21 14:45:57,784 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status
+2024-03-21 14:45:57,785 INFO    WriterThread:756759 [datastore.py:open_for_write():85] open: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/run-fmnj5u5s.wandb
+2024-03-21 14:45:57,786 DEBUG   SenderThread:756759 [sender.py:send():369] send: header
+2024-03-21 14:45:57,800 DEBUG   SenderThread:756759 [sender.py:send():369] send: run
+2024-03-21 14:45:58,342 INFO    SenderThread:756759 [dir_watcher.py:__init__():211] watching files in: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files
+2024-03-21 14:45:58,342 INFO    SenderThread:756759 [sender.py:_start_run_threads():1100] run started: fmnj5u5s with start time 1710999957.782909
+2024-03-21 14:45:58,342 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: summary_record
+2024-03-21 14:45:58,342 INFO    SenderThread:756759 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2024-03-21 14:45:58,343 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: check_version
+2024-03-21 14:45:58,343 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: check_version
+2024-03-21 14:45:58,412 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: run_start
+2024-03-21 14:45:58,419 DEBUG   HandlerThread:756759 [system_info.py:__init__():31] System info init
+2024-03-21 14:45:58,419 DEBUG   HandlerThread:756759 [system_info.py:__init__():46] System info init done
+2024-03-21 14:45:58,419 INFO    HandlerThread:756759 [system_monitor.py:start():181] Starting system monitor
+2024-03-21 14:45:58,419 INFO    SystemMonitor:756759 [system_monitor.py:_start():145] Starting system asset monitoring threads
+2024-03-21 14:45:58,419 INFO    HandlerThread:756759 [system_monitor.py:probe():201] Collecting system info
+2024-03-21 14:45:58,420 INFO    SystemMonitor:756759 [interfaces.py:start():190] Started cpu monitoring
+2024-03-21 14:45:58,420 INFO    SystemMonitor:756759 [interfaces.py:start():190] Started disk monitoring
+2024-03-21 14:45:58,420 INFO    SystemMonitor:756759 [interfaces.py:start():190] Started gpu monitoring
+2024-03-21 14:45:58,420 INFO    SystemMonitor:756759 [interfaces.py:start():190] Started memory monitoring
+2024-03-21 14:45:58,421 INFO    SystemMonitor:756759 [interfaces.py:start():190] Started network monitoring
+2024-03-21 14:45:58,452 DEBUG   HandlerThread:756759 [system_info.py:probe():195] Probing system
+2024-03-21 14:45:58,453 DEBUG   HandlerThread:756759 [system_info.py:_probe_git():180] Probing git
+2024-03-21 14:45:58,459 DEBUG   HandlerThread:756759 [system_info.py:_probe_git():188] Probing git done
+2024-03-21 14:45:58,459 DEBUG   HandlerThread:756759 [system_info.py:probe():240] Probing system done
+2024-03-21 14:45:58,459 DEBUG   HandlerThread:756759 [system_monitor.py:probe():210] {'os': 'Linux-5.15.0-97-generic-x86_64-with-glibc2.31', 'python': '3.10.11', 'heartbeatAt': '2024-03-21T05:45:58.452311', 'startedAt': '2024-03-21T05:45:57.765722', 'docker': None, 'cuda': None, 'args': ('--with_tracking', '--run_name', '100-100-100', '--start', '0', '--end', '10', '--decoder_inv_steps', '100', '--forward_steps', '100', '--tuning_steps', '100', '--reg_coeff', '0.0'), 'state': 'running', 'program': '/home/icl2/khlee/InstaFlow/code/main_reconstruction_exp.py', 'codePath': 'code/main_reconstruction_exp.py', 'git': {'remote': 'https://github.com/khlee0192/InstaFlow.git', 'commit': '3385a49ad5f843326640e5f102d76f23779b0be5'}, 'email': 'khlee0192@gmail.com', 'root': '/home/icl2/khlee/InstaFlow', 'host': 'icl2-XPS-8950', 'username': 'icl2', 'executable': '/home/icl2/anaconda3/bin/python', 'cpu_count': 12, 'cpu_count_logical': 20, 'cpu_freq': {'current': 3460.40645, 'min': 800.0, 'max': 4700.0}, 'cpu_freq_per_core': [{'current': 3600.0, 'min': 800.0, 'max': 4900.0}, {'current': 3600.0, 'min': 800.0, 'max': 4900.0}, {'current': 3600.0, 'min': 800.0, 'max': 4900.0}, {'current': 3600.0, 'min': 800.0, 'max': 4900.0}, {'current': 808.129, 'min': 800.0, 'max': 4900.0}, {'current': 3600.0, 'min': 800.0, 'max': 4900.0}, {'current': 3600.0, 'min': 800.0, 'max': 4900.0}, {'current': 3600.0, 'min': 800.0, 'max': 4900.0}, {'current': 3600.0, 'min': 800.0, 'max': 5000.0}, {'current': 3600.0, 'min': 800.0, 'max': 5000.0}, {'current': 3600.0, 'min': 800.0, 'max': 5000.0}, {'current': 3600.0, 'min': 800.0, 'max': 5000.0}, {'current': 3600.0, 'min': 800.0, 'max': 4900.0}, {'current': 3600.0, 'min': 800.0, 'max': 4900.0}, {'current': 3600.0, 'min': 800.0, 'max': 4900.0}, {'current': 3600.0, 'min': 800.0, 'max': 4900.0}, {'current': 3600.0, 'min': 800.0, 'max': 3800.0}, {'current': 3600.0, 'min': 800.0, 'max': 3800.0}, {'current': 3600.0, 'min': 800.0, 'max': 3800.0}, {'current': 3600.0, 'min': 800.0, 'max': 3800.0}], 'disk': {'total': 456.8200225830078, 'used': 271.4634017944336}, 'gpu': 'NVIDIA GeForce RTX 3090', 'gpu_count': 1, 'gpu_devices': [{'name': 'NVIDIA GeForce RTX 3090', 'memory_total': 25769803776}], 'memory': {'total': 15.343547821044922}}
+2024-03-21 14:45:58,459 INFO    HandlerThread:756759 [system_monitor.py:probe():211] Finished collecting system info
+2024-03-21 14:45:58,459 INFO    HandlerThread:756759 [system_monitor.py:probe():214] Publishing system info
+2024-03-21 14:45:58,459 DEBUG   HandlerThread:756759 [system_info.py:_save_pip():51] Saving list of pip packages installed into the current environment
+2024-03-21 14:45:58,460 DEBUG   HandlerThread:756759 [system_info.py:_save_pip():67] Saving pip packages done
+2024-03-21 14:45:58,460 DEBUG   HandlerThread:756759 [system_info.py:_save_conda():74] Saving list of conda packages installed into the current environment
+2024-03-21 14:45:59,342 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_created():272] file/dir created: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/wandb-summary.json
+2024-03-21 14:45:59,342 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_created():272] file/dir created: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/conda-environment.yaml
+2024-03-21 14:45:59,342 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_created():272] file/dir created: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/requirements.txt
+2024-03-21 14:46:02,160 DEBUG   HandlerThread:756759 [system_info.py:_save_conda():86] Saving conda packages done
+2024-03-21 14:46:02,161 INFO    HandlerThread:756759 [system_monitor.py:probe():216] Finished publishing system info
+2024-03-21 14:46:02,163 DEBUG   SenderThread:756759 [sender.py:send():369] send: files
+2024-03-21 14:46:02,163 INFO    SenderThread:756759 [sender.py:_save_file():1354] saving file wandb-metadata.json with policy now
+2024-03-21 14:46:02,166 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:46:02,166 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:46:02,342 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/conda-environment.yaml
+2024-03-21 14:46:02,342 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_created():272] file/dir created: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/wandb-metadata.json
+2024-03-21 14:46:02,430 DEBUG   SenderThread:756759 [sender.py:send():369] send: telemetry
+2024-03-21 14:46:02,430 DEBUG   SenderThread:756759 [sender.py:send():369] send: config
+2024-03-21 14:46:02,723 INFO    wandb-upload_0:756759 [upload_job.py:push():133] Uploaded file /tmp/tmperiunm1ewandb/f55cb1z2-wandb-metadata.json
+2024-03-21 14:46:03,220 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:46:03,342 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_created():272] file/dir created: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:46:05,343 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:46:07,343 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:46:08,361 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:46:09,344 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:46:11,344 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:46:13,345 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:46:13,468 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:46:15,345 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:46:17,166 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:46:17,166 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:46:17,345 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:46:18,545 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:46:19,346 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:46:21,346 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:46:23,347 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:46:23,618 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:46:25,347 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:46:27,348 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:46:28,699 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:46:29,348 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/config.yaml
+2024-03-21 14:46:29,348 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:46:31,348 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:46:32,166 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:46:32,166 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:46:33,349 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:46:34,111 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:46:35,349 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:46:37,350 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:46:39,138 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:46:39,350 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:46:41,351 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:46:43,351 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:46:44,264 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:46:45,351 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:46:47,166 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:46:47,166 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:46:47,352 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:46:49,352 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:46:49,371 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:46:51,353 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:46:53,353 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:46:54,479 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:46:55,353 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:46:57,354 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:46:58,421 DEBUG   SystemMonitor:756759 [system_monitor.py:_start():159] Starting system metrics aggregation loop
+2024-03-21 14:46:58,421 DEBUG   SenderThread:756759 [sender.py:send():369] send: stats
+2024-03-21 14:46:59,354 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:46:59,592 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:47:01,355 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:47:02,166 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:47:02,166 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:47:03,355 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:47:04,704 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:47:05,356 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:47:07,356 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:47:09,356 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:47:09,817 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:47:11,357 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:47:13,357 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:47:14,936 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:47:15,357 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:47:17,166 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:47:17,166 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:47:17,358 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:47:19,358 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:47:20,051 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:47:21,359 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:47:23,359 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:47:25,344 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:47:25,360 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:47:27,360 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:47:28,422 DEBUG   SenderThread:756759 [sender.py:send():369] send: stats
+2024-03-21 14:47:29,360 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:47:30,467 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:47:31,361 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:47:32,166 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:47:32,166 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:47:33,361 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:47:35,362 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:47:35,599 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:47:37,362 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:47:39,362 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:47:40,730 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:47:41,363 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:47:43,363 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:47:45,364 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:47:45,858 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:47:47,166 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:47:47,167 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:47:47,364 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:47:49,365 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:47:50,993 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:47:51,365 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:47:53,366 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:47:55,366 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:47:56,035 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:47:57,366 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:47:58,422 DEBUG   SenderThread:756759 [sender.py:send():369] send: stats
+2024-03-21 14:47:59,367 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:48:01,038 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:48:01,367 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:48:02,166 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:48:02,167 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:48:03,368 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:48:05,368 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:48:06,362 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:48:08,369 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:48:10,370 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:48:11,500 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:48:12,370 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:48:14,371 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:48:16,371 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:48:16,628 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:48:17,167 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:48:17,167 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:48:18,372 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:48:20,372 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:48:21,758 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:48:22,373 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:48:24,373 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:48:26,374 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:48:26,889 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:48:28,374 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:48:28,422 DEBUG   SenderThread:756759 [sender.py:send():369] send: stats
+2024-03-21 14:48:30,375 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:48:32,022 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:48:32,167 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:48:32,167 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:48:32,375 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:48:34,375 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:48:36,376 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:48:37,158 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:48:38,376 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:48:40,377 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:48:42,377 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:48:42,757 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:48:44,378 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:48:45,378 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:48:46,378 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:48:47,167 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:48:47,167 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:48:47,835 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:48:48,379 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:48:50,379 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:48:52,380 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:48:52,975 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:48:54,380 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:48:56,381 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:48:58,109 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:48:58,382 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:48:58,423 DEBUG   SenderThread:756759 [sender.py:send():369] send: stats
+2024-03-21 14:49:00,382 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:49:02,167 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:49:02,167 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:49:02,383 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:49:03,244 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:49:04,383 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:49:06,384 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:49:08,382 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:49:08,384 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:49:10,385 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:49:12,385 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:49:13,519 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:49:14,386 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:49:16,386 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:49:17,167 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:49:17,167 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:49:18,387 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:49:18,564 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:49:20,387 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:49:22,387 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:49:23,896 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:49:24,388 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:49:26,388 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:49:28,389 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:49:28,423 DEBUG   SenderThread:756759 [sender.py:send():369] send: stats
+2024-03-21 14:49:29,029 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:49:30,389 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:49:32,167 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:49:32,167 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:49:32,389 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:49:34,163 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:49:34,390 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:49:36,390 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:49:38,391 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:49:39,295 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:49:40,391 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:49:42,392 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:49:44,392 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:49:44,428 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:49:46,393 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:49:47,167 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:49:47,167 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:49:48,393 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:49:49,574 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:49:50,393 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:49:52,394 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:49:54,394 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:49:54,724 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:49:56,395 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:49:58,395 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:49:58,424 DEBUG   SenderThread:756759 [sender.py:send():369] send: stats
+2024-03-21 14:49:59,876 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:50:00,395 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:50:02,167 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:50:02,167 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:50:02,396 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:50:04,396 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:50:05,035 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:50:05,396 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:50:06,397 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:50:08,397 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:50:10,186 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:50:10,397 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:50:12,398 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:50:14,398 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:50:15,338 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:50:16,399 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:50:17,167 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:50:17,168 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:50:18,399 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:50:20,400 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:50:20,492 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:50:22,400 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:50:24,400 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:50:25,646 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:50:26,401 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:50:28,401 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:50:28,424 DEBUG   SenderThread:756759 [sender.py:send():369] send: stats
+2024-03-21 14:50:30,402 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:50:30,799 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:50:32,167 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:50:32,168 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:50:32,402 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:50:34,402 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:50:35,853 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:50:36,403 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:50:38,403 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:50:40,404 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:50:40,880 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:50:42,404 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:50:44,405 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:50:46,012 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:50:46,405 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:50:47,167 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:50:47,168 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:50:48,405 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:50:50,406 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:50:51,161 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:50:52,406 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:50:54,407 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:50:56,309 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:50:56,407 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:50:58,407 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:50:58,424 DEBUG   SenderThread:756759 [sender.py:send():369] send: stats
+2024-03-21 14:51:00,408 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:51:01,457 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:51:02,168 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:51:02,168 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:51:02,408 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:51:04,409 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:51:06,409 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:51:06,606 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:51:08,410 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:51:10,410 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:51:11,754 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:51:12,410 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:51:14,411 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:51:16,411 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:51:16,903 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:51:17,168 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:51:17,168 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:51:18,412 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:51:20,412 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:51:22,052 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:51:22,413 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:51:24,413 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:51:25,413 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:51:26,414 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:51:27,160 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:51:28,414 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:51:28,425 DEBUG   SenderThread:756759 [sender.py:send():369] send: stats
+2024-03-21 14:51:30,414 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:51:32,168 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:51:32,168 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:51:32,415 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:51:32,465 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:51:34,415 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:51:36,416 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:51:37,781 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:51:38,416 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:51:40,417 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:51:42,417 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:51:42,932 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:51:44,417 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:51:46,418 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:51:47,168 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:51:47,168 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:51:48,086 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:51:48,418 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:51:50,419 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:51:52,419 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:51:53,243 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:51:54,420 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:51:56,420 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:51:58,245 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:51:58,420 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:51:58,425 DEBUG   SenderThread:756759 [sender.py:send():369] send: stats
+2024-03-21 14:52:00,421 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:52:02,168 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:52:02,168 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:52:02,421 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:52:03,277 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:52:04,422 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:52:06,422 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:52:08,423 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:52:08,518 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:52:10,423 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:52:12,424 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:52:13,666 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:52:14,424 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:52:16,424 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:52:17,168 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:52:17,168 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:52:18,425 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:52:18,824 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:52:20,425 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:52:22,426 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:52:24,026 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:52:24,426 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:52:26,426 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:52:28,425 DEBUG   SenderThread:756759 [sender.py:send():369] send: stats
+2024-03-21 14:52:28,427 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:52:29,214 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:52:30,427 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:52:32,168 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:52:32,169 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:52:32,428 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:52:34,391 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:52:34,428 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:52:36,428 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:52:38,429 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:52:39,546 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:52:40,429 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:52:42,430 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:52:44,430 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:52:44,897 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:52:45,430 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:52:46,430 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:52:47,168 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:52:47,169 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:52:47,431 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:52:48,431 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:52:50,043 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:52:50,431 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:52:52,432 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:52:54,432 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:52:55,192 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:52:56,432 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:52:58,426 DEBUG   SenderThread:756759 [sender.py:send():369] send: stats
+2024-03-21 14:52:58,433 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:53:00,341 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:53:00,433 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:53:02,168 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:53:02,169 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:53:02,434 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:53:04,434 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:53:05,488 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:53:06,435 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:53:08,435 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:53:10,436 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:53:10,636 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:53:12,437 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:53:14,437 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:53:15,781 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:53:16,438 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:53:17,169 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:53:17,169 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:53:18,438 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:53:20,439 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:53:20,788 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:53:22,439 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:53:24,440 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:53:25,440 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:53:25,923 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:53:26,440 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:53:28,426 DEBUG   SenderThread:756759 [sender.py:send():369] send: stats
+2024-03-21 14:53:28,441 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:53:30,441 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:53:31,064 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:53:32,169 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:53:32,169 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:53:32,442 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:53:34,442 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:53:36,210 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:53:36,443 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:53:38,443 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:53:40,444 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:53:41,358 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:53:42,444 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:53:44,445 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:53:46,445 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:53:46,504 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:53:47,169 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:53:47,169 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:53:48,446 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:53:50,446 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:53:51,650 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:53:52,447 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:53:54,447 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:53:56,448 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:53:56,789 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:53:58,427 DEBUG   SenderThread:756759 [sender.py:send():369] send: stats
+2024-03-21 14:53:58,449 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:00,449 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:01,932 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:54:02,169 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:54:02,169 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:54:02,449 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:04,450 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:06,450 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:07,253 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:54:07,451 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:08,451 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:10,451 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:12,396 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:54:12,452 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:14,452 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:16,453 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:17,169 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:54:17,169 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:54:17,444 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:54:18,453 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:20,453 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:22,454 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:22,685 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:54:24,454 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:26,455 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:27,828 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:54:28,427 DEBUG   SenderThread:756759 [sender.py:send():369] send: stats
+2024-03-21 14:54:28,455 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:30,455 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:32,169 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:54:32,169 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:54:32,456 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:32,970 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:54:34,456 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:36,457 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:37,971 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:54:38,457 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:40,457 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:42,458 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:42,993 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:54:44,458 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:46,459 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:47,169 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:54:47,169 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:54:48,309 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:54:48,459 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:50,460 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:52,460 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:53,447 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:54:54,461 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:56,461 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:58,427 DEBUG   SenderThread:756759 [sender.py:send():369] send: stats
+2024-03-21 14:54:58,462 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:54:58,593 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:55:00,463 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:55:02,169 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:55:02,169 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:55:02,463 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:55:03,739 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:55:04,464 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:55:06,464 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:55:08,465 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:55:08,878 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:55:10,465 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:55:12,465 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:55:14,020 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:55:14,466 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:55:16,466 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:55:17,169 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:55:17,170 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:55:18,467 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:55:19,168 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:55:20,467 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:55:22,468 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:55:24,311 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:55:24,468 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:55:26,468 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:55:27,469 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:55:28,428 DEBUG   SenderThread:756759 [sender.py:send():369] send: stats
+2024-03-21 14:55:28,469 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:55:29,312 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:55:30,469 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:55:32,169 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:55:32,170 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:55:32,469 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:55:34,456 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:55:34,470 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:55:36,470 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:55:38,471 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:55:39,601 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:55:40,471 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:55:42,471 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:55:44,472 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:55:44,747 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:55:46,472 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:55:47,170 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:55:47,170 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:55:48,473 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:55:49,942 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:55:50,473 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:55:52,474 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:55:54,474 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:55:55,139 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:55:56,474 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:55:58,428 DEBUG   SenderThread:756759 [sender.py:send():369] send: stats
+2024-03-21 14:55:58,475 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:56:00,214 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:56:00,475 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:56:02,170 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:56:02,170 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:56:02,476 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:56:04,476 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:56:05,265 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:56:06,477 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:56:08,477 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:56:10,341 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:56:10,478 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:56:12,478 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:56:14,479 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:56:15,562 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:56:16,479 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:56:17,170 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:56:17,170 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:56:18,479 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:56:20,480 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:56:20,717 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:56:22,480 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:56:24,481 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:56:25,862 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:56:26,481 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:56:28,429 DEBUG   SenderThread:756759 [sender.py:send():369] send: stats
+2024-03-21 14:56:28,481 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:56:30,482 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:56:31,016 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:56:32,170 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:56:32,170 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:56:32,482 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:56:34,483 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:56:36,161 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:56:36,483 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:56:38,484 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:56:40,484 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:56:41,354 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:56:42,484 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:56:44,485 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:56:46,485 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:56:46,829 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:56:47,170 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:56:47,170 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:56:47,486 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:56:48,486 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:56:50,486 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:56:52,029 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:56:52,487 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:56:54,487 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:56:56,488 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:56:57,226 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:56:58,429 DEBUG   SenderThread:756759 [sender.py:send():369] send: stats
+2024-03-21 14:56:58,488 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:57:00,488 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:57:02,170 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:57:02,170 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:57:02,427 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:57:02,489 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:57:04,489 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:57:06,490 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:57:07,565 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:57:08,490 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:57:10,491 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:57:12,491 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:57:12,770 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:57:14,492 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:57:16,492 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:57:17,170 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:57:17,170 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:57:17,935 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:57:18,492 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:57:20,493 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:57:22,493 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:57:22,946 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:57:24,494 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:57:26,494 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:57:28,114 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:57:28,429 DEBUG   SenderThread:756759 [sender.py:send():369] send: stats
+2024-03-21 14:57:28,495 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:57:30,495 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:57:32,170 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:57:32,170 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:57:32,496 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:57:33,305 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:57:34,496 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:57:36,496 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:57:38,469 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:57:38,497 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:57:40,497 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:57:42,498 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:57:43,648 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:57:44,498 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:57:46,498 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:57:47,170 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:57:47,171 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:57:48,499 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:57:48,805 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:57:50,499 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:57:52,500 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:57:53,953 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:57:54,500 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:57:56,500 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:57:58,430 DEBUG   SenderThread:756759 [sender.py:send():369] send: stats
+2024-03-21 14:57:58,501 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:57:59,097 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:58:00,501 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:02,170 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:58:02,171 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:58:02,502 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:04,249 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:58:04,502 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:06,503 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:08,503 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:09,305 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:58:09,503 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:10,503 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:12,504 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:14,481 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:58:14,504 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:16,505 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:17,171 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:58:17,171 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:58:18,505 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:19,669 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:58:20,506 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:22,506 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:24,506 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:24,825 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:58:26,507 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:28,430 DEBUG   SenderThread:756759 [sender.py:send():369] send: stats
+2024-03-21 14:58:28,507 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:29,995 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:58:30,508 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:32,171 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:58:32,171 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:58:32,508 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:34,508 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:35,180 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:58:36,509 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:38,509 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:40,237 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:58:40,510 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:42,510 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:44,511 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:45,265 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:58:46,511 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:47,171 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: stop_status
+2024-03-21 14:58:47,171 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: stop_status
+2024-03-21 14:58:48,512 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:50,498 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:58:50,512 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:52,512 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:54,513 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:54,905 DEBUG   SenderThread:756759 [sender.py:send():369] send: exit
+2024-03-21 14:58:54,905 INFO    SenderThread:756759 [sender.py:send_exit():574] handling exit code: 255
+2024-03-21 14:58:54,905 INFO    SenderThread:756759 [sender.py:send_exit():576] handling runtime: 776
+2024-03-21 14:58:54,905 INFO    SenderThread:756759 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2024-03-21 14:58:54,905 INFO    SenderThread:756759 [sender.py:send_exit():582] send defer
+2024-03-21 14:58:54,906 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: defer
+2024-03-21 14:58:54,906 INFO    HandlerThread:756759 [handler.py:handle_request_defer():170] handle defer: 0
+2024-03-21 14:58:54,906 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: defer
+2024-03-21 14:58:54,906 INFO    SenderThread:756759 [sender.py:send_request_defer():598] handle sender defer: 0
+2024-03-21 14:58:54,906 INFO    SenderThread:756759 [sender.py:transition_state():602] send defer: 1
+2024-03-21 14:58:54,906 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: defer
+2024-03-21 14:58:54,906 INFO    HandlerThread:756759 [handler.py:handle_request_defer():170] handle defer: 1
+2024-03-21 14:58:54,906 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: defer
+2024-03-21 14:58:54,906 INFO    SenderThread:756759 [sender.py:send_request_defer():598] handle sender defer: 1
+2024-03-21 14:58:54,906 INFO    SenderThread:756759 [sender.py:transition_state():602] send defer: 2
+2024-03-21 14:58:54,906 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: defer
+2024-03-21 14:58:54,906 INFO    HandlerThread:756759 [handler.py:handle_request_defer():170] handle defer: 2
+2024-03-21 14:58:54,906 INFO    HandlerThread:756759 [system_monitor.py:finish():190] Stopping system monitor
+2024-03-21 14:58:54,906 DEBUG   SystemMonitor:756759 [system_monitor.py:_start():166] Finished system metrics aggregation loop
+2024-03-21 14:58:54,907 INFO    HandlerThread:756759 [interfaces.py:finish():202] Joined cpu monitor
+2024-03-21 14:58:54,907 DEBUG   SystemMonitor:756759 [system_monitor.py:_start():170] Publishing last batch of metrics
+2024-03-21 14:58:54,907 INFO    HandlerThread:756759 [interfaces.py:finish():202] Joined disk monitor
+2024-03-21 14:58:54,940 INFO    HandlerThread:756759 [interfaces.py:finish():202] Joined gpu monitor
+2024-03-21 14:58:54,940 INFO    HandlerThread:756759 [interfaces.py:finish():202] Joined memory monitor
+2024-03-21 14:58:54,940 INFO    HandlerThread:756759 [interfaces.py:finish():202] Joined network monitor
+2024-03-21 14:58:54,940 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: defer
+2024-03-21 14:58:54,940 INFO    SenderThread:756759 [sender.py:send_request_defer():598] handle sender defer: 2
+2024-03-21 14:58:54,940 INFO    SenderThread:756759 [sender.py:transition_state():602] send defer: 3
+2024-03-21 14:58:54,940 DEBUG   SenderThread:756759 [sender.py:send():369] send: stats
+2024-03-21 14:58:54,940 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: defer
+2024-03-21 14:58:54,941 INFO    HandlerThread:756759 [handler.py:handle_request_defer():170] handle defer: 3
+2024-03-21 14:58:54,941 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: defer
+2024-03-21 14:58:54,941 INFO    SenderThread:756759 [sender.py:send_request_defer():598] handle sender defer: 3
+2024-03-21 14:58:54,941 INFO    SenderThread:756759 [sender.py:transition_state():602] send defer: 4
+2024-03-21 14:58:54,941 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: defer
+2024-03-21 14:58:54,941 INFO    HandlerThread:756759 [handler.py:handle_request_defer():170] handle defer: 4
+2024-03-21 14:58:54,941 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: defer
+2024-03-21 14:58:54,941 INFO    SenderThread:756759 [sender.py:send_request_defer():598] handle sender defer: 4
+2024-03-21 14:58:54,941 INFO    SenderThread:756759 [sender.py:transition_state():602] send defer: 5
+2024-03-21 14:58:54,941 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: defer
+2024-03-21 14:58:54,941 INFO    HandlerThread:756759 [handler.py:handle_request_defer():170] handle defer: 5
+2024-03-21 14:58:54,941 DEBUG   SenderThread:756759 [sender.py:send():369] send: summary
+2024-03-21 14:58:54,941 INFO    SenderThread:756759 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2024-03-21 14:58:54,942 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: defer
+2024-03-21 14:58:54,942 INFO    SenderThread:756759 [sender.py:send_request_defer():598] handle sender defer: 5
+2024-03-21 14:58:54,942 INFO    SenderThread:756759 [sender.py:transition_state():602] send defer: 6
+2024-03-21 14:58:54,942 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: defer
+2024-03-21 14:58:54,942 INFO    HandlerThread:756759 [handler.py:handle_request_defer():170] handle defer: 6
+2024-03-21 14:58:54,942 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: defer
+2024-03-21 14:58:54,942 INFO    SenderThread:756759 [sender.py:send_request_defer():598] handle sender defer: 6
+2024-03-21 14:58:54,942 INFO    SenderThread:756759 [sender.py:transition_state():602] send defer: 7
+2024-03-21 14:58:54,942 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:58:54,942 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: defer
+2024-03-21 14:58:54,942 INFO    HandlerThread:756759 [handler.py:handle_request_defer():170] handle defer: 7
+2024-03-21 14:58:54,942 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: defer
+2024-03-21 14:58:54,942 INFO    SenderThread:756759 [sender.py:send_request_defer():598] handle sender defer: 7
+2024-03-21 14:58:55,513 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/wandb-summary.json
+2024-03-21 14:58:55,906 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: poll_exit
+2024-03-21 14:58:56,514 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:57,514 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:58,112 INFO    SenderThread:756759 [sender.py:transition_state():602] send defer: 8
+2024-03-21 14:58:58,113 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: poll_exit
+2024-03-21 14:58:58,113 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: defer
+2024-03-21 14:58:58,114 INFO    HandlerThread:756759 [handler.py:handle_request_defer():170] handle defer: 8
+2024-03-21 14:58:58,114 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: defer
+2024-03-21 14:58:58,115 INFO    SenderThread:756759 [sender.py:send_request_defer():598] handle sender defer: 8
+2024-03-21 14:58:58,115 INFO    SenderThread:756759 [job_builder.py:build():240] Attempting to build job artifact
+2024-03-21 14:58:58,115 INFO    SenderThread:756759 [job_builder.py:build():264] is repo sourced job
+2024-03-21 14:58:58,120 INFO    SenderThread:756759 [job_builder.py:build():305] adding wandb-job metadata file
+2024-03-21 14:58:58,164 INFO    SenderThread:756759 [sender.py:transition_state():602] send defer: 9
+2024-03-21 14:58:58,165 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: defer
+2024-03-21 14:58:58,165 DEBUG   SenderThread:756759 [sender.py:send():369] send: artifact
+2024-03-21 14:58:58,165 INFO    HandlerThread:756759 [handler.py:handle_request_defer():170] handle defer: 9
+2024-03-21 14:58:58,515 INFO    Thread-12 :756759 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:58:59,607 INFO    wandb-upload_1:756759 [upload_job.py:push():88] Skipped uploading /home/icl2/.local/share/wandb/artifacts/staging/tmpcp7yjdsr
+2024-03-21 14:58:59,965 INFO    wandb-upload_0:756759 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp2krwywms
+2024-03-21 14:59:00,907 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: keepalive
+2024-03-21 14:59:01,360 INFO    SenderThread:756759 [sender.py:send_artifact():1450] sent artifact job-https___github.com_khlee0192_InstaFlow.git_code_main_reconstruction_exp.py - {'id': 'QXJ0aWZhY3Q6NzY1MDYwMzUz', 'digest': 'af286682bd5c237b0dd219de99b7de80', 'state': 'PENDING', 'aliases': [], 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjE1MDk3NTA4OA==', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6NzY1MDQ1NjQ3', 'versionIndex': 0}}, 'version': 'latest'}
+2024-03-21 14:59:01,360 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: defer
+2024-03-21 14:59:01,360 INFO    SenderThread:756759 [sender.py:send_request_defer():598] handle sender defer: 9
+2024-03-21 14:59:01,360 INFO    SenderThread:756759 [dir_watcher.py:finish():359] shutting down directory watcher
+2024-03-21 14:59:01,517 INFO    SenderThread:756759 [dir_watcher.py:finish():389] scan: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files
+2024-03-21 14:59:01,517 INFO    SenderThread:756759 [dir_watcher.py:finish():403] scan save: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/config.yaml config.yaml
+2024-03-21 14:59:01,517 INFO    SenderThread:756759 [dir_watcher.py:finish():403] scan save: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log output.log
+2024-03-21 14:59:01,522 INFO    SenderThread:756759 [dir_watcher.py:finish():403] scan save: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/conda-environment.yaml conda-environment.yaml
+2024-03-21 14:59:01,523 INFO    SenderThread:756759 [dir_watcher.py:finish():403] scan save: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/wandb-metadata.json wandb-metadata.json
+2024-03-21 14:59:01,523 INFO    SenderThread:756759 [dir_watcher.py:finish():403] scan save: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/wandb-summary.json wandb-summary.json
+2024-03-21 14:59:01,533 INFO    SenderThread:756759 [dir_watcher.py:finish():403] scan save: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/requirements.txt requirements.txt
+2024-03-21 14:59:01,533 INFO    SenderThread:756759 [sender.py:transition_state():602] send defer: 10
+2024-03-21 14:59:01,539 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: defer
+2024-03-21 14:59:01,544 INFO    HandlerThread:756759 [handler.py:handle_request_defer():170] handle defer: 10
+2024-03-21 14:59:01,545 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: defer
+2024-03-21 14:59:01,546 INFO    SenderThread:756759 [sender.py:send_request_defer():598] handle sender defer: 10
+2024-03-21 14:59:01,546 INFO    SenderThread:756759 [file_pusher.py:finish():159] shutting down file pusher
+2024-03-21 14:59:02,070 INFO    wandb-upload_1:756759 [upload_job.py:push():133] Uploaded file /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/config.yaml
+2024-03-21 14:59:02,204 INFO    wandb-upload_4:756759 [upload_job.py:push():133] Uploaded file /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/requirements.txt
+2024-03-21 14:59:02,221 INFO    wandb-upload_3:756759 [upload_job.py:push():133] Uploaded file /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/wandb-summary.json
+2024-03-21 14:59:02,266 INFO    wandb-upload_0:756759 [upload_job.py:push():133] Uploaded file /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/conda-environment.yaml
+2024-03-21 14:59:02,442 INFO    wandb-upload_2:756759 [upload_job.py:push():133] Uploaded file /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/files/output.log
+2024-03-21 14:59:02,642 INFO    Thread-11 (_thread_body):756759 [sender.py:transition_state():602] send defer: 11
+2024-03-21 14:59:02,643 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: defer
+2024-03-21 14:59:02,643 INFO    HandlerThread:756759 [handler.py:handle_request_defer():170] handle defer: 11
+2024-03-21 14:59:02,644 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: defer
+2024-03-21 14:59:02,644 INFO    SenderThread:756759 [sender.py:send_request_defer():598] handle sender defer: 11
+2024-03-21 14:59:02,645 INFO    SenderThread:756759 [file_pusher.py:join():164] waiting for file pusher
+2024-03-21 14:59:02,645 INFO    SenderThread:756759 [sender.py:transition_state():602] send defer: 12
+2024-03-21 14:59:02,645 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: defer
+2024-03-21 14:59:02,645 INFO    HandlerThread:756759 [handler.py:handle_request_defer():170] handle defer: 12
+2024-03-21 14:59:02,646 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: defer
+2024-03-21 14:59:02,646 INFO    SenderThread:756759 [sender.py:send_request_defer():598] handle sender defer: 12
+2024-03-21 14:59:03,545 INFO    SenderThread:756759 [sender.py:transition_state():602] send defer: 13
+2024-03-21 14:59:03,546 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: defer
+2024-03-21 14:59:03,547 INFO    HandlerThread:756759 [handler.py:handle_request_defer():170] handle defer: 13
+2024-03-21 14:59:03,547 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: status_report
+2024-03-21 14:59:03,548 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: defer
+2024-03-21 14:59:03,548 INFO    SenderThread:756759 [sender.py:send_request_defer():598] handle sender defer: 13
+2024-03-21 14:59:03,548 INFO    SenderThread:756759 [sender.py:transition_state():602] send defer: 14
+2024-03-21 14:59:03,549 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: defer
+2024-03-21 14:59:03,549 INFO    HandlerThread:756759 [handler.py:handle_request_defer():170] handle defer: 14
+2024-03-21 14:59:03,549 DEBUG   SenderThread:756759 [sender.py:send():369] send: final
+2024-03-21 14:59:03,550 DEBUG   SenderThread:756759 [sender.py:send():369] send: footer
+2024-03-21 14:59:03,550 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: defer
+2024-03-21 14:59:03,550 INFO    SenderThread:756759 [sender.py:send_request_defer():598] handle sender defer: 14
+2024-03-21 14:59:03,551 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: poll_exit
+2024-03-21 14:59:03,551 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: poll_exit
+2024-03-21 14:59:03,552 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: server_info
+2024-03-21 14:59:03,552 DEBUG   SenderThread:756759 [sender.py:send_request():396] send_request: server_info
+2024-03-21 14:59:03,557 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: get_summary
+2024-03-21 14:59:03,558 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: sampled_history
+2024-03-21 14:59:03,759 INFO    MainThread:756759 [wandb_run.py:_footer_history_summary_info():3464] rendering history
+2024-03-21 14:59:03,759 INFO    MainThread:756759 [wandb_run.py:_footer_history_summary_info():3496] rendering summary
+2024-03-21 14:59:03,759 INFO    MainThread:756759 [wandb_run.py:_footer_sync_info():3423] logging synced files
+2024-03-21 14:59:03,760 DEBUG   HandlerThread:756759 [handler.py:handle_request():144] handle_request: shutdown
+2024-03-21 14:59:03,761 INFO    HandlerThread:756759 [handler.py:finish():854] shutting down handler
+2024-03-21 14:59:04,552 INFO    WriterThread:756759 [datastore.py:close():298] close: /home/icl2/khlee/InstaFlow/code/wandb/run-20240321_144557-fmnj5u5s/run-fmnj5u5s.wandb
+2024-03-21 14:59:04,759 INFO    SenderThread:756759 [sender.py:finish():1526] shutting down sender
+2024-03-21 14:59:04,759 INFO    SenderThread:756759 [file_pusher.py:finish():159] shutting down file pusher
+2024-03-21 14:59:04,759 INFO    SenderThread:756759 [file_pusher.py:join():164] waiting for file pusher
