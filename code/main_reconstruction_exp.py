@@ -25,7 +25,7 @@ insta_pipe.to("cuda")
 
 @torch.no_grad()
 def single_exp(seed, prompt, inversion_prompt, randomize_seed,
-                                                  decoder_inv_steps=30, forward_steps=100, tuning_steps=10, reg_coeff=0,
+                                                  decoder_inv_steps=30, forward_steps=100, tuning_steps=10, tuning_lr=0.01, reg_coeff=0,
                                                   num_inference_steps=1, num_inversion_steps=1, guidance_scale=3.0):
     if randomize_seed:
         seed = np.random.randint(0, 2**32)
@@ -48,14 +48,15 @@ def single_exp(seed, prompt, inversion_prompt, randomize_seed,
         prompt=inversion_prompt,
         latents=latents,
         image=original_array,
-        input_type="dec_inv",
+        input_type="answer",
         num_inversion_steps=num_inversion_steps, num_inference_steps=num_inference_steps, 
         guidance_scale=guidance_scale,
-        verbose=True,
+        verbose=False,
         use_random_initial_noise=False,
         decoder_inv_steps=decoder_inv_steps,
         forward_steps=forward_steps,
         tuning_steps=tuning_steps,
+        tuning_lr=tuning_lr,
         pnp_adjust=False,
         reg_coeff=reg_coeff,
     )
@@ -89,7 +90,7 @@ def main():
     dataset, prompt_key = get_dataset(args.dataset)
 
     if args.with_tracking:
-        wandb.init(project='fast_exp_with_10_error_fixed_hopefully', name=args.run_name)
+        wandb.init(project='Trying regularizer', name=args.run_name)
         wandb.config.update(args)
         table = wandb.Table(columns=['original_image', 'recon_image', 'diff_image', 'original_latents_visualized', 'recon_latents_visualized', 'diff_latents_visualized', 'error_TOT', 'error_OTO', 'error_middle', 'output_loss', 'inf_time', 'inv_time', 'seed'])
 
@@ -107,22 +108,28 @@ def main():
         inversion_prompt = prompt
 
         original_image, recon_image, diff_image, original_latents_visualized, recon_latents_visualized, diff_latents_visualized, error_TOT, error_OTO, error_middle, output_loss, inf_time, inv_time, seed = single_exp(seed, prompt, inversion_prompt,
-                    args.randomize_seed, decoder_inv_steps=args.decoder_inv_steps, forward_steps=args.forward_steps, tuning_steps=args.tuning_steps, reg_coeff=args.reg_coeff, num_inference_steps=1, num_inversion_steps=1, guidance_scale=args.guidance_scale)
+                    args.randomize_seed, decoder_inv_steps=args.decoder_inv_steps, forward_steps=args.forward_steps, tuning_steps=args.tuning_steps, tuning_lr=args.tuning_lr, reg_coeff=args.reg_coeff, num_inference_steps=1, num_inversion_steps=1, guidance_scale=args.guidance_scale)
         
-        TOT_list.append(10*math.log10(error_TOT))
-        OTO_list.append(10*math.log10(error_OTO))
-        middle_list.append(10*math.log10(error_middle))
+        # TOT_list.append(10*math.log10(error_TOT))
+        # OTO_list.append(10*math.log10(error_OTO))
+        # middle_list.append(10*math.log10(error_middle))
+        # invtime_list.append(inv_time)
+        # loss_list.append(10*math.log10(output_loss.cpu()))
+
+        TOT_list.append(error_TOT)
+        OTO_list.append(error_OTO)
+        middle_list.append(error_middle)
         invtime_list.append(inv_time)
-        loss_list.append(10*math.log10(output_loss.cpu()))
+        loss_list.append(output_loss.cpu())
 
         if args.with_tracking:
             table.add_data(wandb.Image(original_image), wandb.Image(recon_image), wandb.Image(diff_image), wandb.Image(original_latents_visualized), wandb.Image(recon_latents_visualized), wandb.Image(diff_latents_visualized), error_TOT, error_OTO, error_middle, output_loss, inf_time, inv_time, seed)
 
-    mean_TOT = np.mean(np.array(TOT_list).flatten())
+    mean_TOT = 10*math.log10(np.mean(np.array(TOT_list).flatten()))
     std_TOT = np.std(np.array(TOT_list).flatten())
-    mean_OTO = np.mean(np.array(OTO_list).flatten())
+    mean_OTO = 10*math.log10(np.mean(np.array(OTO_list).flatten()))
     std_OTO = np.std(np.array(OTO_list).flatten())
-    mean_middle_error = np.mean(np.array(middle_list).flatten())
+    mean_middle_error = 10*math.log10(np.mean(np.array(middle_list).flatten()))
     std_middle_error = np.std(np.array(middle_list).flatten())
     inv_time_avg = np.mean(np.array(invtime_list).flatten())
     mean_loss = np.mean(np.array(loss_list).flatten())
@@ -150,6 +157,7 @@ if __name__ == '__main__':
     parser.add_argument('--decoder_inv_steps', default=50, type=int)
     parser.add_argument('--forward_steps', default=100, type=int)
     parser.add_argument('--tuning_steps', default=20, type=int)
+    parser.add_argument('--tuning_lr', default=0.01, type=float)
     parser.add_argument('--reg_coeff', default=1.0, type=float)
     parser.add_argument('--with_tracking', action='store_true', help="track with wandb")
 

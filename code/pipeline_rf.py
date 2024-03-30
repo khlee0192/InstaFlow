@@ -874,6 +874,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             decoder_inv_steps: int = 100,
             forward_steps: int = 100,
             tuning_steps: int = 100,
+            tuning_lr: float = 0.01,
             pnp_adjust: bool = False,
             reg_coeff: float = 0.0,
         ):
@@ -922,7 +923,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             latents = self.edcorrector(image, decoder_inv_steps=decoder_inv_steps, verbose=verbose)
             torch.set_grad_enabled(False)
         elif input_type == "encoder":
-            # TODO : something wrong
+            # TODO : something wrong?
             image = torch.Tensor(image).permute(0, 3, 1, 2)
             image = image.to('cuda')
             latents = self.get_image_latents(image, sample=False)
@@ -936,6 +937,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
         # 6. Inversion loop of Euler discretization from t = 1 to t = 0
         # Original concept does not work properly, so we choose to generate a random distribution to make v_pred at the beginning
         # with self.progress_bar(total=num_inversion_steps) as progress_bar:
+
         for i, t in enumerate(timesteps):
             if use_random_initial_noise:
                 # Instead of using latents, perform inital guess (to make scale reliable)
@@ -954,7 +956,12 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                 latents = latents - dt * v_pred
 
                 # Our work : perform forward step method
+
+                t_forward = time.time()
                 latents, output_loss_temp = self.forward_step_method(latents, current_latents, t, dt, prompt_embeds=prompt_embeds, do_classifier_free_guidance=do_classifier_free_guidance, guidance_scale=guidance_scale, steps=forward_steps, verbose=verbose, pnp_adjust=pnp_adjust)
+                
+                if tuning_steps != 0:
+                    t_save += time.time() - t_forward
             else:
                 # expand the latents if we are doing classifier free guidance
                 latent_model_input = torch.cat([latents] * 2) if do_classifier_free_guidance else latents
@@ -974,9 +981,12 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                 #latents = randn_tensor(latents.shape, generator=generator, device=device, dtype=latents.dtype)
 
                 # Our work : perform forward step method
+                t_forward = time.time()
                 latents, output_loss_temp = self.forward_step_method(latents, current_latents, t, dt, prompt_embeds=prompt_embeds, do_classifier_free_guidance=do_classifier_free_guidance, 
                                                     guidance_scale=guidance_scale, verbose=verbose,
                                                     steps=forward_steps, pnp_adjust=pnp_adjust, reg_coeff=reg_coeff)
+                if tuning_steps != 0:
+                    t_save += time.time() - t_forward
 
             # if i == len(timesteps) - 1 or ((i + 1) % self.scheduler.order == 0):
             #     progress_bar.update()
@@ -989,7 +999,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
         if tuning_steps != 0:
             torch.set_grad_enabled(True)
             t_s = time.time()
-            if input_type == "images" or input_type == "dec_inv":
+            if input_type == "encoder" or input_type == "dec_inv":
                 latents, output_latents, output_loss = self.one_step_inversion_tuning_sampler(
                     prompt=prompt,
                     num_inference_steps=num_inference_steps,
@@ -998,6 +1008,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                     latents=latents,
                     image=image,
                     steps=tuning_steps,
+                    lr=tuning_lr,
                 )
             t_save = t_save + (time.time() - t_s)
             torch.set_grad_enabled(False)
@@ -1050,6 +1061,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
         latents: Optional[torch.FloatTensor] = None,
         image: Optional[torch.FloatTensor] = None,
         steps: int = 100,
+        lr: float = 0.01,
         prompt_embeds: Optional[torch.FloatTensor] = None,
         negative_prompt_embeds: Optional[torch.FloatTensor] = None,
         output_type: Optional[str] = "pil",
@@ -1058,7 +1070,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
         callback_steps: int = 1,
         cross_attention_kwargs: Optional[Dict[str, Any]] = None,
         guidance_rescale: float = 0.0,
-        verbose: bool = True
+        verbose: bool = False
     ):
         r"""
         The simplified call function to the pipeline for tuning inversion. Creates a network form.
@@ -1107,8 +1119,8 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
         loss_function = torch.nn.MSELoss(reduction='mean')
         output_loss = None
 
-        optimizer = torch.optim.Adam([input], lr=0.01)
-        lr_scheduler = get_cosine_schedule_with_warmup(optimizer, num_warmup_steps=10, num_training_steps=steps) # Not good
+        optimizer = torch.optim.Adam([input], lr=lr)
+        # lr_scheduler = get_cosine_schedule_with_warmup(optimizer, num_warmup_steps=5, num_training_steps=steps) # Not good
 
         for i in range(steps):
             latent_model_input = torch.cat([input] * 2) if do_classifier_free_guidance else input
@@ -1134,7 +1146,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
-            lr_scheduler.step()
+            #lr_scheduler.step()
 
             if i == steps-1:
                 output_loss = loss.detach()
