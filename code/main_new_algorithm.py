@@ -44,12 +44,14 @@ def single_exp(seed, prompt, inversion_prompt, randomize_seed,
 
     t_inv = time.time()
 
-    recon_images, recon_zo, recon_latents, output_loss, peak_gpu_allocated, dec_inv_time = insta_pipe.exact_inversion(
+    if args.test_beta:
+        recon_images, recon_zo, recon_latents, output_loss, peak_gpu_allocated, dec_inv_time, extra_outputs = insta_pipe.exact_inversion(
         prompt=inversion_prompt,
         latents=latents,
         image=original_array,
         input_type=args.inversion_type,
         decoder_use_float=args.use_float,
+        test_beta=args.test_beta,
         num_inversion_steps=num_inversion_steps, num_inference_steps=num_inference_steps, 
         guidance_scale=guidance_scale,
         verbose=True,
@@ -63,6 +65,27 @@ def single_exp(seed, prompt, inversion_prompt, randomize_seed,
         reg_coeff=reg_coeff,
     )
     
+    else:
+        recon_images, recon_zo, recon_latents, output_loss, peak_gpu_allocated, dec_inv_time = insta_pipe.exact_inversion(
+        prompt=inversion_prompt,
+        latents=latents,
+        image=original_array,
+        input_type=args.inversion_type,
+        decoder_use_float=args.use_float,
+        test_beta=args.test_beta,
+        num_inversion_steps=num_inversion_steps, num_inference_steps=num_inference_steps, 
+        guidance_scale=guidance_scale,
+        verbose=True,
+        use_random_initial_noise=False,
+        decoder_inv_steps=decoder_inv_steps,
+        decoder_lr=decoder_lr,
+        forward_steps=forward_steps,
+        tuning_steps=0,
+        tuning_lr=tuning_lr,
+        pnp_adjust=False,
+        reg_coeff=reg_coeff,
+    )
+
     # inv_time = time.time() - t_inv
     inv_time = dec_inv_time
 
@@ -90,7 +113,10 @@ def single_exp(seed, prompt, inversion_prompt, randomize_seed,
     # max GPU
     peak_gpu_allocated = peak_gpu_allocated / (1024**3)
 
-    return original_image, recon_image, diff_image, original_latents_visualized, recon_latents_visualized, diff_latents_visualized, error_TOT, error_OTO, error_middle, output_loss, peak_gpu_allocated, inf_time, inv_time, seed
+    if args.test_beta:
+        return original_image, recon_image, diff_image, original_latents_visualized, recon_latents_visualized, diff_latents_visualized, error_TOT, error_OTO, error_middle, output_loss, peak_gpu_allocated, inf_time, inv_time, seed, extra_outputs
+    else:
+        return original_image, recon_image, diff_image, original_latents_visualized, recon_latents_visualized, diff_latents_visualized, error_TOT, error_OTO, error_middle, output_loss, peak_gpu_allocated, inf_time, inv_time, seed
 
 def main():
     dataset, prompt_key = get_dataset(args.dataset)
@@ -106,6 +132,9 @@ def main():
     invtime_list = []
     loss_list = []
     memory_list = []
+
+    if args.test_beta:
+        cocercivity_rate_results = torch.zeros((args.end - args.start), args.decoder_inv_steps)
 
     mode = 2
 
@@ -177,7 +206,7 @@ def main():
             prompt = dataset[i][prompt_key] 
             inversion_prompt = prompt
 
-            original_image, recon_image, diff_image, original_latents_visualized, recon_latents_visualized, diff_latents_visualized, error_TOT, error_OTO, error_middle, output_loss, peak_gpu_allocated, inf_time, inv_time, seed = single_exp(seed, prompt, inversion_prompt,
+            original_image, recon_image, diff_image, original_latents_visualized, recon_latents_visualized, diff_latents_visualized, error_TOT, error_OTO, error_middle, output_loss, peak_gpu_allocated, inf_time, inv_time, seed, extra_outputs = single_exp(seed, prompt, inversion_prompt,
                         args.randomize_seed, decoder_inv_steps=args.decoder_inv_steps, decoder_lr=args.decoder_lr, forward_steps=args.forward_steps, tuning_steps=args.tuning_steps, tuning_lr=args.tuning_lr, reg_coeff=args.reg_coeff, num_inference_steps=1, num_inversion_steps=1, guidance_scale=args.guidance_scale)
             
             # TOT_list.append(10*math.log10(error_TOT))
@@ -198,6 +227,9 @@ def main():
 
             if args.with_tracking:
                 table.add_data(wandb.Image(original_image), wandb.Image(recon_image), wandb.Image(diff_image), wandb.Image(original_latents_visualized), wandb.Image(recon_latents_visualized), wandb.Image(diff_latents_visualized), error_TOT, error_OTO, error_middle, output_loss, peak_gpu_allocated, inf_time, inv_time, seed, prompt)
+
+            if args.test_beta:
+                cocercivity_rate_results[i] = extra_outputs
 
     mean_TOT = 10*math.log10(np.mean(np.array(TOT_list).flatten()))
     std_TOT = np.std(np.array(TOT_list).flatten())
@@ -231,6 +263,7 @@ if __name__ == '__main__':
     parser.add_argument('--end', default=10, type=int)
     parser.add_argument('--inversion_type', default="dec_inv", type=str)
     parser.add_argument('--use_float', action='store_true')
+    parser.add_argument('--test_beta', action='store_true')
     parser.add_argument('--decoder_inv_steps', default=100, type=int)
     parser.add_argument('--decoder_lr', default=0.1, type=float)
     parser.add_argument('--forward_steps', default=100, type=int)
