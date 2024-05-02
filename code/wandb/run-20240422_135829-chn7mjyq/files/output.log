@@ -1,0 +1,39 @@
+  0%|                                                                                                                                                                                                                                                                                       | 0/1 [00:00<?, ?it/s]/home/icl2/anaconda3/lib/python3.10/site-packages/torch/cuda/memory.py:330: FutureWarning: torch.cuda.reset_max_memory_allocated now calls torch.cuda.reset_peak_memory_stats, which resets /all/ peak memory stats.
+  warnings.warn(
+start, NMSE : 0.01784961111843586
+1, NMSE : 0.02862681820988655, lr : 0.1
+2, NMSE : 0.055236510932445526, lr : 0.1
+3, NMSE : 0.09691557288169861, lr : 0.1
+4, NMSE : 0.15322522819042206, lr : 0.1
+5, NMSE : 0.2237614393234253, lr : 0.1
+6, NMSE : 0.30821993947029114, lr : 0.1
+7, NMSE : 0.40631014108657837, lr : 0.1
+8, NMSE : 0.517841637134552, lr : 0.1
+  0%|                                                                                                                                                                                                                                                                                       | 0/1 [00:03<?, ?it/s]
+Traceback (most recent call last):
+  File "/home/icl2/khlee/InstaFlow/code/main_new_algorithm.py", line 241, in <module>
+    main()
+  File "/home/icl2/khlee/InstaFlow/code/main_new_algorithm.py", line 180, in main
+    original_image, recon_image, diff_image, original_latents_visualized, recon_latents_visualized, diff_latents_visualized, error_TOT, error_OTO, error_middle, output_loss, peak_gpu_allocated, inf_time, inv_time, seed = single_exp(seed, prompt, inversion_prompt,
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/icl2/khlee/InstaFlow/code/main_new_algorithm.py", line 47, in single_exp
+    recon_images, recon_zo, recon_latents, output_loss, peak_gpu_allocated, dec_inv_time = insta_pipe.exact_inversion(
+  File "/home/icl2/khlee/InstaFlow/code/pipeline_rf.py", line 947, in exact_inversion
+    latents = self.dec_direct(image, latents, decoder_inv_steps=decoder_inv_steps, decoder_lr=decoder_lr, verbose=verbose, use_half=decoder_use_half)
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/icl2/khlee/InstaFlow/code/pipeline_rf.py", line 1324, in dec_direct
+    print(f"{i+1}, NMSE : {(z-z_answer).norm()**2/z_answer.norm()**2}, lr : {lr}")
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/torch/_tensor.py", line 965, in __format__
+    return self.item().__format__(format_spec)
+KeyboardInterrupt
+9, NMSE : 0.642548680305481, lr : 0.1
+10, NMSE : 0.7800392508506775, lr : 0.1
+11, NMSE : 0.9303030371665955, lr : 0.1
+12, NMSE : 1.0926421880722046, lr : 0.1
+13, NMSE : 1.2674096822738647, lr : 0.1
+14, NMSE : 1.4544930458068848, lr : 0.1
+15, NMSE : 1.6538162231445312, lr : 0.1
+16, NMSE : 1.8655093908309937, lr : 0.1
+17, NMSE : 2.0897037982940674, lr : 0.1

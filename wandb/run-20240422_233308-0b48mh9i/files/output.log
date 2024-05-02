@@ -1,0 +1,64 @@
+
+  0%|                                                                                                                                                                                                                                                                                       | 0/1 [00:00<?, ?it/s]/home/icl2/anaconda3/lib/python3.10/site-packages/torch/cuda/memory.py:330: FutureWarning: torch.cuda.reset_max_memory_allocated now calls torch.cuda.reset_peak_memory_stats, which resets /all/ peak memory stats.
+  warnings.warn(
+0, 0.47667402029037476
+1, 0.47667402029037476
+2, 0.4760901629924774
+3, 0.4749261736869812
+4, 0.47319135069847107
+5, 0.4708862006664276
+6, 0.4680292010307312
+7, 0.4646265506744385
+8, 0.4607046842575073
+9, 0.4562700688838959
+10, 0.45135533809661865
+11, 0.4459863603115082
+12, 0.4407200217247009
+13, 0.4355543553829193
+14, 0.43050047755241394
+15, 0.42555877566337585
+16, 0.42072904109954834
+17, 0.4160196781158447
+18, 0.4114305377006531
+19, 0.4069642424583435
+20, 0.402622789144516
+21, 0.39840835332870483
+22, 0.39431679248809814
+23, 0.39035123586654663
+24, 0.38651180267333984
+  0%|                                                                                                                                                                                                                                                                                       | 0/1 [00:18<?, ?it/s]
+Traceback (most recent call last):
+  File "/home/icl2/anaconda3/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/icl2/anaconda3/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/icl2/.vscode/extensions/ms-python.python-2024.4.1/python_files/lib/python/debugpy/adapter/../../debugpy/launcher/../../debugpy/__main__.py", line 39, in <module>
+    cli.main()
+  File "/home/icl2/.vscode/extensions/ms-python.python-2024.4.1/python_files/lib/python/debugpy/adapter/../../debugpy/launcher/../../debugpy/../debugpy/server/cli.py", line 430, in main
+    run()
+  File "/home/icl2/.vscode/extensions/ms-python.python-2024.4.1/python_files/lib/python/debugpy/adapter/../../debugpy/launcher/../../debugpy/../debugpy/server/cli.py", line 284, in run_file
+    runpy.run_path(target, run_name="__main__")
+  File "/home/icl2/.vscode/extensions/ms-python.python-2024.4.1/python_files/lib/python/debugpy/_vendored/pydevd/_pydevd_bundle/pydevd_runpy.py", line 321, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "/home/icl2/.vscode/extensions/ms-python.python-2024.4.1/python_files/lib/python/debugpy/_vendored/pydevd/_pydevd_bundle/pydevd_runpy.py", line 135, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "/home/icl2/.vscode/extensions/ms-python.python-2024.4.1/python_files/lib/python/debugpy/_vendored/pydevd/_pydevd_bundle/pydevd_runpy.py", line 124, in _run_code
+    exec(code, run_globals)
+  File "/home/icl2/khlee/InstaFlow/code/main_new_algorithm.py", line 241, in <module>
+    main()
+  File "/home/icl2/khlee/InstaFlow/code/main_new_algorithm.py", line 180, in main
+    original_image, recon_image, diff_image, original_latents_visualized, recon_latents_visualized, diff_latents_visualized, error_TOT, error_OTO, error_middle, output_loss, peak_gpu_allocated, inf_time, inv_time, seed = single_exp(seed, prompt, inversion_prompt,
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/icl2/khlee/InstaFlow/code/main_new_algorithm.py", line 47, in single_exp
+    recon_images, recon_zo, recon_latents, output_loss, peak_gpu_allocated, dec_inv_time = insta_pipe.exact_inversion(
+  File "/home/icl2/khlee/InstaFlow/code/pipeline_rf.py", line 938, in exact_inversion
+    latents = self.edcorrector(image, vae_float, decoder_inv_steps=decoder_inv_steps, decoder_lr=decoder_lr, verbose=verbose)
+  File "/home/icl2/khlee/InstaFlow/code/pipeline_rf.py", line 1309, in edcorrector
+    print(f"{i}, {loss.item()}")
+KeyboardInterrupt
+Exception ignored in: <module 'threading' from '/home/icl2/anaconda3/lib/python3.10/threading.py'>
+Traceback (most recent call last):
+  File "/home/icl2/anaconda3/lib/python3.10/threading.py", line 1567, in _shutdown
+    lock.acquire()
+KeyboardInterrupt:

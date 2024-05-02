@@ -1,0 +1,1333 @@
+2024-04-21 16:00:52,297 INFO    StreamThr :1644864 [internal.py:wandb_internal():86] W&B internal server running at pid: 1644864, started at: 2024-04-21 16:00:52.296972
+2024-04-21 16:00:52,297 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status
+2024-04-21 16:00:52,298 INFO    WriterThread:1644864 [datastore.py:open_for_write():85] open: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/run-1ktpy8aa.wandb
+2024-04-21 16:00:52,299 DEBUG   SenderThread:1644864 [sender.py:send():369] send: header
+2024-04-21 16:00:52,300 DEBUG   SenderThread:1644864 [sender.py:send():369] send: run
+2024-04-21 16:00:52,832 INFO    SenderThread:1644864 [dir_watcher.py:__init__():211] watching files in: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files
+2024-04-21 16:00:52,832 INFO    SenderThread:1644864 [sender.py:_start_run_threads():1100] run started: 1ktpy8aa with start time 1713682852.296399
+2024-04-21 16:00:52,832 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: summary_record
+2024-04-21 16:00:52,832 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: check_version
+2024-04-21 16:00:52,832 INFO    SenderThread:1644864 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2024-04-21 16:00:52,832 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: check_version
+2024-04-21 16:00:52,915 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: run_start
+2024-04-21 16:00:52,924 DEBUG   HandlerThread:1644864 [system_info.py:__init__():31] System info init
+2024-04-21 16:00:52,925 DEBUG   HandlerThread:1644864 [system_info.py:__init__():46] System info init done
+2024-04-21 16:00:52,925 INFO    HandlerThread:1644864 [system_monitor.py:start():181] Starting system monitor
+2024-04-21 16:00:52,925 INFO    SystemMonitor:1644864 [system_monitor.py:_start():145] Starting system asset monitoring threads
+2024-04-21 16:00:52,925 INFO    HandlerThread:1644864 [system_monitor.py:probe():201] Collecting system info
+2024-04-21 16:00:52,925 INFO    SystemMonitor:1644864 [interfaces.py:start():190] Started cpu monitoring
+2024-04-21 16:00:52,926 INFO    SystemMonitor:1644864 [interfaces.py:start():190] Started disk monitoring
+2024-04-21 16:00:52,926 INFO    SystemMonitor:1644864 [interfaces.py:start():190] Started gpu monitoring
+2024-04-21 16:00:52,926 INFO    SystemMonitor:1644864 [interfaces.py:start():190] Started memory monitoring
+2024-04-21 16:00:52,927 INFO    SystemMonitor:1644864 [interfaces.py:start():190] Started network monitoring
+2024-04-21 16:00:52,958 DEBUG   HandlerThread:1644864 [system_info.py:probe():195] Probing system
+2024-04-21 16:00:52,960 DEBUG   HandlerThread:1644864 [system_info.py:_probe_git():180] Probing git
+2024-04-21 16:00:52,969 DEBUG   HandlerThread:1644864 [system_info.py:_probe_git():188] Probing git done
+2024-04-21 16:00:52,969 DEBUG   HandlerThread:1644864 [system_info.py:probe():240] Probing system done
+2024-04-21 16:00:52,969 DEBUG   HandlerThread:1644864 [system_monitor.py:probe():210] {'os': 'Linux-5.15.0-102-generic-x86_64-with-glibc2.31', 'python': '3.10.11', 'heartbeatAt': '2024-04-21T07:00:52.958103', 'startedAt': '2024-04-21T07:00:52.292594', 'docker': None, 'cuda': None, 'args': ('--with_tracking', '--run_name', 'new_alg_float32', '--start', '0', '--end', '100', '--decoder_inv_steps', '20', '--decoder_lr', '0.1', '--inversion_type', 'new_alg', '--forward_steps', '100', '--tuning_steps', '0', '--tuning_lr', '0.0', '--reg_coeff', '0.0'), 'state': 'running', 'program': '/home/icl2/khlee/InstaFlow/code/main_new_algorithm.py', 'codePath': 'code/main_new_algorithm.py', 'git': {'remote': 'https://github.com/khlee0192/InstaFlow.git', 'commit': 'c0374b779d31cf67636476e5a463b4f9923e98f1'}, 'email': 'khlee0192@gmail.com', 'root': '/home/icl2/khlee/InstaFlow', 'host': 'icl2-XPS-8950', 'username': 'icl2', 'executable': '/home/icl2/anaconda3/bin/python', 'cpu_count': 12, 'cpu_count_logical': 20, 'cpu_freq': {'current': 3465.0724499999997, 'min': 800.0, 'max': 4700.0}, 'cpu_freq_per_core': [{'current': 3600.0, 'min': 800.0, 'max': 4900.0}, {'current': 3600.0, 'min': 800.0, 'max': 4900.0}, {'current': 3600.0, 'min': 800.0, 'max': 4900.0}, {'current': 3600.0, 'min': 800.0, 'max': 4900.0}, {'current': 3600.0, 'min': 800.0, 'max': 4900.0}, {'current': 3600.0, 'min': 800.0, 'max': 4900.0}, {'current': 3600.0, 'min': 800.0, 'max': 4900.0}, {'current': 3600.0, 'min': 800.0, 'max': 4900.0}, {'current': 3600.0, 'min': 800.0, 'max': 5000.0}, {'current': 3600.0, 'min': 800.0, 'max': 5000.0}, {'current': 3600.0, 'min': 800.0, 'max': 5000.0}, {'current': 3600.0, 'min': 800.0, 'max': 5000.0}, {'current': 3947.47, 'min': 800.0, 'max': 4900.0}, {'current': 3600.0, 'min': 800.0, 'max': 4900.0}, {'current': 3600.0, 'min': 800.0, 'max': 4900.0}, {'current': 3600.0, 'min': 800.0, 'max': 4900.0}, {'current': 3600.0, 'min': 800.0, 'max': 3800.0}, {'current': 3600.0, 'min': 800.0, 'max': 3800.0}, {'current': 3600.0, 'min': 800.0, 'max': 3800.0}, {'current': 3600.0, 'min': 800.0, 'max': 3800.0}], 'disk': {'total': 456.8200225830078, 'used': 290.6759605407715}, 'gpu': 'NVIDIA GeForce RTX 3090', 'gpu_count': 1, 'gpu_devices': [{'name': 'NVIDIA GeForce RTX 3090', 'memory_total': 25769803776}], 'memory': {'total': 15.343528747558594}}
+2024-04-21 16:00:52,969 INFO    HandlerThread:1644864 [system_monitor.py:probe():211] Finished collecting system info
+2024-04-21 16:00:52,969 INFO    HandlerThread:1644864 [system_monitor.py:probe():214] Publishing system info
+2024-04-21 16:00:52,969 DEBUG   HandlerThread:1644864 [system_info.py:_save_pip():51] Saving list of pip packages installed into the current environment
+2024-04-21 16:00:52,970 DEBUG   HandlerThread:1644864 [system_info.py:_save_pip():67] Saving pip packages done
+2024-04-21 16:00:52,970 DEBUG   HandlerThread:1644864 [system_info.py:_save_conda():74] Saving list of conda packages installed into the current environment
+2024-04-21 16:00:53,832 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_created():272] file/dir created: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/wandb-summary.json
+2024-04-21 16:00:53,833 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_created():272] file/dir created: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/requirements.txt
+2024-04-21 16:00:53,833 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_created():272] file/dir created: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/conda-environment.yaml
+2024-04-21 16:00:57,073 DEBUG   HandlerThread:1644864 [system_info.py:_save_conda():86] Saving conda packages done
+2024-04-21 16:00:57,074 INFO    HandlerThread:1644864 [system_monitor.py:probe():216] Finished publishing system info
+2024-04-21 16:00:57,076 DEBUG   SenderThread:1644864 [sender.py:send():369] send: files
+2024-04-21 16:00:57,076 INFO    SenderThread:1644864 [sender.py:_save_file():1354] saving file wandb-metadata.json with policy now
+2024-04-21 16:00:57,079 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:00:57,079 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:00:57,421 DEBUG   SenderThread:1644864 [sender.py:send():369] send: telemetry
+2024-04-21 16:00:57,421 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:00:57,421 DEBUG   SenderThread:1644864 [sender.py:send():369] send: config
+2024-04-21 16:00:57,621 INFO    wandb-upload_0:1644864 [upload_job.py:push():133] Uploaded file /tmp/tmpe19p8wl7wandb/f9lla98y-wandb-metadata.json
+2024-04-21 16:00:57,833 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/conda-environment.yaml
+2024-04-21 16:00:57,835 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_created():272] file/dir created: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:00:57,835 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_created():272] file/dir created: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/wandb-metadata.json
+2024-04-21 16:00:59,834 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:01:02,477 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:01:07,477 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:01:11,837 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:01:12,079 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:01:12,079 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:01:13,384 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:01:18,385 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:01:23,839 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:01:23,997 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:01:24,840 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/config.yaml
+2024-04-21 16:01:27,079 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:01:27,079 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:01:29,316 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:01:33,842 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:01:34,961 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:01:39,961 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:01:42,079 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:01:42,079 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:01:45,841 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:01:45,844 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:01:50,842 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:01:52,927 DEBUG   SystemMonitor:1644864 [system_monitor.py:_start():159] Starting system metrics aggregation loop
+2024-04-21 16:01:52,928 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:01:55,928 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:01:57,079 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:01:57,079 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:01:57,847 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:01:59,847 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:02:01,354 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:02:06,355 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:02:09,849 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:02:11,702 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:02:12,079 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:02:12,079 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:02:14,687 WARNING FileStreamThread:1644864 [file_stream.py:request_with_retry():664] requests_with_retry encountered retryable exception: 500 Server Error: Internal Server Error for url: https://api.wandb.ai/files/litiphysics/RE-Do%20everything/1ktpy8aa/file_stream. func: <bound method Session.post of <requests.sessions.Session object at 0x7f8e5f5a7f70>>, args: ('https://api.wandb.ai/files/litiphysics/RE-Do everything/1ktpy8aa/file_stream',), kwargs: {'json': {'files': {'output.log': {'offset': 4, 'content': ["ERROR 2024-04-21T07:01:59.493123 The following part of your input was truncated because CLIP can only handle sequences up to 77 tokens: ['morbacher, female, feminine, art deco, new baroque, intricate linework']\n"]}}, 'dropped': 0}}
+2024-04-21 16:02:17,080 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:02:21,916 WARNING FileStreamThread:1644864 [file_stream.py:request_with_retry():664] requests_with_retry encountered retryable exception: 500 Server Error: Internal Server Error for url: https://api.wandb.ai/files/litiphysics/RE-Do%20everything/1ktpy8aa/file_stream. func: <bound method Session.post of <requests.sessions.Session object at 0x7f8e5f5a7f70>>, args: ('https://api.wandb.ai/files/litiphysics/RE-Do everything/1ktpy8aa/file_stream',), kwargs: {'json': {'files': {'output.log': {'offset': 4, 'content': ["ERROR 2024-04-21T07:01:59.493123 The following part of your input was truncated because CLIP can only handle sequences up to 77 tokens: ['morbacher, female, feminine, art deco, new baroque, intricate linework']\n"]}}, 'dropped': 0}}
+2024-04-21 16:02:22,080 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:02:26,977 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:02:26,977 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:02:27,079 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:02:27,079 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:02:27,852 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:02:32,145 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:02:33,854 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:02:37,752 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:02:42,079 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:02:42,079 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:02:42,080 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:02:43,336 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:02:45,856 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:02:48,695 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:02:52,928 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:02:53,929 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:02:57,079 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:02:57,080 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:02:57,080 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:02:57,858 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:02:59,310 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:03:04,310 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:03:09,597 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:03:09,861 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:03:12,079 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:03:12,080 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:03:15,386 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:03:20,387 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:03:21,863 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:03:22,929 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:03:25,929 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:03:27,080 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:03:27,080 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:03:31,373 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:03:33,865 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:03:36,586 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:03:41,586 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:03:42,080 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:03:42,080 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:03:45,867 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:03:47,567 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:03:52,567 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:03:52,929 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:03:57,080 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:03:57,080 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:03:57,870 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:03:58,351 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:04:03,352 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:04:08,352 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:04:09,872 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:04:12,080 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:04:12,080 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:04:14,337 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:04:19,338 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:04:21,874 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:04:22,930 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:04:24,930 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:04:27,080 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:04:27,080 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:04:30,346 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:04:33,877 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:04:35,609 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:04:40,610 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:04:42,080 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:04:42,080 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:04:45,879 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:04:46,565 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:04:51,565 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:04:52,930 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:04:56,579 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:04:57,080 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:04:57,080 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:04:57,881 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:05:02,345 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:05:07,345 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:05:09,883 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:05:12,080 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:05:12,080 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:05:12,390 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:05:17,391 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:05:21,886 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:05:22,641 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:05:22,930 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:05:27,080 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:05:27,081 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:05:28,382 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:05:33,614 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:05:33,888 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:05:38,615 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:05:42,080 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:05:42,081 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:05:44,417 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:05:45,890 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:05:49,641 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:05:52,931 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:05:54,931 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:05:57,081 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:05:57,081 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:05:57,893 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:06:00,378 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:06:05,379 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:06:09,895 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:06:10,580 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:06:12,081 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:06:12,081 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:06:16,394 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:06:21,615 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:06:21,897 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:06:22,931 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:06:26,932 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:06:27,081 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:06:27,081 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:06:32,320 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:06:33,899 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:06:37,552 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:06:42,081 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:06:42,081 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:06:42,081 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:06:43,373 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:06:45,902 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:06:48,576 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:06:52,932 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:06:53,932 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:06:57,081 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:06:57,081 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:06:57,081 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:06:57,904 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:06:59,393 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:07:04,394 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:07:09,466 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:07:09,906 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:07:12,081 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:07:12,081 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:07:12,081 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:07:15,426 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:07:20,427 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:07:21,909 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:07:22,932 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:07:25,933 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:07:27,081 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:07:27,081 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:07:27,081 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:07:31,375 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:07:33,911 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:07:36,509 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:07:41,509 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:07:42,081 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:07:42,081 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:07:42,082 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:07:45,913 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:07:46,534 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:07:51,535 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:07:52,932 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:07:57,081 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:07:57,081 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:07:57,082 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:07:57,385 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:07:57,916 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:08:02,386 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:08:07,386 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:08:09,919 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:08:12,081 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:08:12,082 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:08:12,082 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:08:13,386 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:08:18,386 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:08:21,921 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:08:22,933 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:08:23,933 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:08:27,082 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:08:27,082 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:08:29,467 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:08:34,588 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:08:34,924 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:08:39,589 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:08:42,082 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:08:42,082 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:08:44,600 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:08:46,927 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:08:49,601 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:08:52,933 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:08:54,934 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:08:57,082 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:08:57,082 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:08:58,929 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:09:00,350 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:09:05,351 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:09:10,556 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:09:10,932 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:09:12,082 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:09:12,082 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:09:16,304 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:09:21,559 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:09:22,934 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:09:22,935 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:09:26,934 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:09:27,082 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:09:27,082 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:09:32,377 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:09:34,937 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:09:37,518 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:09:42,082 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:09:42,082 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:09:43,323 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:09:46,940 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:09:48,575 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:09:52,934 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:09:53,934 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:09:57,082 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:09:57,082 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:09:58,942 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:09:59,384 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:10:04,385 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:10:09,620 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:10:10,945 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:10:12,082 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:10:12,082 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:10:15,389 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:10:20,390 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:10:22,934 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:10:22,947 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:10:25,935 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:10:27,082 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:10:27,083 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:10:31,387 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:10:34,950 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:10:36,587 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:10:41,587 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:10:42,082 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:10:42,083 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:10:46,617 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:10:46,953 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:10:51,617 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:10:52,935 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:10:56,680 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:10:57,082 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:10:57,083 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:10:58,956 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:11:02,362 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:11:07,363 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:11:10,959 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:11:12,083 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:11:12,083 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:11:12,402 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:11:17,403 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:11:22,527 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:11:22,935 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:11:22,961 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:11:27,083 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:11:27,083 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:11:28,409 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:11:33,568 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:11:34,964 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:11:38,569 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:11:42,083 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:11:42,083 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:11:44,355 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:11:46,966 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:11:49,591 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:11:52,936 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:11:54,936 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:11:57,083 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:11:57,083 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:11:58,968 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:12:00,393 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:12:05,394 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:12:10,625 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:12:10,971 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:12:12,083 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:12:12,083 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:12:16,327 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:12:21,652 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:12:22,936 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:12:22,973 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:12:26,937 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:12:27,083 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:12:27,083 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:12:32,370 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:12:34,976 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:12:37,674 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:12:42,083 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:12:42,083 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:12:43,389 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:12:46,978 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:12:48,740 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:12:52,937 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:12:53,937 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:12:57,083 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: stop_status
+2024-04-21 16:12:57,083 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: stop_status
+2024-04-21 16:12:58,130 WARNING FileStreamThread:1644864 [file_stream.py:request_with_retry():664] requests_with_retry encountered retryable exception: 500 Server Error: Internal Server Error for url: https://api.wandb.ai/files/litiphysics/RE-Do%20everything/1ktpy8aa/file_stream. func: <bound method Session.post of <requests.sessions.Session object at 0x7f8e5f5a7f70>>, args: ('https://api.wandb.ai/files/litiphysics/RE-Do everything/1ktpy8aa/file_stream',), kwargs: {'json': {'files': {'wandb-events.jsonl': {'offset': 22, 'content': ['{"system.disk": 67.1, "system.proc.memory.availableMB": 7469.54, "system.memory": 52.47, "system.proc.memory.rssMB": 1610.51, "system.proc.memory.percent": 10.25, "system.cpu": 5.06, "system.cpu.0.cpu_percent": 1.96, "system.cpu.1.cpu_percent": 0.87, "system.cpu.2.cpu_percent": 0.63, "system.cpu.3.cpu_percent": 0.03, "system.cpu.4.cpu_percent": 0.77, "system.cpu.5.cpu_percent": 0.07, "system.cpu.6.cpu_percent": 0.5, "system.cpu.7.cpu_percent": 0.0, "system.cpu.8.cpu_percent": 1.53, "system.cpu.9.cpu_percent": 0.03, "system.cpu.10.cpu_percent": 99.97, "system.cpu.11.cpu_percent": 0.03, "system.cpu.12.cpu_percent": 0.83, "system.cpu.13.cpu_percent": 0.03, "system.cpu.14.cpu_percent": 0.97, "system.cpu.15.cpu_percent": 0.0, "system.cpu.16.cpu_percent": 0.37, "system.cpu.17.cpu_percent": 0.2, "system.cpu.18.cpu_percent": 0.1, "system.cpu.19.cpu_percent": 0.1, "system.proc.cpu.threads": 50, "system.network.sent": 378759.0, "system.network.recv": 323296.6, "system.gpu.0.memoryAllocated": 26.31, "system.gpu.process.0.memoryAllocated": 26.31, "system.gpu.0.memoryAllocatedBytes": 6779437056.0, "system.gpu.process.0.memoryAllocatedBytes": 6779437056.0, "system.gpu.0.memory": 43.13, "system.gpu.process.0.memory": 43.13, "system.gpu.0.gpu": 99.6, "system.gpu.process.0.gpu": 99.6, "system.gpu.0.temp": 69.27, "system.gpu.process.0.temp": 69.27, "system.gpu.0.powerWatts": 327.49, "system.gpu.process.0.powerWatts": 327.49, "system.gpu.0.powerPercent": 93.57, "system.gpu.process.0.powerPercent": 93.57, "_wandb": true, "_timestamp": 1713683572.936495, "_runtime": 720.640096}']}, 'output.log': {'offset': 9, 'content': ['ERROR 2024-04-21T07:12:46.186574  59%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▎                                                                                                                       | 59/100 [11:47<08:12, 12.02s/it]\n']}}, 'dropped': 0}}
+2024-04-21 16:12:58,981 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:13:02,084 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:13:07,084 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:13:12,085 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:13:17,086 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:13:22,086 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:13:27,087 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:13:30,387 INFO    SenderThread:1644864 [retry.py:__call__():172] Retry attempt failed:
+Traceback (most recent call last):
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/urllib3/connectionpool.py", line 449, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 3, in raise_from
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/urllib3/connectionpool.py", line 444, in _make_request
+    httplib_response = conn.getresponse()
+  File "/home/icl2/anaconda3/lib/python3.10/http/client.py", line 1375, in getresponse
+    response.begin()
+  File "/home/icl2/anaconda3/lib/python3.10/http/client.py", line 318, in begin
+    version, status, reason = self._read_status()
+  File "/home/icl2/anaconda3/lib/python3.10/http/client.py", line 279, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "/home/icl2/anaconda3/lib/python3.10/socket.py", line 705, in readinto
+    return self._sock.recv_into(b)
+  File "/home/icl2/anaconda3/lib/python3.10/ssl.py", line 1274, in recv_into
+    return self.read(nbytes, buffer)
+  File "/home/icl2/anaconda3/lib/python3.10/ssl.py", line 1130, in read
+    return self._sslobj.read(len, buffer)
+TimeoutError: The read operation timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/requests/adapters.py", line 486, in send
+    resp = conn.urlopen(
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    retries = retries.increment(
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/urllib3/util/retry.py", line 550, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/urllib3/packages/six.py", line 770, in reraise
+    raise value
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/urllib3/connectionpool.py", line 703, in urlopen
+    httplib_response = self._make_request(
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/urllib3/connectionpool.py", line 451, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/urllib3/connectionpool.py", line 340, in _raise_timeout
+    raise ReadTimeoutError(
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='api.wandb.ai', port=443): Read timed out. (read timeout=10)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/wandb/sdk/lib/retry.py", line 131, in __call__
+    result = self._call_fn(*args, **kwargs)
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/wandb/sdk/internal/internal_api.py", line 321, in execute
+    return self.client.execute(*args, **kwargs)  # type: ignore
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/wandb/vendor/gql-0.2.0/wandb_gql/client.py", line 52, in execute
+    result = self._get_result(document, *args, **kwargs)
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/wandb/vendor/gql-0.2.0/wandb_gql/client.py", line 60, in _get_result
+    return self.transport.execute(document, *args, **kwargs)
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/wandb/sdk/lib/gql_request.py", line 55, in execute
+    request = self.session.post(self.url, **post_args)
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/requests/sessions.py", line 637, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/requests/adapters.py", line 532, in send
+    raise ReadTimeout(e, request=request)
+requests.exceptions.ReadTimeout: HTTPSConnectionPool(host='api.wandb.ai', port=443): Read timed out. (read timeout=10)
+2024-04-21 16:13:32,088 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:13:37,088 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:13:42,089 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:13:47,090 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:13:47,361 WARNING FileStreamThread:1644864 [file_stream.py:request_with_retry():664] requests_with_retry encountered retryable exception: 500 Server Error: Internal Server Error for url: https://api.wandb.ai/files/litiphysics/RE-Do%20everything/1ktpy8aa/file_stream. func: <bound method Session.post of <requests.sessions.Session object at 0x7f8e5f5a7f70>>, args: ('https://api.wandb.ai/files/litiphysics/RE-Do everything/1ktpy8aa/file_stream',), kwargs: {'json': {'files': {'wandb-events.jsonl': {'offset': 22, 'content': ['{"system.disk": 67.1, "system.proc.memory.availableMB": 7469.54, "system.memory": 52.47, "system.proc.memory.rssMB": 1610.51, "system.proc.memory.percent": 10.25, "system.cpu": 5.06, "system.cpu.0.cpu_percent": 1.96, "system.cpu.1.cpu_percent": 0.87, "system.cpu.2.cpu_percent": 0.63, "system.cpu.3.cpu_percent": 0.03, "system.cpu.4.cpu_percent": 0.77, "system.cpu.5.cpu_percent": 0.07, "system.cpu.6.cpu_percent": 0.5, "system.cpu.7.cpu_percent": 0.0, "system.cpu.8.cpu_percent": 1.53, "system.cpu.9.cpu_percent": 0.03, "system.cpu.10.cpu_percent": 99.97, "system.cpu.11.cpu_percent": 0.03, "system.cpu.12.cpu_percent": 0.83, "system.cpu.13.cpu_percent": 0.03, "system.cpu.14.cpu_percent": 0.97, "system.cpu.15.cpu_percent": 0.0, "system.cpu.16.cpu_percent": 0.37, "system.cpu.17.cpu_percent": 0.2, "system.cpu.18.cpu_percent": 0.1, "system.cpu.19.cpu_percent": 0.1, "system.proc.cpu.threads": 50, "system.network.sent": 378759.0, "system.network.recv": 323296.6, "system.gpu.0.memoryAllocated": 26.31, "system.gpu.process.0.memoryAllocated": 26.31, "system.gpu.0.memoryAllocatedBytes": 6779437056.0, "system.gpu.process.0.memoryAllocatedBytes": 6779437056.0, "system.gpu.0.memory": 43.13, "system.gpu.process.0.memory": 43.13, "system.gpu.0.gpu": 99.6, "system.gpu.process.0.gpu": 99.6, "system.gpu.0.temp": 69.27, "system.gpu.process.0.temp": 69.27, "system.gpu.0.powerWatts": 327.49, "system.gpu.process.0.powerWatts": 327.49, "system.gpu.0.powerPercent": 93.57, "system.gpu.process.0.powerPercent": 93.57, "_wandb": true, "_timestamp": 1713683572.936495, "_runtime": 720.640096}']}, 'output.log': {'offset': 9, 'content': ['ERROR 2024-04-21T07:12:46.186574  59%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▎                                                                                                                       | 59/100 [11:47<08:12, 12.02s/it]\n']}}, 'dropped': 0}}
+2024-04-21 16:13:52,090 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:13:53,789 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:13:53,789 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:13:53,789 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:13:56,992 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:13:57,091 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:13:58,992 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:13:59,551 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:14:02,091 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:14:04,552 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:14:07,092 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:14:10,535 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:14:10,995 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:14:12,093 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:14:15,536 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:14:17,093 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:14:21,481 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:14:22,094 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:14:22,938 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:14:22,997 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:14:26,939 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:14:27,095 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:14:31,939 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:14:32,095 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:14:35,000 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:14:37,096 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:14:37,497 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:14:42,096 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:14:42,498 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:14:47,002 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:14:47,097 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:14:47,740 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:14:52,098 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:14:52,740 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:14:52,938 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:14:57,098 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:14:58,561 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:14:59,004 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:15:02,099 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:15:03,562 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:15:07,099 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:15:09,556 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:15:11,007 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:15:12,100 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:15:14,556 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:15:17,101 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:15:19,557 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:15:22,101 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:15:22,939 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:15:23,009 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:15:24,939 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:15:27,102 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:15:29,940 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:15:32,103 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:15:35,011 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:15:35,605 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:15:37,103 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:15:40,605 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:15:42,104 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:15:45,643 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:15:47,014 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:15:47,104 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:15:50,643 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:15:52,105 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:15:52,939 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:15:55,940 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:15:57,106 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:15:59,016 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:16:01,832 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:16:02,106 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:16:06,833 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:16:07,107 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:16:11,019 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:16:12,108 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:16:12,628 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:16:17,108 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:16:17,629 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:16:22,109 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:16:22,939 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:16:22,940 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:16:23,021 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:16:27,110 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:16:27,940 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:16:32,110 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:16:33,545 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:16:35,023 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:16:37,111 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:16:38,546 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:16:42,112 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:16:43,546 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:16:47,025 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:16:47,112 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:16:48,584 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:16:52,113 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:16:52,940 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:16:53,940 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:16:57,114 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:16:59,028 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:16:59,582 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:17:02,115 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:17:04,583 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:17:07,115 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:17:09,640 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:17:11,030 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:17:12,116 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:17:14,640 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:17:17,117 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:17:19,641 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:17:22,117 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:17:22,940 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:17:23,033 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:17:24,941 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:17:27,118 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:17:29,941 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:17:32,119 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:17:35,035 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:17:35,707 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:17:37,119 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:17:40,708 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:17:42,120 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:17:45,733 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:17:47,037 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:17:47,121 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:17:50,734 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:17:52,121 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:17:52,941 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:17:55,941 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:17:57,122 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:17:59,040 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:18:01,672 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:18:02,122 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:18:06,673 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:18:07,123 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:18:11,042 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:18:11,675 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:18:12,124 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:18:16,675 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:18:17,124 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:18:21,857 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:18:22,125 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:18:22,941 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:18:23,044 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:18:26,942 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:18:27,125 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:18:31,942 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:18:32,126 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:18:35,047 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:18:37,127 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:18:37,714 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:18:42,127 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:18:42,714 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:18:47,049 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:18:47,128 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:18:47,957 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:18:52,128 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:18:52,941 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:18:53,942 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:18:57,129 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:18:59,052 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:18:59,819 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:19:02,130 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:19:04,819 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:19:07,130 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:19:10,778 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:19:11,054 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:19:12,131 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:19:15,779 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:19:17,132 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:19:21,752 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:19:22,133 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:19:22,942 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:19:23,056 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:19:26,942 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:19:27,133 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:19:31,943 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:19:32,134 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:19:35,059 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:19:37,134 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:19:37,801 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:19:42,135 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:19:42,802 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:19:47,061 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:19:47,136 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:19:48,757 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:19:52,136 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:19:52,942 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:19:53,943 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:19:57,137 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:19:59,063 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:19:59,804 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:20:02,137 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:20:04,804 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:20:07,138 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:20:09,806 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:20:11,066 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:20:12,139 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:20:14,807 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:20:17,139 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:20:19,807 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:20:22,140 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:20:22,943 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:20:23,068 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:20:24,943 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:20:27,141 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:20:29,944 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:20:32,141 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:20:35,070 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:20:35,811 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:20:37,142 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:20:40,812 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:20:42,142 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:20:45,858 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:20:47,073 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:20:47,143 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:20:50,858 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:20:52,144 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:20:52,943 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:20:55,944 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:20:57,145 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:20:59,076 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:21:01,501 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: log_artifact
+2024-04-21 16:21:01,501 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: log_artifact
+2024-04-21 16:21:01,981 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: partial_history
+2024-04-21 16:21:01,983 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: partial_history
+2024-04-21 16:21:02,077 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_created():272] file/dir created: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/media/table/Table_0_ce19d2dc31a647613929.table.json
+2024-04-21 16:21:02,078 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_created():272] file/dir created: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/media
+2024-04-21 16:21:02,078 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_created():272] file/dir created: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/media/table
+2024-04-21 16:21:02,985 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: poll_exit
+2024-04-21 16:21:03,092 INFO    wandb-upload_0:1644864 [upload_job.py:push():133] Uploaded file /tmp/tmpe19p8wl7wandb/c00c9get-media/table/Table_0_ce19d2dc31a647613929.table.json
+2024-04-21 16:21:06,417 INFO    wandb-upload_0:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpfbbrddft
+2024-04-21 16:21:06,610 INFO    wandb-upload_60:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp_pzj1w2r
+2024-04-21 16:21:06,626 INFO    wandb-upload_38:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmplhnac5yp
+2024-04-21 16:21:06,742 INFO    wandb-upload_61:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp7u25b7yk
+2024-04-21 16:21:06,756 INFO    wandb-upload_52:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpe8kiijaf
+2024-04-21 16:21:06,792 INFO    wandb-upload_20:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpvi42rbzl
+2024-04-21 16:21:06,811 INFO    wandb-upload_42:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpjof769p1
+2024-04-21 16:21:06,860 INFO    wandb-upload_36:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpg0o5bn7d
+2024-04-21 16:21:06,878 INFO    wandb-upload_48:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp8jsr1ozm
+2024-04-21 16:21:06,878 INFO    wandb-upload_30:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp_e1cyrv_
+2024-04-21 16:21:06,931 INFO    wandb-upload_25:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp80biasis
+2024-04-21 16:21:06,946 INFO    wandb-upload_40:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpy8345vqg
+2024-04-21 16:21:06,980 INFO    wandb-upload_14:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp7smn85nv
+2024-04-21 16:21:06,990 INFO    wandb-upload_55:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpc1h_efnb
+2024-04-21 16:21:07,004 INFO    wandb-upload_21:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpmgz95uiy
+2024-04-21 16:21:07,021 INFO    wandb-upload_28:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpj186q88e
+2024-04-21 16:21:07,063 INFO    wandb-upload_33:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp2rs7_nnv
+2024-04-21 16:21:07,178 INFO    wandb-upload_4:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpmocirisv
+2024-04-21 16:21:07,182 INFO    wandb-upload_31:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpxf33vx3w
+2024-04-21 16:21:07,197 INFO    wandb-upload_43:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp7ocy3prv
+2024-04-21 16:21:07,230 INFO    wandb-upload_46:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp1k0mbsqp
+2024-04-21 16:21:07,283 INFO    wandb-upload_29:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp8dsifkt6
+2024-04-21 16:21:07,331 INFO    wandb-upload_26:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpzaaeswno
+2024-04-21 16:21:07,348 INFO    wandb-upload_47:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp5xphfig3
+2024-04-21 16:21:07,432 INFO    wandb-upload_49:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpeesy3kkl
+2024-04-21 16:21:07,461 INFO    wandb-upload_59:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpvq12_i9c
+2024-04-21 16:21:07,566 INFO    wandb-upload_24:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpaqm24uhv
+2024-04-21 16:21:07,666 INFO    wandb-upload_44:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpesyzewv7
+2024-04-21 16:21:07,728 INFO    wandb-upload_18:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmprtlxqu4a
+2024-04-21 16:21:07,749 INFO    wandb-upload_32:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp8yc_ov4p
+2024-04-21 16:21:07,784 INFO    wandb-upload_6:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp3ud7it57
+2024-04-21 16:21:07,901 INFO    wandb-upload_13:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp2kfg2bj6
+2024-04-21 16:21:07,935 INFO    wandb-upload_12:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpcik2wyu9
+2024-04-21 16:21:07,947 INFO    wandb-upload_0:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp1ev9zu_5
+2024-04-21 16:21:07,986 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:21:08,001 INFO    wandb-upload_1:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpk_zqenxn
+2024-04-21 16:21:08,014 INFO    wandb-upload_63:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmppanjlmzm
+2024-04-21 16:21:08,090 INFO    wandb-upload_10:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpswzr5pda
+2024-04-21 16:21:08,107 INFO    wandb-upload_27:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpoled9mkv
+2024-04-21 16:21:08,152 INFO    wandb-upload_7:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpfl1f1k40
+2024-04-21 16:21:08,169 INFO    wandb-upload_50:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp6wiz1ja_
+2024-04-21 16:21:08,211 INFO    wandb-upload_38:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmptx6esw0t
+2024-04-21 16:21:08,471 INFO    wandb-upload_16:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp0bex7_6f
+2024-04-21 16:21:08,504 INFO    wandb-upload_51:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpopnhrig1
+2024-04-21 16:21:08,520 INFO    wandb-upload_30:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpxltvhalh
+2024-04-21 16:21:08,522 INFO    wandb-upload_53:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp_g_sq9h6
+2024-04-21 16:21:08,555 INFO    wandb-upload_52:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpvzls_0es
+2024-04-21 16:21:08,571 INFO    wandb-upload_9:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpspipfjv6
+2024-04-21 16:21:08,655 INFO    wandb-upload_23:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpuk4ghd9y
+2024-04-21 16:21:08,689 INFO    wandb-upload_56:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp6o3dmizj
+2024-04-21 16:21:08,705 INFO    wandb-upload_17:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpso2nwszr
+2024-04-21 16:21:08,906 INFO    wandb-upload_54:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp7r041yqo
+2024-04-21 16:21:09,023 INFO    wandb-upload_8:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpdsdzre74
+2024-04-21 16:21:09,035 INFO    wandb-upload_22:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpgfb863k1
+2024-04-21 16:21:09,040 INFO    wandb-upload_37:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmponnp2wla
+2024-04-21 16:21:09,066 INFO    wandb-upload_34:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpueupr0li
+2024-04-21 16:21:09,099 INFO    wandb-upload_3:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpiqaybj6j
+2024-04-21 16:21:09,141 INFO    wandb-upload_61:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpj_xowksv
+2024-04-21 16:21:09,166 INFO    wandb-upload_57:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmplgot8wfx
+2024-04-21 16:21:09,225 INFO    wandb-upload_46:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpb1ahns_p
+2024-04-21 16:21:09,259 INFO    wandb-upload_4:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp8ixyzmjv
+2024-04-21 16:21:09,259 INFO    wandb-upload_33:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmprsfor5sv
+2024-04-21 16:21:09,275 INFO    wandb-upload_36:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpjs6u4csl
+2024-04-21 16:21:09,275 INFO    wandb-upload_35:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpq7jh1621
+2024-04-21 16:21:09,343 INFO    wandb-upload_39:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpjddbkbqy
+2024-04-21 16:21:09,377 INFO    wandb-upload_2:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpihcwh93j
+2024-04-21 16:21:09,413 INFO    wandb-upload_19:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp3arbgq1b
+2024-04-21 16:21:09,497 INFO    wandb-upload_41:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp6f0g0gvu
+2024-04-21 16:21:09,553 INFO    wandb-upload_60:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp99on7vyw
+2024-04-21 16:21:09,569 INFO    wandb-upload_21:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp1le6y4wn
+2024-04-21 16:21:09,569 INFO    wandb-upload_55:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp55ek2myt
+2024-04-21 16:21:09,611 INFO    wandb-upload_15:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpbj6frrbz
+2024-04-21 16:21:09,613 INFO    wandb-upload_5:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp5lgixxcs
+2024-04-21 16:21:09,662 INFO    wandb-upload_28:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpyshn7y45
+2024-04-21 16:21:09,682 INFO    wandb-upload_11:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp57mzpbe2
+2024-04-21 16:21:09,761 INFO    wandb-upload_62:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpicrq6r9e
+2024-04-21 16:21:09,795 INFO    wandb-upload_7:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpmvv0ykyy
+2024-04-21 16:21:09,933 INFO    wandb-upload_58:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmph0x3qgh4
+2024-04-21 16:21:09,954 INFO    wandb-upload_18:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp_aidu3bf
+2024-04-21 16:21:09,976 INFO    wandb-upload_40:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpyfst22pk
+2024-04-21 16:21:09,996 INFO    wandb-upload_25:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp2382z3rp
+2024-04-21 16:21:10,053 INFO    wandb-upload_26:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpi5ep8mz7
+2024-04-21 16:21:10,115 INFO    wandb-upload_20:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpdhmehsf4
+2024-04-21 16:21:10,139 INFO    wandb-upload_45:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp8vvjlsin
+2024-04-21 16:21:10,171 INFO    wandb-upload_43:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp06iaqlf5
+2024-04-21 16:21:10,189 INFO    wandb-upload_6:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp689svyh4
+2024-04-21 16:21:10,258 INFO    wandb-upload_13:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp5m6a5dnp
+2024-04-21 16:21:10,290 INFO    wandb-upload_47:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp7a65qh6g
+2024-04-21 16:21:10,307 INFO    wandb-upload_29:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpgbjha34d
+2024-04-21 16:21:10,374 INFO    wandb-upload_48:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpd4ru86fc
+2024-04-21 16:21:10,408 INFO    wandb-upload_49:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpcu6nie7g
+2024-04-21 16:21:10,441 INFO    wandb-upload_14:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp07voqc0k
+2024-04-21 16:21:10,441 INFO    wandb-upload_1:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp58otfxcf
+2024-04-21 16:21:10,512 INFO    wandb-upload_42:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpzqyalrif
+2024-04-21 16:21:10,525 INFO    wandb-upload_63:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp73ys4yio
+2024-04-21 16:21:10,577 INFO    wandb-upload_59:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpicyo86ur
+2024-04-21 16:21:10,618 INFO    wandb-upload_12:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp2e1vnz9x
+2024-04-21 16:21:10,682 INFO    wandb-upload_0:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpph4fsmni
+2024-04-21 16:21:10,702 INFO    wandb-upload_24:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp6814pfyr
+2024-04-21 16:21:10,819 INFO    wandb-upload_32:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmphnu2wlba
+2024-04-21 16:21:10,903 INFO    wandb-upload_31:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpod7u5s1v
+2024-04-21 16:21:11,046 INFO    wandb-upload_44:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp56ho8u08
+2024-04-21 16:21:11,229 INFO    wandb-upload_10:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpp8pba4h4
+2024-04-21 16:21:11,266 INFO    wandb-upload_19:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp1l7jksti
+2024-04-21 16:21:11,389 INFO    wandb-upload_17:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpytn8b9h5
+2024-04-21 16:21:11,448 INFO    wandb-upload_35:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp6ettyjln
+2024-04-21 16:21:11,453 INFO    wandb-upload_27:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpvt1twvn4
+2024-04-21 16:21:11,472 INFO    wandb-upload_9:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpcivimdo1
+2024-04-21 16:21:11,472 INFO    wandb-upload_50:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpbds00m61
+2024-04-21 16:21:11,505 INFO    wandb-upload_51:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpq5cdx4ml
+2024-04-21 16:21:11,522 INFO    wandb-upload_39:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp3i17b9xa
+2024-04-21 16:21:11,564 INFO    wandb-upload_57:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpmnvz06ek
+2024-04-21 16:21:11,573 INFO    wandb-upload_52:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpedt5feyk
+2024-04-21 16:21:11,590 INFO    wandb-upload_34:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpcatm0yrc
+2024-04-21 16:21:11,902 INFO    wandb-upload_16:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp5f1udydg
+2024-04-21 16:21:11,952 INFO    wandb-upload_22:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp7cn9qn6f
+2024-04-21 16:21:11,983 INFO    wandb-upload_23:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpwo9hcrz3
+2024-04-21 16:21:11,999 INFO    wandb-upload_61:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpuiv23dul
+2024-04-21 16:21:12,004 INFO    wandb-upload_56:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpr4dhs483
+2024-04-21 16:21:12,250 INFO    wandb-upload_46:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpbdnz939h
+2024-04-21 16:21:12,404 INFO    wandb-upload_36:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmptj_05g1b
+2024-04-21 16:21:12,409 INFO    wandb-upload_11:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpavnv8hhl
+2024-04-21 16:21:12,439 INFO    wandb-upload_18:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpbw1bshj8
+2024-04-21 16:21:12,459 INFO    wandb-upload_30:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmph6qxjymh
+2024-04-21 16:21:12,492 INFO    wandb-upload_62:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp3vwpzed5
+2024-04-21 16:21:12,501 INFO    wandb-upload_3:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpc17rat4t
+2024-04-21 16:21:12,692 INFO    wandb-upload_37:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpkt_cix9b
+2024-04-21 16:21:12,692 INFO    wandb-upload_14:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpfgmvq638
+2024-04-21 16:21:12,698 INFO    wandb-upload_8:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpwceqrgiz
+2024-04-21 16:21:12,728 INFO    wandb-upload_38:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpnw5j6z4y
+2024-04-21 16:21:12,728 INFO    wandb-upload_40:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpp716vr6c
+2024-04-21 16:21:12,745 INFO    wandb-upload_6:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp6lrf1stz
+2024-04-21 16:21:12,745 INFO    wandb-upload_60:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp9kmecukf
+2024-04-21 16:21:12,913 INFO    wandb-upload_33:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmplhqhzzub
+2024-04-21 16:21:12,929 INFO    wandb-upload_25:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpqfimzfbz
+2024-04-21 16:21:12,987 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:21:12,996 INFO    wandb-upload_54:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpneb2vanm
+2024-04-21 16:21:13,056 INFO    wandb-upload_26:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmponh7b4fo
+2024-04-21 16:21:13,065 INFO    wandb-upload_63:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpm26t5pii
+2024-04-21 16:21:13,084 INFO    wandb-upload_5:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpmenqjqve
+2024-04-21 16:21:13,140 INFO    wandb-upload_2:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpbi4w8295
+2024-04-21 16:21:13,215 INFO    wandb-upload_28:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp5smqslet
+2024-04-21 16:21:13,273 INFO    wandb-upload_31:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp6ovd7623
+2024-04-21 16:21:13,333 INFO    wandb-upload_21:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpj_g3_efu
+2024-04-21 16:21:13,376 INFO    wandb-upload_7:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpf83xx4ll
+2024-04-21 16:21:13,376 INFO    wandb-upload_1:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp5iljnpvv
+2024-04-21 16:21:13,433 INFO    wandb-upload_43:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpzuzos4fl
+2024-04-21 16:21:13,433 INFO    wandb-upload_45:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpy48vta20
+2024-04-21 16:21:13,466 INFO    wandb-upload_47:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpca9bfouu
+2024-04-21 16:21:13,466 INFO    wandb-upload_19:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmptq8gyoyr
+2024-04-21 16:21:13,492 INFO    wandb-upload_4:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp8fuc0j6h
+2024-04-21 16:21:13,509 INFO    wandb-upload_32:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpca58w4c9
+2024-04-21 16:21:13,569 INFO    wandb-upload_13:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpyr05rl7z
+2024-04-21 16:21:13,615 INFO    wandb-upload_41:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpu81hraz0
+2024-04-21 16:21:13,635 INFO    wandb-upload_42:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmppy56p6xe
+2024-04-21 16:21:13,635 INFO    wandb-upload_55:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp_fkk1gbr
+2024-04-21 16:21:13,768 INFO    wandb-upload_10:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpv1p1n4uy
+2024-04-21 16:21:13,769 INFO    wandb-upload_49:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpryeedtcm
+2024-04-21 16:21:13,819 INFO    wandb-upload_15:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpqz4g0edh
+2024-04-21 16:21:13,859 INFO    wandb-upload_59:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp28vsw5ds
+2024-04-21 16:21:13,862 INFO    wandb-upload_12:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpks2adau1
+2024-04-21 16:21:13,878 INFO    wandb-upload_35:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpeoll0564
+2024-04-21 16:21:13,957 INFO    wandb-upload_20:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpf934441h
+2024-04-21 16:21:14,012 INFO    wandb-upload_17:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmppumrhgdx
+2024-04-21 16:21:14,044 INFO    wandb-upload_53:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp9kuh23xw
+2024-04-21 16:21:14,096 INFO    wandb-upload_48:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpnb8_3nmg
+2024-04-21 16:21:14,255 INFO    wandb-upload_52:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpe89oe8af
+2024-04-21 16:21:14,373 INFO    wandb-upload_29:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpp1nq90es
+2024-04-21 16:21:14,389 INFO    wandb-upload_58:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpvx1stwad
+2024-04-21 16:21:14,529 INFO    wandb-upload_44:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpeczezxlv
+2024-04-21 16:21:14,705 INFO    wandb-upload_56:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmppkk39hkt
+2024-04-21 16:21:14,740 INFO    wandb-upload_63:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpxblk37_x
+2024-04-21 16:21:14,818 INFO    wandb-upload_9:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp4kuc692t
+2024-04-21 16:21:14,860 INFO    wandb-upload_16:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpt5j7eeto
+2024-04-21 16:21:14,900 INFO    wandb-upload_24:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp09gfoc3h
+2024-04-21 16:21:14,917 INFO    wandb-upload_34:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp1wr07ha6
+2024-04-21 16:21:14,917 INFO    wandb-upload_39:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp6zuwcxff
+2024-04-21 16:21:14,935 INFO    wandb-upload_62:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpfxl6c7i8
+2024-04-21 16:21:15,060 INFO    wandb-upload_14:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpnlgx1wob
+2024-04-21 16:21:15,139 INFO    wandb-upload_57:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpwq7xsarn
+2024-04-21 16:21:15,193 INFO    wandb-upload_60:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp8b10_xsz
+2024-04-21 16:21:15,193 INFO    wandb-upload_50:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp0eth7kam
+2024-04-21 16:21:15,210 INFO    wandb-upload_30:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpa0rofco9
+2024-04-21 16:21:15,224 INFO    wandb-upload_11:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpk7vr7imm
+2024-04-21 16:21:15,352 INFO    wandb-upload_0:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpfj8k7kzw
+2024-04-21 16:21:15,394 INFO    wandb-upload_28:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpsempjz_9
+2024-04-21 16:21:15,438 INFO    wandb-upload_38:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpte8x192i
+2024-04-21 16:21:15,454 INFO    wandb-upload_27:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpynoe9qwm
+2024-04-21 16:21:15,495 INFO    wandb-upload_23:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpmnhkpogx
+2024-04-21 16:21:15,567 INFO    wandb-upload_46:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp_t9t015o
+2024-04-21 16:21:15,612 INFO    wandb-upload_26:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp72q6e00x
+2024-04-21 16:21:15,663 INFO    wandb-upload_51:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp1gydv3ot
+2024-04-21 16:21:15,705 INFO    wandb-upload_37:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp78zosqvm
+2024-04-21 16:21:15,765 INFO    wandb-upload_32:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpv5wnlizx
+2024-04-21 16:21:15,815 INFO    wandb-upload_47:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpucut81dz
+2024-04-21 16:21:15,831 INFO    wandb-upload_36:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpoo3svtrz
+2024-04-21 16:21:15,865 INFO    wandb-upload_22:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp4mb0dkwu
+2024-04-21 16:21:15,933 INFO    wandb-upload_18:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpn41mttme
+2024-04-21 16:21:15,962 INFO    wandb-upload_43:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpoh8e3ztc
+2024-04-21 16:21:15,995 INFO    wandb-upload_25:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpnzawj8sd
+2024-04-21 16:21:16,035 INFO    wandb-upload_19:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpm6xsgt_k
+2024-04-21 16:21:16,081 INFO    wandb-upload_33:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmplevnlj2i
+2024-04-21 16:21:16,084 INFO    wandb-upload_59:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp1j3xisl4
+2024-04-21 16:21:16,095 INFO    wandb-upload_61:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpindb5c6r
+2024-04-21 16:21:16,104 INFO    wandb-upload_3:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpn_jf5a5j
+2024-04-21 16:21:16,118 INFO    wandb-upload_21:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp02x6zomh
+2024-04-21 16:21:16,236 INFO    wandb-upload_45:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpbfocn7dk
+2024-04-21 16:21:16,236 INFO    wandb-upload_54:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpujb9vsy_
+2024-04-21 16:21:16,252 INFO    wandb-upload_49:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp3qu1_1av
+2024-04-21 16:21:16,305 INFO    wandb-upload_5:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp76ufmj52
+2024-04-21 16:21:16,344 INFO    wandb-upload_4:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp4c3t30r5
+2024-04-21 16:21:16,374 INFO    wandb-upload_2:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp4ipzi6d3
+2024-04-21 16:21:16,375 INFO    wandb-upload_13:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp46jz77sl
+2024-04-21 16:21:16,395 INFO    wandb-upload_29:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpai6rkuxq
+2024-04-21 16:21:16,417 INFO    wandb-upload_40:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpanbehf4j
+2024-04-21 16:21:16,487 INFO    wandb-upload_53:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpnrvkn9lx
+2024-04-21 16:21:16,659 INFO    wandb-upload_6:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpa53_eez7
+2024-04-21 16:21:16,674 INFO    wandb-upload_1:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpbdoq_q3s
+2024-04-21 16:21:16,680 INFO    wandb-upload_55:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpko_m4lms
+2024-04-21 16:21:16,839 INFO    wandb-upload_8:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpq8utwadp
+2024-04-21 16:21:16,881 INFO    wandb-upload_7:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpt3bdi_2x
+2024-04-21 16:21:16,898 INFO    wandb-upload_17:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp2dvq6feo
+2024-04-21 16:21:17,410 INFO    wandb-upload_42:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp3wed9mk0
+2024-04-21 16:21:17,410 INFO    wandb-upload_57:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpxdrdjcas
+2024-04-21 16:21:17,438 INFO    wandb-upload_60:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpv5n5st0t
+2024-04-21 16:21:17,484 INFO    wandb-upload_31:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp1h6pn4q6
+2024-04-21 16:21:17,484 INFO    wandb-upload_52:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpgmcoj2pz
+2024-04-21 16:21:17,485 INFO    wandb-upload_15:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpndy7qe00
+2024-04-21 16:21:17,485 INFO    wandb-upload_10:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp62kecrfh
+2024-04-21 16:21:17,500 INFO    wandb-upload_12:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpxpuuyrv1
+2024-04-21 16:21:17,500 INFO    wandb-upload_56:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp9mlkcnne
+2024-04-21 16:21:17,500 INFO    wandb-upload_48:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpsoofz5ii
+2024-04-21 16:21:17,681 INFO    wandb-upload_20:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpx27vo54n
+2024-04-21 16:21:17,726 INFO    wandb-upload_44:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmprrgvjehi
+2024-04-21 16:21:17,743 INFO    wandb-upload_38:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpiutmlo8x
+2024-04-21 16:21:17,869 INFO    wandb-upload_41:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp2xht5nrq
+2024-04-21 16:21:17,988 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:21:17,999 INFO    wandb-upload_25:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpo22fkhb1
+2024-04-21 16:21:18,020 INFO    wandb-upload_30:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp2isl0dy6
+2024-04-21 16:21:18,283 INFO    wandb-upload_53:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp8wgav1wj
+2024-04-21 16:21:18,297 INFO    wandb-upload_0:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp1vmcgmsv
+2024-04-21 16:21:18,303 INFO    wandb-upload_24:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpnpm0qm1h
+2024-04-21 16:21:18,337 INFO    wandb-upload_58:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp9fyuczb8
+2024-04-21 16:21:18,379 INFO    wandb-upload_16:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpx_7gnoc_
+2024-04-21 16:21:18,463 INFO    wandb-upload_62:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpctodmzvf
+2024-04-21 16:21:18,480 INFO    wandb-upload_11:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpxd5nrsv1
+2024-04-21 16:21:18,482 INFO    wandb-upload_32:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp3rkzpyt6
+2024-04-21 16:21:18,530 INFO    wandb-upload_39:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpvdmu39ge
+2024-04-21 16:21:18,597 INFO    wandb-upload_46:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpu32kg00l
+2024-04-21 16:21:18,598 INFO    wandb-upload_63:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpj9x2dgls
+2024-04-21 16:21:18,599 INFO    wandb-upload_47:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpa7i7y00x
+2024-04-21 16:21:18,615 INFO    wandb-upload_43:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpfznrj2rr
+2024-04-21 16:21:18,648 INFO    wandb-upload_40:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp5waupm1l
+2024-04-21 16:21:18,699 INFO    wandb-upload_9:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpym_xqz14
+2024-04-21 16:21:18,707 INFO    wandb-upload_28:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpvfi2xbjg
+2024-04-21 16:21:18,754 INFO    wandb-upload_29:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpqqglv4pa
+2024-04-21 16:21:18,817 INFO    wandb-upload_4:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpw43oxazk
+2024-04-21 16:21:18,834 INFO    wandb-upload_3:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpc5jjgj9a
+2024-04-21 16:21:18,834 INFO    wandb-upload_34:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpizry8wmr
+2024-04-21 16:21:18,834 INFO    wandb-upload_2:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpwoweuoa7
+2024-04-21 16:21:18,834 INFO    wandb-upload_22:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp2unu51fk
+2024-04-21 16:21:18,884 INFO    wandb-upload_13:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpuuw48s50
+2024-04-21 16:21:18,984 INFO    wandb-upload_50:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp0odk0cwm
+2024-04-21 16:21:19,013 INFO    wandb-upload_19:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp34_sb6ae
+2024-04-21 16:21:19,013 INFO    wandb-upload_35:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpldi9j9rv
+2024-04-21 16:21:19,013 INFO    wandb-upload_7:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp2uz2gc0k
+2024-04-21 16:21:19,035 INFO    wandb-upload_14:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp_yy8yh7l
+2024-04-21 16:21:19,048 INFO    wandb-upload_37:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpkxf01k41
+2024-04-21 16:21:19,089 INFO    wandb-upload_45:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpmhkpf66n
+2024-04-21 16:21:19,147 INFO    wandb-upload_51:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpz0olfxdj
+2024-04-21 16:21:19,156 INFO    wandb-upload_26:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpaa3_r8z8
+2024-04-21 16:21:19,192 INFO    wandb-upload_27:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpohl6e12l
+2024-04-21 16:21:19,193 INFO    wandb-upload_21:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpq3pqtn8r
+2024-04-21 16:21:19,208 INFO    wandb-upload_49:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp_xlrav76
+2024-04-21 16:21:19,218 INFO    wandb-upload_59:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp_wb0n915
+2024-04-21 16:21:19,304 INFO    wandb-upload_36:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpojux6xuj
+2024-04-21 16:21:19,500 INFO    wandb-upload_18:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmprt1s4hs8
+2024-04-21 16:21:19,555 INFO    wandb-upload_1:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpa4kv5ldd
+2024-04-21 16:21:19,588 INFO    wandb-upload_8:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp64j92pl_
+2024-04-21 16:21:19,731 INFO    wandb-upload_61:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpvz6sknd9
+2024-04-21 16:21:19,781 INFO    wandb-upload_42:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp9z9os18_
+2024-04-21 16:21:19,815 INFO    wandb-upload_52:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpb0dgw9x3
+2024-04-21 16:21:19,925 INFO    wandb-upload_6:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpl8cyjqad
+2024-04-21 16:21:19,966 INFO    wandb-upload_57:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmptikjeg1p
+2024-04-21 16:21:19,982 INFO    wandb-upload_44:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp4k6su3u3
+2024-04-21 16:21:19,983 INFO    wandb-upload_12:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmppg2rsk1q
+2024-04-21 16:21:20,100 INFO    wandb-upload_10:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpl136rexv
+2024-04-21 16:21:20,135 INFO    wandb-upload_5:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpgz8rn9pl
+2024-04-21 16:21:20,166 INFO    wandb-upload_54:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpyo3umaox
+2024-04-21 16:21:20,185 INFO    wandb-upload_56:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpuwc4bvgm
+2024-04-21 16:21:20,199 INFO    wandb-upload_23:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp1yh32b9z
+2024-04-21 16:21:20,233 INFO    wandb-upload_25:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpw3q2g5ju
+2024-04-21 16:21:20,328 INFO    wandb-upload_41:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpduca0n6c
+2024-04-21 16:21:20,361 INFO    wandb-upload_55:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp2x61b6ie
+2024-04-21 16:21:20,361 INFO    wandb-upload_33:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpdw28_w8z
+2024-04-21 16:21:20,377 INFO    wandb-upload_60:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp234j_opc
+2024-04-21 16:21:20,429 INFO    wandb-upload_31:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp0es4z2qa
+2024-04-21 16:21:20,462 INFO    wandb-upload_11:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp9zhj04zk
+2024-04-21 16:21:20,478 INFO    wandb-upload_15:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmphcuglvp0
+2024-04-21 16:21:20,733 INFO    wandb-upload_40:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpadl297kq
+2024-04-21 16:21:20,790 INFO    wandb-upload_20:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmplo3xnosm
+2024-04-21 16:21:20,805 INFO    wandb-upload_17:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpvlbkva_t
+2024-04-21 16:21:20,805 INFO    wandb-upload_58:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp2akiaiai
+2024-04-21 16:21:20,805 INFO    wandb-upload_30:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpshgc83ma
+2024-04-21 16:21:20,806 INFO    wandb-upload_0:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp2xor0ne6
+2024-04-21 16:21:20,872 INFO    wandb-upload_46:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp5bys_yew
+2024-04-21 16:21:20,889 INFO    wandb-upload_19:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpb08dwzxk
+2024-04-21 16:21:20,906 INFO    wandb-upload_35:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp435nfids
+2024-04-21 16:21:20,973 INFO    wandb-upload_48:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmplbnllgo7
+2024-04-21 16:21:20,999 INFO    wandb-upload_4:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpw1flhd0s
+2024-04-21 16:21:21,015 INFO    wandb-upload_28:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpznbidtu8
+2024-04-21 16:21:21,392 INFO    wandb-upload_47:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp9nvbm7d5
+2024-04-21 16:21:21,400 INFO    wandb-upload_7:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmphy9aqye8
+2024-04-21 16:21:21,443 INFO    wandb-upload_24:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpaw16qi9p
+2024-04-21 16:21:21,500 INFO    wandb-upload_37:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp62sqej64
+2024-04-21 16:21:21,511 INFO    wandb-upload_2:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpgl_zssb4
+2024-04-21 16:21:21,542 INFO    wandb-upload_14:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpnej5gqbu
+2024-04-21 16:21:21,584 INFO    wandb-upload_53:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpro7bpd6a
+2024-04-21 16:21:21,643 INFO    wandb-upload_34:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpkshzoygv
+2024-04-21 16:21:21,761 INFO    wandb-upload_43:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpktzlo_lc
+2024-04-21 16:21:21,777 INFO    wandb-upload_61:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp8k1lu40s
+2024-04-21 16:21:21,798 INFO    wandb-upload_22:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp36975has
+2024-04-21 16:21:21,899 INFO    wandb-upload_3:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpaeuicakx
+2024-04-21 16:21:21,912 INFO    wandb-upload_13:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpgzexiq8v
+2024-04-21 16:21:21,954 INFO    wandb-upload_29:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp2kd908rz
+2024-04-21 16:21:21,970 INFO    wandb-upload_38:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpjyq4llqh
+2024-04-21 16:21:21,998 INFO    wandb-upload_63:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmphywh2erq
+2024-04-21 16:21:22,012 INFO    wandb-upload_62:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpdni0ejvs
+2024-04-21 16:21:22,080 INFO    wandb-upload_59:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp6kw363nu
+2024-04-21 16:21:22,132 INFO    wandb-upload_45:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpzj92xlef
+2024-04-21 16:21:22,154 INFO    wandb-upload_52:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp5_rj7j19
+2024-04-21 16:21:22,288 INFO    wandb-upload_32:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmputihuk5p
+2024-04-21 16:21:22,363 INFO    wandb-upload_10:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpqfoxz8w6
+2024-04-21 16:21:22,414 INFO    wandb-upload_60:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpx6p9dq72
+2024-04-21 16:21:22,421 INFO    wandb-upload_51:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpo37d79op
+2024-04-21 16:21:22,431 INFO    wandb-upload_23:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpnth2j0gy
+2024-04-21 16:21:22,489 INFO    wandb-upload_8:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpt677e69a
+2024-04-21 16:21:22,532 INFO    wandb-upload_41:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpyzt9hgcy
+2024-04-21 16:21:22,541 INFO    wandb-upload_50:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpf5l8jk95
+2024-04-21 16:21:22,545 INFO    wandb-upload_26:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp90hzxy1e
+2024-04-21 16:21:22,607 INFO    wandb-upload_55:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpp29xzmqe
+2024-04-21 16:21:22,656 INFO    wandb-upload_49:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpgozjsjui
+2024-04-21 16:21:22,676 INFO    wandb-upload_42:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpd1ets3rq
+2024-04-21 16:21:22,695 INFO    wandb-upload_39:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmppuikymi8
+2024-04-21 16:21:22,717 INFO    wandb-upload_5:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpg9lizaqn
+2024-04-21 16:21:22,717 INFO    wandb-upload_1:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpaamd7a93
+2024-04-21 16:21:22,753 INFO    wandb-upload_11:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpspwt8o2q
+2024-04-21 16:21:22,780 INFO    wandb-upload_16:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp06vt1tay
+2024-04-21 16:21:22,810 INFO    wandb-upload_21:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpmuazp99z
+2024-04-21 16:21:22,826 INFO    wandb-upload_36:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpk_hd1c2q
+2024-04-21 16:21:22,826 INFO    wandb-upload_9:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpx17dchfd
+2024-04-21 16:21:22,834 INFO    wandb-upload_44:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpdeoszyan
+2024-04-21 16:21:22,989 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:21:23,123 INFO    wandb-upload_6:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpo0qqqta6
+2024-04-21 16:21:23,145 INFO    wandb-upload_27:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpxrtmnwby
+2024-04-21 16:21:23,178 INFO    wandb-upload_40:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmppi62wpkg
+2024-04-21 16:21:23,304 INFO    wandb-upload_25:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpp3xtsuxb
+2024-04-21 16:21:23,421 INFO    wandb-upload_30:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpx55qred4
+2024-04-21 16:21:23,454 INFO    wandb-upload_0:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmprebv5vpi
+2024-04-21 16:21:23,577 INFO    wandb-upload_18:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpx80dlk1f
+2024-04-21 16:21:23,655 INFO    wandb-upload_19:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmptuar8ukj
+2024-04-21 16:21:23,739 INFO    wandb-upload_33:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmps2q5ica2
+2024-04-21 16:21:23,781 INFO    wandb-upload_4:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpc0hg7fno
+2024-04-21 16:21:24,007 INFO    wandb-upload_58:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpz5d5k5ls
+2024-04-21 16:21:24,074 INFO    wandb-upload_46:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpnhw74h8u
+2024-04-21 16:21:24,174 INFO    wandb-upload_17:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpxeakx6bo
+2024-04-21 16:21:24,300 INFO    wandb-upload_12:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmphurdi6xr
+2024-04-21 16:21:24,351 INFO    wandb-upload_22:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp9bqgqohe
+2024-04-21 16:21:24,385 INFO    wandb-upload_56:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmprd7pu8qv
+2024-04-21 16:21:24,419 INFO    wandb-upload_47:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmprnxhlz3w
+2024-04-21 16:21:24,451 INFO    wandb-upload_57:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpz5e3pe3t
+2024-04-21 16:21:24,468 INFO    wandb-upload_10:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpjpx0uxmw
+2024-04-21 16:21:24,523 INFO    wandb-upload_37:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpw1wnjgl9
+2024-04-21 16:21:24,613 INFO    wandb-upload_34:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpidnabfph
+2024-04-21 16:21:24,623 INFO    wandb-upload_21:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpnh7qf3xy
+2024-04-21 16:21:24,633 INFO    wandb-upload_43:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpcaw82n7t
+2024-04-21 16:21:24,669 INFO    wandb-upload_31:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp69gsng3_
+2024-04-21 16:21:24,722 INFO    wandb-upload_2:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpat4_3w4v
+2024-04-21 16:21:24,722 INFO    wandb-upload_59:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpp2gerjjh
+2024-04-21 16:21:24,723 INFO    wandb-upload_20:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpd5gagw3g
+2024-04-21 16:21:24,745 INFO    wandb-upload_61:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpdcjyp171
+2024-04-21 16:21:24,796 INFO    wandb-upload_60:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpplcel6c3
+2024-04-21 16:21:25,012 INFO    wandb-upload_54:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmphi1wq9c_
+2024-04-21 16:21:25,072 INFO    wandb-upload_44:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpg6ealoih
+2024-04-21 16:21:25,072 INFO    wandb-upload_52:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpqhz4zmad
+2024-04-21 16:21:25,089 INFO    wandb-upload_28:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp6lctt9_8
+2024-04-21 16:21:25,089 INFO    wandb-upload_16:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpmja8dqq4
+2024-04-21 16:21:25,089 INFO    wandb-upload_24:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp0ubmvhc6
+2024-04-21 16:21:25,089 INFO    wandb-upload_15:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpx8ndp4m5
+2024-04-21 16:21:25,089 INFO    wandb-upload_8:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp9_4r6r84
+2024-04-21 16:21:25,089 INFO    wandb-upload_3:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpo503ral6
+2024-04-21 16:21:25,124 INFO    wandb-upload_45:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp5z3e6lva
+2024-04-21 16:21:25,156 INFO    wandb-upload_29:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpyoa7slby
+2024-04-21 16:21:25,223 INFO    wandb-upload_53:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmprcsd1ij5
+2024-04-21 16:21:25,282 INFO    wandb-upload_23:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmph26yrhi6
+2024-04-21 16:21:25,333 INFO    wandb-upload_35:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmptikadz7d
+2024-04-21 16:21:25,458 INFO    wandb-upload_50:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp_eywoato
+2024-04-21 16:21:25,603 INFO    wandb-upload_26:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp8nrf2b64
+2024-04-21 16:21:25,661 INFO    wandb-upload_48:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpz407lhws
+2024-04-21 16:21:25,743 INFO    wandb-upload_14:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpifq3fnza
+2024-04-21 16:21:25,775 INFO    wandb-upload_9:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpc3trwmrm
+2024-04-21 16:21:25,775 INFO    wandb-upload_62:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp3sjza5z9
+2024-04-21 16:21:25,775 INFO    wandb-upload_36:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpmvu0y7k9
+2024-04-21 16:21:25,804 INFO    wandb-upload_32:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpaxjttvm9
+2024-04-21 16:21:25,810 INFO    wandb-upload_1:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmplb9mz2mo
+2024-04-21 16:21:25,827 INFO    wandb-upload_41:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpl_sjiwjb
+2024-04-21 16:21:25,861 INFO    wandb-upload_11:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpw7tikokk
+2024-04-21 16:21:25,920 INFO    wandb-upload_63:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp71jf1bcx
+2024-04-21 16:21:26,062 INFO    wandb-upload_42:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpezsdhfn6
+2024-04-21 16:21:26,223 INFO    wandb-upload_38:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpzp0kcdsh
+2024-04-21 16:21:26,310 INFO    wandb-upload_18:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp1zjdwqt5
+2024-04-21 16:21:26,411 INFO    wandb-upload_6:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpxqvqzww0
+2024-04-21 16:21:26,411 INFO    wandb-upload_5:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmph3wiwa4r
+2024-04-21 16:21:26,411 INFO    wandb-upload_13:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpn25jnuvg
+2024-04-21 16:21:26,416 INFO    wandb-upload_7:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpbs8ui4z8
+2024-04-21 16:21:26,673 INFO    wandb-upload_55:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpsqeybpd4
+2024-04-21 16:21:26,673 INFO    wandb-upload_40:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp59bedczw
+2024-04-21 16:21:26,674 INFO    wandb-upload_49:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmprrwk46qp
+2024-04-21 16:21:26,674 INFO    wandb-upload_46:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpm5icls2h
+2024-04-21 16:21:26,690 INFO    wandb-upload_17:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp7cilawhc
+2024-04-21 16:21:26,690 INFO    wandb-upload_33:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp63rdvmqc
+2024-04-21 16:21:26,690 INFO    wandb-upload_4:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpdunx4asu
+2024-04-21 16:21:26,765 INFO    wandb-upload_51:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmprqcaozu9
+2024-04-21 16:21:26,820 INFO    wandb-upload_30:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpgzda7t93
+2024-04-21 16:21:26,842 INFO    wandb-upload_22:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpxkt20qvo
+2024-04-21 16:21:26,910 INFO    wandb-upload_19:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp5ipv0x4u
+2024-04-21 16:21:26,926 INFO    wandb-upload_27:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpexruwwqa
+2024-04-21 16:21:26,985 INFO    wandb-upload_21:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpz9gxj4fr
+2024-04-21 16:21:27,074 INFO    wandb-upload_57:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmphocyyf6_
+2024-04-21 16:21:27,094 INFO    wandb-upload_24:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp5jco6igt
+2024-04-21 16:21:27,148 INFO    wandb-upload_43:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpigqdoqy2
+2024-04-21 16:21:27,228 INFO    wandb-upload_10:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp5wgd1qc5
+2024-04-21 16:21:27,244 INFO    wandb-upload_56:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpv_v119bv
+2024-04-21 16:21:27,245 INFO    wandb-upload_37:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpgm0hzsyb
+2024-04-21 16:21:27,303 INFO    wandb-upload_0:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpp1h4zzjg
+2024-04-21 16:21:27,412 INFO    wandb-upload_53:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpk3ipwqrd
+2024-04-21 16:21:27,429 INFO    wandb-upload_23:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpde8wz1rd
+2024-04-21 16:21:27,470 INFO    wandb-upload_8:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp1gbx36tq
+2024-04-21 16:21:27,485 INFO    wandb-upload_12:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpcajbiiw5
+2024-04-21 16:21:27,556 INFO    wandb-upload_9:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp2zt165th
+2024-04-21 16:21:27,557 INFO    wandb-upload_25:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpxq_d3p_p
+2024-04-21 16:21:27,575 INFO    wandb-upload_39:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmplufpziav
+2024-04-21 16:21:27,575 INFO    wandb-upload_20:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmptf7q7bg9
+2024-04-21 16:21:27,575 INFO    wandb-upload_29:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmppcny1dmf
+2024-04-21 16:21:27,575 INFO    wandb-upload_35:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp8c09bbfe
+2024-04-21 16:21:27,608 INFO    wandb-upload_59:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp7vfx6igl
+2024-04-21 16:21:27,645 INFO    wandb-upload_34:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmphdtl28rf
+2024-04-21 16:21:27,709 INFO    wandb-upload_61:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp8p9uqfue
+2024-04-21 16:21:27,761 INFO    wandb-upload_31:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp4d4x32i1
+2024-04-21 16:21:27,785 INFO    wandb-upload_2:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpq4e4_snn
+2024-04-21 16:21:27,801 INFO    wandb-upload_44:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpgqxog3y3
+2024-04-21 16:21:27,852 INFO    wandb-upload_16:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpugcxa1tk
+2024-04-21 16:21:27,868 INFO    wandb-upload_15:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp91lnn1mg
+2024-04-21 16:21:27,990 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:21:28,183 INFO    wandb-upload_11:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp8i3s5i74
+2024-04-21 16:21:28,235 INFO    wandb-upload_47:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp88t1m5pt
+2024-04-21 16:21:28,253 INFO    wandb-upload_26:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpktx43q8j
+2024-04-21 16:21:28,295 INFO    wandb-upload_58:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp0qiu33sl
+2024-04-21 16:21:28,337 INFO    wandb-upload_45:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpod9xynlo
+2024-04-21 16:21:28,404 INFO    wandb-upload_41:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp59oxf5sy
+2024-04-21 16:21:28,421 INFO    wandb-upload_54:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpbk17q4gh
+2024-04-21 16:21:28,639 INFO    wandb-upload_3:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpi_y6044z
+2024-04-21 16:21:28,686 INFO    wandb-upload_62:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpgh7l97t8
+2024-04-21 16:21:28,705 INFO    wandb-upload_13:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmphykj3b_9
+2024-04-21 16:21:28,706 INFO    wandb-upload_5:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp5ck2t1h7
+2024-04-21 16:21:28,739 INFO    wandb-upload_4:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp30q_w9mh
+2024-04-21 16:21:28,782 INFO    wandb-upload_49:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpbf4c_kcn
+2024-04-21 16:21:28,815 INFO    wandb-upload_18:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpu8lqt5yr
+2024-04-21 16:21:28,832 INFO    wandb-upload_0:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp3p0_tquw
+2024-04-21 16:21:28,899 INFO    wandb-upload_60:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpvbtqruyl
+2024-04-21 16:21:28,974 INFO    wandb-upload_52:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp5771dtle
+2024-04-21 16:21:29,017 INFO    wandb-upload_30:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpvehmuiju
+2024-04-21 16:21:29,034 INFO    wandb-upload_14:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmph237jzqr
+2024-04-21 16:21:29,176 INFO    wandb-upload_63:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpwpvr98uf
+2024-04-21 16:21:29,193 INFO    wandb-upload_51:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpl2omxghy
+2024-04-21 16:21:29,193 INFO    wandb-upload_28:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpvvkm13bg
+2024-04-21 16:21:29,193 INFO    wandb-upload_40:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp0ndfs4l8
+2024-04-21 16:21:29,197 INFO    wandb-upload_22:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpg8ghsy2_
+2024-04-21 16:21:29,235 INFO    wandb-upload_50:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpyn45t2v6
+2024-04-21 16:21:29,261 INFO    wandb-upload_6:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpj4u6d7r3
+2024-04-21 16:21:29,319 INFO    wandb-upload_46:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpghyma3yx
+2024-04-21 16:21:29,336 INFO    wandb-upload_1:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpw38uwo9r
+2024-04-21 16:21:29,403 INFO    wandb-upload_48:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpvbtv03s5
+2024-04-21 16:21:29,446 INFO    wandb-upload_42:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpxryqxb2h
+2024-04-21 16:21:29,482 INFO    wandb-upload_7:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp16c94dnh
+2024-04-21 16:21:29,496 INFO    wandb-upload_19:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpcx03tv_c
+2024-04-21 16:21:29,548 INFO    wandb-upload_57:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpf3k52yd3
+2024-04-21 16:21:29,564 INFO    wandb-upload_37:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpgb9u1kc6
+2024-04-21 16:21:29,577 INFO    wandb-upload_32:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpf87fnd1f
+2024-04-21 16:21:29,600 INFO    wandb-upload_38:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpri0sjr8f
+2024-04-21 16:21:29,600 INFO    wandb-upload_10:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpsvrqyp4r
+2024-04-21 16:21:29,646 INFO    wandb-upload_17:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpsgtnx_ba
+2024-04-21 16:21:29,647 INFO    wandb-upload_56:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpkrk8qmdh
+2024-04-21 16:21:29,648 INFO    wandb-upload_43:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp7zq5pwid
+2024-04-21 16:21:29,664 INFO    wandb-upload_24:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpdo7hrd9n
+2024-04-21 16:21:29,666 INFO    wandb-upload_55:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpn2jiq7_6
+2024-04-21 16:21:29,666 INFO    wandb-upload_53:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpuc_clwtc
+2024-04-21 16:21:29,666 INFO    wandb-upload_27:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp2mqbc69j
+2024-04-21 16:21:29,704 INFO    wandb-upload_33:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp4joo4y7p
+2024-04-21 16:21:29,708 INFO    wandb-upload_8:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpylx9ttpn
+2024-04-21 16:21:29,724 INFO    wandb-upload_21:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpgdy5kn2j
+2024-04-21 16:21:29,791 INFO    wandb-upload_36:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpeurruhnj
+2024-04-21 16:21:29,806 INFO    wandb-upload_23:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpiomnexhj
+2024-04-21 16:21:29,807 INFO    wandb-upload_12:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpnu1r8ssk
+2024-04-21 16:21:29,807 INFO    wandb-upload_39:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmp5b2hkh41
+2024-04-21 16:21:29,807 INFO    wandb-upload_25:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmpx01ahikc
+2024-04-21 16:21:30,224 INFO    wandb-upload_9:1644864 [upload_job.py:push():91] Uploaded file /home/icl2/.local/share/wandb/artifacts/staging/tmplgriku1q
+2024-04-21 16:21:32,991 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:21:34,542 INFO    SenderThread:1644864 [sender.py:send_request_log_artifact():1414] logged artifact run-1ktpy8aa-Table - {'id': 'QXJ0aWZhY3Q6ODA0NDczODU1', 'digest': '86c8b484d308112de4848462d865f914', 'state': 'PENDING', 'aliases': [], 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjE2NDkxODQ3OQ==', 'latestArtifact': None}, 'version': 'latest'}
+2024-04-21 16:21:34,542 DEBUG   SenderThread:1644864 [sender.py:send():369] send: files
+2024-04-21 16:21:34,542 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:21:34,542 INFO    SenderThread:1644864 [sender.py:_save_file():1354] saving file media/table/Table_0_ce19d2dc31a647613929.table.json with policy now
+2024-04-21 16:21:34,542 DEBUG   SenderThread:1644864 [sender.py:send():369] send: history
+2024-04-21 16:21:34,542 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: summary_record
+2024-04-21 16:21:34,543 INFO    SenderThread:1644864 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2024-04-21 16:21:34,543 DEBUG   SenderThread:1644864 [sender.py:send():369] send: history
+2024-04-21 16:21:34,543 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: summary_record
+2024-04-21 16:21:34,544 INFO    SenderThread:1644864 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2024-04-21 16:21:34,544 DEBUG   SenderThread:1644864 [sender.py:send():369] send: telemetry
+2024-04-21 16:21:34,544 DEBUG   SenderThread:1644864 [sender.py:send():369] send: exit
+2024-04-21 16:21:34,544 INFO    SenderThread:1644864 [sender.py:send_exit():574] handling exit code: 0
+2024-04-21 16:21:34,544 INFO    SenderThread:1644864 [sender.py:send_exit():576] handling runtime: 1209
+2024-04-21 16:21:34,546 INFO    SenderThread:1644864 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2024-04-21 16:21:34,546 INFO    SenderThread:1644864 [sender.py:send_exit():582] send defer
+2024-04-21 16:21:34,546 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: poll_exit
+2024-04-21 16:21:34,546 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:21:34,546 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: defer
+2024-04-21 16:21:34,546 INFO    HandlerThread:1644864 [handler.py:handle_request_defer():170] handle defer: 0
+2024-04-21 16:21:34,546 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: defer
+2024-04-21 16:21:34,546 INFO    SenderThread:1644864 [sender.py:send_request_defer():598] handle sender defer: 0
+2024-04-21 16:21:34,546 INFO    SenderThread:1644864 [sender.py:transition_state():602] send defer: 1
+2024-04-21 16:21:34,546 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: defer
+2024-04-21 16:21:34,546 INFO    HandlerThread:1644864 [handler.py:handle_request_defer():170] handle defer: 1
+2024-04-21 16:21:34,547 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: defer
+2024-04-21 16:21:34,547 INFO    SenderThread:1644864 [sender.py:send_request_defer():598] handle sender defer: 1
+2024-04-21 16:21:34,547 INFO    SenderThread:1644864 [sender.py:transition_state():602] send defer: 2
+2024-04-21 16:21:34,547 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: defer
+2024-04-21 16:21:34,547 INFO    HandlerThread:1644864 [handler.py:handle_request_defer():170] handle defer: 2
+2024-04-21 16:21:34,547 INFO    HandlerThread:1644864 [system_monitor.py:finish():190] Stopping system monitor
+2024-04-21 16:21:34,547 INFO    HandlerThread:1644864 [interfaces.py:finish():202] Joined cpu monitor
+2024-04-21 16:21:34,547 INFO    HandlerThread:1644864 [interfaces.py:finish():202] Joined disk monitor
+2024-04-21 16:21:34,547 DEBUG   SystemMonitor:1644864 [system_monitor.py:_start():166] Finished system metrics aggregation loop
+2024-04-21 16:21:34,547 DEBUG   SystemMonitor:1644864 [system_monitor.py:_start():170] Publishing last batch of metrics
+2024-04-21 16:21:34,573 INFO    HandlerThread:1644864 [interfaces.py:finish():202] Joined gpu monitor
+2024-04-21 16:21:34,573 INFO    HandlerThread:1644864 [interfaces.py:finish():202] Joined memory monitor
+2024-04-21 16:21:34,573 INFO    HandlerThread:1644864 [interfaces.py:finish():202] Joined network monitor
+2024-04-21 16:21:34,573 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: defer
+2024-04-21 16:21:34,573 INFO    SenderThread:1644864 [sender.py:send_request_defer():598] handle sender defer: 2
+2024-04-21 16:21:34,573 INFO    SenderThread:1644864 [sender.py:transition_state():602] send defer: 3
+2024-04-21 16:21:34,573 DEBUG   SenderThread:1644864 [sender.py:send():369] send: stats
+2024-04-21 16:21:34,573 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: defer
+2024-04-21 16:21:34,573 INFO    HandlerThread:1644864 [handler.py:handle_request_defer():170] handle defer: 3
+2024-04-21 16:21:34,573 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: defer
+2024-04-21 16:21:34,573 INFO    SenderThread:1644864 [sender.py:send_request_defer():598] handle sender defer: 3
+2024-04-21 16:21:34,573 INFO    SenderThread:1644864 [sender.py:transition_state():602] send defer: 4
+2024-04-21 16:21:34,573 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: defer
+2024-04-21 16:21:34,573 INFO    HandlerThread:1644864 [handler.py:handle_request_defer():170] handle defer: 4
+2024-04-21 16:21:34,573 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: defer
+2024-04-21 16:21:34,573 INFO    SenderThread:1644864 [sender.py:send_request_defer():598] handle sender defer: 4
+2024-04-21 16:21:34,573 INFO    SenderThread:1644864 [sender.py:transition_state():602] send defer: 5
+2024-04-21 16:21:34,573 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: defer
+2024-04-21 16:21:34,573 INFO    HandlerThread:1644864 [handler.py:handle_request_defer():170] handle defer: 5
+2024-04-21 16:21:34,574 DEBUG   SenderThread:1644864 [sender.py:send():369] send: summary
+2024-04-21 16:21:34,574 INFO    SenderThread:1644864 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2024-04-21 16:21:34,574 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: defer
+2024-04-21 16:21:34,574 INFO    SenderThread:1644864 [sender.py:send_request_defer():598] handle sender defer: 5
+2024-04-21 16:21:34,574 INFO    SenderThread:1644864 [sender.py:transition_state():602] send defer: 6
+2024-04-21 16:21:34,574 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: defer
+2024-04-21 16:21:34,574 INFO    HandlerThread:1644864 [handler.py:handle_request_defer():170] handle defer: 6
+2024-04-21 16:21:34,574 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: defer
+2024-04-21 16:21:34,574 INFO    SenderThread:1644864 [sender.py:send_request_defer():598] handle sender defer: 6
+2024-04-21 16:21:34,575 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:21:34,817 INFO    SenderThread:1644864 [sender.py:transition_state():602] send defer: 7
+2024-04-21 16:21:34,817 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: defer
+2024-04-21 16:21:34,817 INFO    HandlerThread:1644864 [handler.py:handle_request_defer():170] handle defer: 7
+2024-04-21 16:21:34,818 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: defer
+2024-04-21 16:21:34,818 INFO    SenderThread:1644864 [sender.py:send_request_defer():598] handle sender defer: 7
+2024-04-21 16:21:35,127 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/config.yaml
+2024-04-21 16:21:35,128 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/wandb-summary.json
+2024-04-21 16:21:35,248 INFO    wandb-upload_20:1644864 [upload_job.py:push():133] Uploaded file /tmp/tmpe19p8wl7wandb/4u2rtjoh-media/table/Table_0_ce19d2dc31a647613929.table.json
+2024-04-21 16:21:36,788 INFO    SenderThread:1644864 [sender.py:transition_state():602] send defer: 8
+2024-04-21 16:21:36,788 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: defer
+2024-04-21 16:21:36,788 INFO    HandlerThread:1644864 [handler.py:handle_request_defer():170] handle defer: 8
+2024-04-21 16:21:36,789 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: defer
+2024-04-21 16:21:36,789 INFO    SenderThread:1644864 [sender.py:send_request_defer():598] handle sender defer: 8
+2024-04-21 16:21:36,789 INFO    SenderThread:1644864 [job_builder.py:build():240] Attempting to build job artifact
+2024-04-21 16:21:36,790 INFO    SenderThread:1644864 [job_builder.py:build():264] is repo sourced job
+2024-04-21 16:21:36,794 INFO    SenderThread:1644864 [job_builder.py:build():305] adding wandb-job metadata file
+2024-04-21 16:21:36,855 INFO    SenderThread:1644864 [sender.py:transition_state():602] send defer: 9
+2024-04-21 16:21:36,855 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: defer
+2024-04-21 16:21:36,855 DEBUG   SenderThread:1644864 [sender.py:send():369] send: artifact
+2024-04-21 16:21:36,856 INFO    HandlerThread:1644864 [handler.py:handle_request_defer():170] handle defer: 9
+2024-04-21 16:21:37,128 INFO    Thread-12 :1644864 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:21:37,754 INFO    SenderThread:1644864 [sender.py:send_artifact():1450] sent artifact job-https___github.com_khlee0192_InstaFlow.git_code_main_new_algorithm.py - {'id': 'QXJ0aWZhY3Q6ODAyNzQ0MDg4', 'digest': 'e7c193c0f6c9481cc8c716f826ce04d0', 'state': 'COMMITTED', 'aliases': [{'artifactCollectionName': 'job-https___github.com_khlee0192_InstaFlow.git_code_main_new_algorithm.py', 'alias': 'latest'}, {'artifactCollectionName': 'job-https___github.com_khlee0192_InstaFlow.git_code_main_new_algorithm.py', 'alias': 'v0'}], 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjE2NDM5NjU1Mw==', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6ODAyNzQ0MDg4', 'versionIndex': 0}}, 'version': 'v0'}
+2024-04-21 16:21:37,754 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: defer
+2024-04-21 16:21:37,754 INFO    SenderThread:1644864 [sender.py:send_request_defer():598] handle sender defer: 9
+2024-04-21 16:21:37,755 INFO    SenderThread:1644864 [dir_watcher.py:finish():359] shutting down directory watcher
+2024-04-21 16:21:37,992 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: keepalive
+2024-04-21 16:21:38,129 INFO    SenderThread:1644864 [dir_watcher.py:finish():389] scan: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files
+2024-04-21 16:21:38,130 INFO    SenderThread:1644864 [dir_watcher.py:finish():403] scan save: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/config.yaml config.yaml
+2024-04-21 16:21:38,130 INFO    SenderThread:1644864 [dir_watcher.py:finish():403] scan save: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log output.log
+2024-04-21 16:21:38,136 INFO    SenderThread:1644864 [dir_watcher.py:finish():403] scan save: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/conda-environment.yaml conda-environment.yaml
+2024-04-21 16:21:38,141 INFO    SenderThread:1644864 [dir_watcher.py:finish():403] scan save: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/wandb-metadata.json wandb-metadata.json
+2024-04-21 16:21:38,141 INFO    SenderThread:1644864 [dir_watcher.py:finish():403] scan save: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/wandb-summary.json wandb-summary.json
+2024-04-21 16:21:38,142 INFO    SenderThread:1644864 [dir_watcher.py:finish():403] scan save: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/requirements.txt requirements.txt
+2024-04-21 16:21:38,157 INFO    SenderThread:1644864 [dir_watcher.py:finish():403] scan save: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/media/table/Table_0_ce19d2dc31a647613929.table.json media/table/Table_0_ce19d2dc31a647613929.table.json
+2024-04-21 16:21:38,158 INFO    SenderThread:1644864 [sender.py:transition_state():602] send defer: 10
+2024-04-21 16:21:38,158 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: defer
+2024-04-21 16:21:38,158 INFO    HandlerThread:1644864 [handler.py:handle_request_defer():170] handle defer: 10
+2024-04-21 16:21:38,158 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: defer
+2024-04-21 16:21:38,159 INFO    SenderThread:1644864 [sender.py:send_request_defer():598] handle sender defer: 10
+2024-04-21 16:21:38,159 INFO    SenderThread:1644864 [file_pusher.py:finish():159] shutting down file pusher
+2024-04-21 16:21:38,698 INFO    wandb-upload_31:1644864 [upload_job.py:push():133] Uploaded file /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/conda-environment.yaml
+2024-04-21 16:21:38,772 INFO    wandb-upload_35:1644864 [upload_job.py:push():133] Uploaded file /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/config.yaml
+2024-04-21 16:21:38,794 INFO    wandb-upload_16:1644864 [upload_job.py:push():133] Uploaded file /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/requirements.txt
+2024-04-21 16:21:38,901 INFO    wandb-upload_2:1644864 [upload_job.py:push():133] Uploaded file /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/wandb-summary.json
+2024-04-21 16:21:38,924 INFO    wandb-upload_34:1644864 [upload_job.py:push():133] Uploaded file /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/files/output.log
+2024-04-21 16:21:39,124 INFO    Thread-11 (_thread_body):1644864 [sender.py:transition_state():602] send defer: 11
+2024-04-21 16:21:39,124 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: defer
+2024-04-21 16:21:39,124 INFO    HandlerThread:1644864 [handler.py:handle_request_defer():170] handle defer: 11
+2024-04-21 16:21:39,125 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: defer
+2024-04-21 16:21:39,125 INFO    SenderThread:1644864 [sender.py:send_request_defer():598] handle sender defer: 11
+2024-04-21 16:21:39,125 INFO    SenderThread:1644864 [file_pusher.py:join():164] waiting for file pusher
+2024-04-21 16:21:39,125 INFO    SenderThread:1644864 [sender.py:transition_state():602] send defer: 12
+2024-04-21 16:21:39,125 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: defer
+2024-04-21 16:21:39,125 INFO    HandlerThread:1644864 [handler.py:handle_request_defer():170] handle defer: 12
+2024-04-21 16:21:39,125 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: defer
+2024-04-21 16:21:39,125 INFO    SenderThread:1644864 [sender.py:send_request_defer():598] handle sender defer: 12
+2024-04-21 16:21:39,759 INFO    SenderThread:1644864 [sender.py:transition_state():602] send defer: 13
+2024-04-21 16:21:39,760 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: defer
+2024-04-21 16:21:39,760 INFO    HandlerThread:1644864 [handler.py:handle_request_defer():170] handle defer: 13
+2024-04-21 16:21:39,760 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: status_report
+2024-04-21 16:21:39,761 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: defer
+2024-04-21 16:21:39,761 INFO    SenderThread:1644864 [sender.py:send_request_defer():598] handle sender defer: 13
+2024-04-21 16:21:39,761 INFO    SenderThread:1644864 [sender.py:transition_state():602] send defer: 14
+2024-04-21 16:21:39,761 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: defer
+2024-04-21 16:21:39,761 INFO    HandlerThread:1644864 [handler.py:handle_request_defer():170] handle defer: 14
+2024-04-21 16:21:39,762 DEBUG   SenderThread:1644864 [sender.py:send():369] send: final
+2024-04-21 16:21:39,762 DEBUG   SenderThread:1644864 [sender.py:send():369] send: footer
+2024-04-21 16:21:39,762 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: defer
+2024-04-21 16:21:39,762 INFO    SenderThread:1644864 [sender.py:send_request_defer():598] handle sender defer: 14
+2024-04-21 16:21:39,764 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: poll_exit
+2024-04-21 16:21:39,764 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: server_info
+2024-04-21 16:21:39,765 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: get_summary
+2024-04-21 16:21:39,765 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: poll_exit
+2024-04-21 16:21:39,766 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: sampled_history
+2024-04-21 16:21:39,766 DEBUG   SenderThread:1644864 [sender.py:send_request():396] send_request: server_info
+2024-04-21 16:21:39,968 DEBUG   HandlerThread:1644864 [handler.py:handle_request():144] handle_request: shutdown
+2024-04-21 16:21:39,968 INFO    HandlerThread:1644864 [handler.py:finish():854] shutting down handler
+2024-04-21 16:21:40,765 INFO    WriterThread:1644864 [datastore.py:close():298] close: /home/icl2/khlee/InstaFlow/code/wandb/run-20240421_160052-1ktpy8aa/run-1ktpy8aa.wandb
+2024-04-21 16:21:40,966 INFO    SenderThread:1644864 [sender.py:finish():1526] shutting down sender
+2024-04-21 16:21:40,967 INFO    SenderThread:1644864 [file_pusher.py:finish():159] shutting down file pusher
+2024-04-21 16:21:40,967 INFO    SenderThread:1644864 [file_pusher.py:join():164] waiting for file pusher
