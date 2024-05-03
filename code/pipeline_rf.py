@@ -945,13 +945,13 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             if decoder_use_float:
                 image = image.float()
                 if test_beta:
-                    latents, extra_outputs = self.dec_direct(image, latents, vae_float, test_beta=test_beta, adam=True, decoder_inv_steps=decoder_inv_steps, decoder_lr=decoder_lr, verbose=verbose, use_float=decoder_use_float)
+                    latents, extra_outputs, extra_outputs_another = self.dec_direct(image, latents, vae_float, test_beta=test_beta, adam=False, decoder_inv_steps=decoder_inv_steps, decoder_lr=decoder_lr, verbose=verbose, use_float=decoder_use_float)
                 else:
                     latents = self.dec_direct(image, latents, vae_float, test_beta=test_beta, adam=True, decoder_inv_steps=decoder_inv_steps, decoder_lr=decoder_lr, verbose=verbose, use_float=decoder_use_float)
             else:
                 image = image.half()
                 if test_beta:
-                    latents, extra_outputs = self.dec_direct(image, latents, vae_float, test_beta=test_beta, adam=True, decoder_inv_steps=decoder_inv_steps, decoder_lr=decoder_lr, verbose=verbose, use_float=decoder_use_float)
+                    latents, extra_outputs, extra_outputs_another = self.dec_direct(image, latents, test_beta=test_beta, adam=False, decoder_inv_steps=decoder_inv_steps, decoder_lr=decoder_lr, verbose=verbose, use_float=decoder_use_float)
                 else:
                     latents = self.dec_direct(image, latents, vae_float, test_beta=test_beta, adam=True, decoder_inv_steps=decoder_inv_steps, decoder_lr=decoder_lr, verbose=verbose, use_float=decoder_use_float)
         elif input_type == "encoder":
@@ -1092,7 +1092,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
         image = self.image_processor.postprocess(image, output_type=output_type, do_denormalize=do_denormalize)
 
         if test_beta:
-            return image, output_latents, latents, output_loss, peak_memory_usage, dec_inv_time, extra_outputs
+            return image, output_latents, latents, output_loss, peak_memory_usage, dec_inv_time, extra_outputs, extra_outputs_another
         else:
             return image, output_latents, latents, output_loss, peak_memory_usage, dec_inv_time
     
@@ -1335,9 +1335,8 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
         return z.half()
 
     @torch.inference_mode()
-    def dec_direct(self, x, z_answer, vae_float=None, test_beta=False, adam=False, decoder_inv_steps=100, decoder_lr=0.1, verbose=True, use_float=False):
-        # Must create two versions - float32, float16
-            
+    def dec_direct(self, x, z_answer, vae_float=None, test_beta=False, adam=False, decoder_inv_steps=100, decoder_lr=0.1, verbose=False, use_float=False):
+        # Must create two versions - float32, float16            
         if not test_beta:
             if not use_float:
                 # image = self.vae.decode(latents / self.vae.config.scaling_factor, return_dict=False)[0]
@@ -1367,39 +1366,39 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                     if verbose:
                         print(f"{i+1}, NMSE : {(z-z_answer).norm()**2/z_answer.norm()**2}, lr : {lr}")
             else:
-            z_answer = z_answer.float()
-            x = x.float()
-            # set initial point
-            encoding_dist = vae_float.encode(x).latent_dist
-            z0 = encoding_dist.sample(generator=None)*0.18215            
-            
-            z = z0.clone()
-            if verbose:
-                print(f"start, NMSE : {(z-z_answer).norm()**2/z_answer.norm()**2}")
-
-            if adam:
-                beta1, beta2 = 0.9 , 0.999
-                eps = 1e-4
-                m, v = 0, 0
-
-            for i in range(decoder_inv_steps):
-                lr = get_lr_cosine_with_warmup(i, num_steps=decoder_inv_steps, num_warmup_steps=10, lr_max=decoder_lr)
-                # Decode to get Dz
-                Dz = (vae_float.decode(1/0.18215*z, return_dict=False)[0]/2 + 0.5).clamp(0, 1)
-                Dz = 2*Dz-1
-                # Encode to get EDz
-                EDz = vae_float.encode(Dz).latent_dist.sample(generator=None)*0.18215
-                grad = EDz - z0
-                if adam:
-                    m = beta1 * m + (1 - beta1) * grad
-                    v = beta2 * v + (1 - beta2) * (grad**2)
-                    m_corr = m / (1 - beta1**(i+1))
-                    v_corr = v / (1 - beta2**(i+1))
-                    z -= lr * m_corr / (torch.sqrt(v_corr) + eps)
-                else:
-                    z = z - lr * grad
+                z_answer = z_answer.float()
+                x = x.float()
+                # set initial point
+                encoding_dist = vae_float.encode(x).latent_dist
+                z0 = encoding_dist.sample(generator=None)*0.18215            
+                
+                z = z0.clone()
                 if verbose:
-                    print(f"{i+1}, NMSE : {(z-z_answer).norm()**2/z_answer.norm()**2}, lr : {lr}") # return shape must be [1, 4, 64, 64]       
+                    print(f"start, NMSE : {(z-z_answer).norm()**2/z_answer.norm()**2}")
+
+                if adam:
+                    beta1, beta2 = 0.9 , 0.999
+                    eps = 1e-4
+                    m, v = 0, 0
+
+                for i in range(decoder_inv_steps):
+                    lr = get_lr_cosine_with_warmup(i, num_steps=decoder_inv_steps, num_warmup_steps=10, lr_max=decoder_lr)
+                    # Decode to get Dz
+                    Dz = (vae_float.decode(1/0.18215*z, return_dict=False)[0]/2 + 0.5).clamp(0, 1)
+                    Dz = 2*Dz-1
+                    # Encode to get EDz
+                    EDz = vae_float.encode(Dz).latent_dist.sample(generator=None)*0.18215
+                    grad = EDz - z0
+                    if adam:
+                        m = beta1 * m + (1 - beta1) * grad
+                        v = beta2 * v + (1 - beta2) * (grad**2)
+                        m_corr = m / (1 - beta1**(i+1))
+                        v_corr = v / (1 - beta2**(i+1))
+                        z -= lr * m_corr / (torch.sqrt(v_corr) + eps)
+                    else:
+                        z = z - lr * grad
+                    if verbose:
+                        print(f"{i+1}, NMSE : {(z-z_answer).norm()**2/z_answer.norm()**2}, lr : {lr}") # return shape must be [1, 4, 64, 64]       
             return z.half()
 
         else:
@@ -1408,6 +1407,10 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                 z0 = self.get_image_latents(x, sample=False)
                 z = z0.clone()
                 cocoercivity_rate_array = torch.zeros(decoder_inv_steps)
+
+                # for comparing limit value
+                z_list = []
+                cocoercivity_rate_array_another = torch.zeros(decoder_inv_steps)
                 if verbose:
                     print(f"start, NMSE : {(z-z_answer).norm()**2/z_answer.norm()**2}")
 
@@ -1417,7 +1420,8 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                     m, v = 0, 0
 
                 for i in range(decoder_inv_steps):
-                    lr = get_lr_cosine_with_warmup(i, num_steps=decoder_inv_steps, num_warmup_steps=10, lr_max=decoder_lr)
+                    # lr = get_lr_cosine_with_warmup(i, num_steps=decoder_inv_steps, num_warmup_steps=10, lr_max=decoder_lr)
+                    lr = decoder_lr
                     Dz = 2*self.decode_latents_tensor(z)-1
                     EDz = self.get_image_latents(Dz, sample=False)
                     grad = EDz - z0
@@ -1435,14 +1439,26 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                     EDz_new = self.get_image_latents(2*self.decode_latents_tensor(z_new)-1, sample=False)
                     inner_product = torch.inner(torch.flatten(EDz_new.float() - EDz.float()), torch.flatten(z_new.float()-z.float()))
                     cocoercivity_rate = inner_product / torch.norm(EDz_new.float()-EDz.float())**2
-                    print(inner_product, cocoercivity_rate)
+                    # print(inner_product, cocoercivity_rate)
 
                     cocoercivity_rate_array[i] = cocoercivity_rate
+                    z_list.append(z)
                     z = z_new
                 
-                extra_outputs = cocoercivity_rate_array
+                # calculating on limit area
+                z_comp = z
+                EDz_comp = self.get_image_latents(2*self.decode_latents_tensor(z_comp)-1, sample=False)
+                for i in range(len(z_list)):
+                    EDz_i = self.get_image_latents(2*self.decode_latents_tensor(z_list[i])-1, sample=False)
+                    inner_product = torch.inner(torch.flatten(EDz_i.float() - EDz_comp.float()), torch.flatten(z_list[i].float()-z_comp.float()))
+                    cocoercivity_rate = inner_product / torch.norm(EDz_i.float()-EDz_comp.float())**2
+                    cocoercivity_rate_array_another[i] = cocoercivity_rate
+                    print(cocoercivity_rate)
 
-            # Work on float32 later
+                extra_outputs = cocoercivity_rate_array
+                extra_outputs_another = cocoercivity_rate_array_another
+
+            # TODO : Work on float32 later
             else:
                 z_answer = z_answer.float()
                 x = x.float()
@@ -1482,133 +1498,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                     if verbose:
                         print(f"{i+1}, NMSE : {(z-z_answer).norm()**2/z_answer.norm()**2}, lr : {lr}") # return shape must be [1, 4, 64, 64]
             
-            return z.half(), extra_outputs
-
-    # @torch.inference_mode()
-    # def decoder_inv_nograd(self, x, num_steps=100, num_warmup_steps=None, lr=0.01, float=False, adam=True, with_testing_innerproducts=True):
-    #     """
-    #     INPUT
-    #     x : image data (1, 3, 512, 512)
-    #     OUTPUT
-    #     z : modified latent data (1, 4, 64, 64)
-    #     """
-
-    #     if num_warmup_steps is None:
-    #         num_warmup_steps = num_steps // 10
-        
-    #     if not with_testing_innerproducts:
-    #         if float==False:
-    #             if adam:
-    #                 beta1, beta2 = 0.9 , 0.999
-    #                 eps = 1e-4
-    #                 m, v = 0, 0
-    #             z0 = self.get_image_latents(x)
-    #             z = z0.clone()
-
-    #             for i in self.progress_bar(range(num_steps)):
-    #                 Dz = self.decode_image(z)
-    #                 EDz = self.get_image_latents(Dz)
-    #                 grad = EDz - z0
-
-    #                 lr_now = get_lr_cosine_with_warmup(i, num_steps=num_steps, num_warmup_steps=num_warmup_steps, lr_max=lr)
-
-    #                 if adam:
-    #                     m = beta1 * m + (1 - beta1) * grad
-    #                     v = beta2 * v + (1 - beta2) * (grad**2)
-    #                     m_corr = m / (1 - beta1**(i+1))
-    #                     v_corr = v / (1 - beta2**(i+1))
-    #                     z -= lr_now * m_corr / (torch.sqrt(v_corr) + eps)
-    #                 else:
-    #                     z -= lr_now * grad
-    #             final_loss = torch.nn.functional.mse_loss(Dz,x, reduction='sum')
-
-    #         else:
-    #             if adam:
-    #                 beta1, beta2 = 0.9 , 0.999
-    #                 eps = 1e-8
-    #                 m, v = 0, 0
-    #             z0 = self.get_image_latents(x).float()
-    #             z = z0.clone().float()
-
-    #             for i in self.progress_bar(range(num_steps)):
-    #                 Dz = self.decode_image(z, float=float)
-    #                 EDz = self.get_image_latents_float(Dz)
-    #                 grad = EDz - z0
-
-    #                 lr_now = get_lr_cosine_with_warmup(i, num_steps=num_steps, num_warmup_steps=num_warmup_steps, lr_max=lr)
-
-    #                 if adam:
-    #                     m = beta1 * m + (1 - beta1) * grad
-    #                     v = beta2 * v + (1 - beta2) * (grad**2)
-    #                     m_corr = m / (1 - beta1**(i+1))
-    #                     v_corr = v / (1 - beta2**(i+1))
-    #                     z -= lr_now * m_corr / (torch.sqrt(v_corr) + eps)        
-    #                 else:
-    #                     z -= lr_now * grad        
-    #             final_loss = torch.nn.functional.mse_loss(Dz,x, reduction='sum')      
-    #         return z, final_loss
-
-    #     # with_testing_innerproducts == True
-    #     else:
-    #         if float==False:
-    #             if adam:
-    #                 beta1, beta2 = 0.9 , 0.999
-    #                 eps = 1e-4
-    #                 m, v = 0, 0
-    #             z0 = self.get_image_latents(x)
-    #             z = z0.clone()
-    #             cocoercivity_rate_array = torch.zeros(num_steps)
-    #             for i in self.progress_bar(range(num_steps)):
-    #                 # finding new one
-    #                 Dz = self.decode_image(z)
-    #                 EDz = self.get_image_latents(Dz)
-    #                 grad = EDz - z0
-
-    #                 lr_now = get_lr_cosine_with_warmup(i, num_steps=num_steps, num_warmup_steps=num_warmup_steps, lr_max=lr)
-
-    #                 if adam:
-    #                     m = beta1 * m + (1 - beta1) * grad
-    #                     v = beta2 * v + (1 - beta2) * (grad**2)
-    #                     m_corr = m / (1 - beta1**(i+1))
-    #                     v_corr = v / (1 - beta2**(i+1))
-    #                     z_new = z - lr_now * m_corr / (torch.sqrt(v_corr) + eps)
-    #                 else:
-    #                     z_new = z - lr_now * grad
-
-    #                 EDz_new = self.get_image_latents(self.decode_image(z_new))
-    #                 inner_product = torch.inner(torch.flatten(EDz_new.float() - EDz.float()), torch.flatten(z_new.float()-z.float()))
-    #                 cocoercivity_rate = inner_product / torch.norm(EDz_new.float()-EDz.float())**2 
-    #                 print(inner_product, cocoercivity_rate)
-    #                 cocoercivity_rate_array[i] = cocoercivity_rate
-    #                 z = z_new
-    #             final_loss = torch.nn.functional.mse_loss(Dz,x, reduction='sum')
-    #             extra_outputs = cocoercivity_rate_array
-
-    #         else:
-    #             if adam:
-    #                 beta1, beta2 = 0.9 , 0.999
-    #                 eps = 1e-8
-    #                 m, v = 0, 0
-    #             z0 = self.get_image_latents(x).float()
-    #             z = z0.clone().float()
-
-    #             for i in self.progress_bar(range(num_steps)):
-    #                 Dz = self.decode_image(z, float=float)
-    #                 EDz = self.get_image_latents_float(Dz)
-    #                 grad = EDz - z0
-
-    #                 lr_now = get_lr_cosine_with_warmup(i, num_steps=num_steps, num_warmup_steps=num_warmup_steps, lr_max=lr)
-
-    #                 if adam:
-    #                     m = beta1 * m + (1 - beta1) * grad
-    #                     v = beta2 * v + (1 - beta2) * (grad**2)
-    #                     m_corr = m / (1 - beta1**(i+1))
-    #                     v_corr = v / (1 - beta2**(i+1))
-    #                     z -= lr_now * m_corr / (torch.sqrt(v_corr) + eps)        
-    #                 else:
-    #                     z -= lr_now * grad        
-    #             final_loss = torch.nn.functional.mse_loss(Dz,x, reduction='sum')      
-    #         return z, final_loss, extra_outputs
+            return z.half(), extra_outputs, extra_outputs_another
 
     def ete_inversion(self, x, z_answer, adam=False, decoder_inv_steps=100, decoder_lr=0.01, do_classifier_free_guidance=True, guidance_scale=1.0, prompt_embeds=None, verbose=False, use_float=False):
         # Implement on adam later
