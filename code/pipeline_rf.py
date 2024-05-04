@@ -1447,13 +1447,16 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                 
                 # calculating on limit area
                 z_comp = z
-                EDz_comp = self.get_image_latents(2*self.decode_latents_tensor(z_comp)-1, sample=False)
+                z_temp = 2*self.decode_latents_tensor(z_comp)-1
+                EDz_comp = self.get_image_latents(z_temp, sample=False)
                 for i in range(len(z_list)):
-                    EDz_i = self.get_image_latents(2*self.decode_latents_tensor(z_list[i])-1, sample=False)
+                    z_temp = 2*self.decode_latents_tensor(z_list[i])-1
+                    EDz_i = self.get_image_latents(z_temp, sample=False)
                     inner_product = torch.inner(torch.flatten(EDz_i.float() - EDz_comp.float()), torch.flatten(z_list[i].float()-z_comp.float()))
                     cocoercivity_rate = inner_product / torch.norm(EDz_i.float()-EDz_comp.float())**2
                     cocoercivity_rate_array_another[i] = cocoercivity_rate
-                    print(cocoercivity_rate)
+                    print(cocoercivity_rate, z_list[i].norm().item(), EDz_i.norm().item())
+                    # print(compare1, compare2)
 
                 extra_outputs = cocoercivity_rate_array
                 extra_outputs_another = cocoercivity_rate_array_another
