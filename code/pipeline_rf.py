@@ -1421,7 +1421,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                     m, v = 0, 0
 
                 # using momentum
-                momentum = 0.0
+                momentum = 0.9
                 for i in range(decoder_inv_steps):
                     # lr = get_lr_cosine_with_warmup(i, num_steps=decoder_inv_steps, num_warmup_steps=10, lr_max=decoder_lr)
                     lr = decoder_lr
