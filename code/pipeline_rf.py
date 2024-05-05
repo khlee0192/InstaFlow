@@ -951,7 +951,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             else:
                 image = image.half()
                 if test_beta:
-                    latents, extra_outputs, extra_outputs_another = self.dec_direct(image, latents, test_beta=test_beta, adam=False, decoder_inv_steps=decoder_inv_steps, decoder_lr=decoder_lr, verbose=verbose, use_float=decoder_use_float)
+                    latents, extra_outputs, extra_outputs_another, another_output = self.dec_direct(image, latents, test_beta=test_beta, adam=False, decoder_inv_steps=decoder_inv_steps, decoder_lr=decoder_lr, verbose=verbose, use_float=decoder_use_float)
                 else:
                     latents = self.dec_direct(image, latents, vae_float, test_beta=test_beta, adam=True, decoder_inv_steps=decoder_inv_steps, decoder_lr=decoder_lr, verbose=verbose, use_float=decoder_use_float)
         elif input_type == "encoder":
@@ -1092,7 +1092,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
         image = self.image_processor.postprocess(image, output_type=output_type, do_denormalize=do_denormalize)
 
         if test_beta:
-            return image, output_latents, latents, output_loss, peak_memory_usage, dec_inv_time, extra_outputs, extra_outputs_another
+            return image, output_latents, latents, output_loss, peak_memory_usage, dec_inv_time, extra_outputs, extra_outputs_another, another_output
         else:
             return image, output_latents, latents, output_loss, peak_memory_usage, dec_inv_time
     
@@ -1410,6 +1410,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
 
                 # for comparing limit value
                 z_list = []
+                z_dist = torch.zeros(decoder_inv_steps)
                 cocoercivity_rate_array_another = torch.zeros(decoder_inv_steps)
                 if verbose:
                     print(f"start, NMSE : {(z-z_answer).norm()**2/z_answer.norm()**2}")
@@ -1420,7 +1421,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                     m, v = 0, 0
 
                 # using momentum
-                momentum = 0.9
+                momentum = 0.0
                 for i in range(decoder_inv_steps):
                     # lr = get_lr_cosine_with_warmup(i, num_steps=decoder_inv_steps, num_warmup_steps=10, lr_max=decoder_lr)
                     lr = decoder_lr
@@ -1452,6 +1453,9 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                     cocoercivity_rate_array[i] = cocoercivity_rate
                     z_list.append(z)
                     z = z_new
+
+                    if i > 0:
+                        z_dist[i-1] = ((z_list[i-1]-z_list[i]).norm().item())**2
                 
                 # calculating on limit area
                 z_comp = z
@@ -1468,6 +1472,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
 
                 extra_outputs = cocoercivity_rate_array
                 extra_outputs_another = cocoercivity_rate_array_another
+                another_output = torch.Tensor(z_dist)
 
             # TODO : Work on float32 later
             else:
@@ -1509,7 +1514,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                     if verbose:
                         print(f"{i+1}, NMSE : {(z-z_answer).norm()**2/z_answer.norm()**2}, lr : {lr}") # return shape must be [1, 4, 64, 64]
             
-            return z.half(), extra_outputs, extra_outputs_another
+            return z.half(), extra_outputs, extra_outputs_another, another_output
 
     def ete_inversion(self, x, z_answer, adam=False, decoder_inv_steps=100, decoder_lr=0.01, do_classifier_free_guidance=True, guidance_scale=1.0, prompt_embeds=None, verbose=False, use_float=False):
         # Implement on adam later
