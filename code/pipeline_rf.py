@@ -1419,6 +1419,8 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                     eps = 1e-4
                     m, v = 0, 0
 
+                # using momentum
+                momentum = 0.9
                 for i in range(decoder_inv_steps):
                     # lr = get_lr_cosine_with_warmup(i, num_steps=decoder_inv_steps, num_warmup_steps=10, lr_max=decoder_lr)
                     lr = decoder_lr
@@ -1432,6 +1434,12 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                         v_corr = v / (1 - beta2**(i+1))
                         z_new = z - lr * m_corr / (torch.sqrt(v_corr) + eps)
                     else:
+                        if momentum > 0:
+                            if i > 0:
+                                grad_momentum = momentum * grad_momentum + grad
+                            else:
+                                grad_momentum = grad
+                            grad = grad_momentum
                         z_new = z - lr * grad
                     if verbose:
                         print(f"{i+1}, NMSE : {(z-z_answer).norm()**2/z_answer.norm()**2}, lr : {lr}")
