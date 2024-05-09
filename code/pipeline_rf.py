@@ -1454,8 +1454,8 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                     z_list.append(z)
                     z = z_new
 
-                    if i > 0:
-                        z_dist[i-1] = ((z_list[i-1]-z_list[i]).norm().item())**2
+                    # if i > 0:
+                    #     z_dist[i-1] = ((z_list[i-1]-z_list[i]).norm().item())
                 
                 # calculating on limit area
                 z_comp = z
@@ -1469,6 +1469,9 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                     cocoercivity_rate_array_another[i] = cocoercivity_rate
                     print(cocoercivity_rate, z_list[i].norm().item(), EDz_i.norm().item())
                     # print(compare1, compare2)
+
+                for i in range(len(z_list)-1):
+                    z_dist[i] = ((z_list[i]-z_comp).norm().item())
 
                 extra_outputs = cocoercivity_rate_array
                 extra_outputs_another = cocoercivity_rate_array_another
