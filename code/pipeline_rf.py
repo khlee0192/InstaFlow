@@ -882,6 +882,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             callback_steps: int = 1,
             decoder_inv_steps: int = 100,
             decoder_lr: float = 0.1,
+            decoder_adam: bool = False,
             forward_steps: int = 100,
             tuning_steps: int = 100,
             tuning_lr: float = 0.01,
@@ -947,13 +948,13 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                 if test_beta:
                     latents, extra_outputs, extra_outputs_another = self.dec_direct(image, latents, vae_float, test_beta=test_beta, adam=False, decoder_inv_steps=decoder_inv_steps, decoder_lr=decoder_lr, verbose=verbose, use_float=decoder_use_float)
                 else:
-                    latents = self.dec_direct(image, latents, vae_float, test_beta=test_beta, adam=True, decoder_inv_steps=decoder_inv_steps, decoder_lr=decoder_lr, verbose=verbose, use_float=decoder_use_float)
+                    latents = self.dec_direct(image, latents, vae_float, test_beta=test_beta, adam=decoder_adam, decoder_inv_steps=decoder_inv_steps, decoder_lr=decoder_lr, verbose=verbose, use_float=decoder_use_float)
             else:
                 image = image.half()
                 if test_beta:
                     latents, extra_outputs, extra_outputs_another, another_output = self.dec_direct(image, latents, test_beta=test_beta, adam=False, decoder_inv_steps=decoder_inv_steps, decoder_lr=decoder_lr, verbose=verbose, use_float=decoder_use_float)
                 else:
-                    latents = self.dec_direct(image, latents, vae_float, test_beta=test_beta, adam=True, decoder_inv_steps=decoder_inv_steps, decoder_lr=decoder_lr, verbose=verbose, use_float=decoder_use_float)
+                    latents = self.dec_direct(image, latents, vae_float, test_beta=test_beta, adam=decoder_adam, decoder_inv_steps=decoder_inv_steps, decoder_lr=decoder_lr, verbose=verbose, use_float=decoder_use_float)
         elif input_type == "encoder":
             # TODO : something wrong?
             image = torch.Tensor(image).permute(0, 3, 1, 2)
@@ -1422,6 +1423,9 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
 
                 # using momentum
                 momentum = 0.9
+                km = True
+                alpha = 0.2
+                twoxlambdaxbeta = decoder_lr
                 for i in range(decoder_inv_steps):
                     # lr = get_lr_cosine_with_warmup(i, num_steps=decoder_inv_steps, num_warmup_steps=10, lr_max=decoder_lr)
                     lr = decoder_lr
@@ -1435,13 +1439,25 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                         v_corr = v / (1 - beta2**(i+1))
                         z_new = z - lr * m_corr / (torch.sqrt(v_corr) + eps)
                     else:
-                        if momentum > 0:
+                        if km:
+                            if i == 0:
+                                z_new = z - lr * grad
+                            else:
+                                y = z + alpha * (z - z_old)                    
+                                T = self.get_image_latents(2*self.decode_latents_tensor(y)-1, sample=False) - z0 # T(y)=ED(y)-E(x)
+                                z_new = y - twoxlambdaxbeta * T
+                            z_old = z
+
+                            
+                        elif momentum > 0:
                             if i > 0:
                                 grad_momentum = momentum * grad_momentum + grad
                             else:
                                 grad_momentum = grad
                             grad = grad_momentum
-                        z_new = z - lr * grad
+                            z_new = z - lr * grad
+                        else:
+                            z_new = z - lr * grad
                     if verbose:
                         print(f"{i+1}, NMSE : {(z-z_answer).norm()**2/z_answer.norm()**2}, lr : {lr}")
 
@@ -1903,6 +1919,8 @@ def get_lr_cosine_with_warmup(i, num_steps=100, num_warmup_steps=10, lr_max=0.01
     assert i>=0 and i<num_steps
     if i<num_warmup_steps:
         lr = (i+1)/num_warmup_steps * lr_max
+    elif i>=80:
+        lr = lr_max * (1 + math.cos(math.pi * (80-num_warmup_steps)/ (num_steps - num_warmup_steps)))/2
     else:
         lr = lr_max * (1 + math.cos(math.pi * (i-num_warmup_steps)/ (num_steps - num_warmup_steps)))/2
     return lr

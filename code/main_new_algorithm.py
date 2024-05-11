@@ -58,6 +58,7 @@ def single_exp(seed, prompt, inversion_prompt, randomize_seed,
         use_random_initial_noise=False,
         decoder_inv_steps=decoder_inv_steps,
         decoder_lr=decoder_lr,
+        decoder_adam=args.decoder_adam,
         forward_steps=forward_steps,
         tuning_steps=0,
         tuning_lr=tuning_lr,
@@ -122,7 +123,7 @@ def main():
     dataset, prompt_key = get_dataset(args.dataset)
 
     if args.with_tracking:
-        wandb.init(project='Beta experiment', name=args.run_name)
+        wandb.init(project='240512 work on KM momentum', name=args.run_name)
         wandb.config.update(args)
         table = wandb.Table(columns=['original_image', 'recon_image', 'diff_image', 'original_latents_visualized', 'recon_latents_visualized', 'diff_latents_visualized', 'error_TOT', 'error_OTO', 'error_middle', 'output_loss', 'dec_inv memory', 'inf_time', 'inv_time', 'seed', 'prompt', 'cocercivity_process', 'cocercivity_inf'])
 
@@ -282,7 +283,8 @@ if __name__ == '__main__':
     parser.add_argument('--test_beta', action='store_true')
     parser.add_argument('--decoder_inv_steps', default=100, type=int)
     parser.add_argument('--decoder_lr', default=0.1, type=float)
-    parser.add_argument('--forward_steps', default=100, type=int)
+    parser.add_argument('--decoder_adam', default=True, type=bool)
+    parser.add_argument('--forward_steps', default=1, type=int)
     parser.add_argument('--tuning_steps', default=0, type=int)
     parser.add_argument('--tuning_lr', default=0.0, type=float)
     parser.add_argument('--reg_coeff', default=0.0, type=float)
