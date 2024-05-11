@@ -1424,8 +1424,8 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                 # using momentum
                 momentum = 0.9
                 km = True
-                alpha = 0.2
-                twoxlambdaxbeta = decoder_lr
+                alpha = 0.9
+                twoxlambdaxbeta = 0.01
                 for i in range(decoder_inv_steps):
                     # lr = get_lr_cosine_with_warmup(i, num_steps=decoder_inv_steps, num_warmup_steps=10, lr_max=decoder_lr)
                     lr = decoder_lr
@@ -1447,7 +1447,6 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                                 T = self.get_image_latents(2*self.decode_latents_tensor(y)-1, sample=False) - z0 # T(y)=ED(y)-E(x)
                                 z_new = y - twoxlambdaxbeta * T
                             z_old = z
-
                             
                         elif momentum > 0:
                             if i > 0:
