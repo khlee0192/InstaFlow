@@ -123,7 +123,7 @@ def main():
     dataset, prompt_key = get_dataset(args.dataset)
 
     if args.with_tracking:
-        wandb.init(project='240512 work on KM momentum', name=args.run_name)
+        wandb.init(project='240512 work on KM', name=args.run_name)
         wandb.config.update(args)
         table = wandb.Table(columns=['original_image', 'recon_image', 'diff_image', 'original_latents_visualized', 'recon_latents_visualized', 'diff_latents_visualized', 'error_TOT', 'error_OTO', 'error_middle', 'output_loss', 'dec_inv memory', 'inf_time', 'inv_time', 'seed', 'prompt', 'cocercivity_process', 'cocercivity_inf'])
 

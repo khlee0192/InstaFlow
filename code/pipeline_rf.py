@@ -1425,10 +1425,10 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                 momentum = 0.9
                 km = True
                 alpha = 0.9
-                twoxlambdaxbeta = 0.01
+                twoxlambdaxbeta = 0.001
                 for i in range(decoder_inv_steps):
-                    # lr = get_lr_cosine_with_warmup(i, num_steps=decoder_inv_steps, num_warmup_steps=10, lr_max=decoder_lr)
-                    lr = decoder_lr
+                    lr = get_lr_cosine_with_warmup(i, num_steps=decoder_inv_steps, num_warmup_steps=10, lr_max=decoder_lr)
+                    # lr = decoder_lr
                     Dz = 2*self.decode_latents_tensor(z)-1
                     EDz = self.get_image_latents(Dz, sample=False)
                     grad = EDz - z0
@@ -1468,6 +1468,9 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                     cocoercivity_rate_array[i] = cocoercivity_rate
                     z_list.append(z)
                     z = z_new
+
+                    if i==100:
+                        z_return = z
 
                     # if i > 0:
                     #     z_dist[i-1] = ((z_list[i-1]-z_list[i]).norm().item())
@@ -1532,7 +1535,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                     if verbose:
                         print(f"{i+1}, NMSE : {(z-z_answer).norm()**2/z_answer.norm()**2}, lr : {lr}") # return shape must be [1, 4, 64, 64]
             
-            return z.half(), extra_outputs, extra_outputs_another, another_output
+            return z_return.half(), extra_outputs, extra_outputs_another, another_output
 
     def ete_inversion(self, x, z_answer, adam=False, decoder_inv_steps=100, decoder_lr=0.01, do_classifier_free_guidance=True, guidance_scale=1.0, prompt_embeds=None, verbose=False, use_float=False):
         # Implement on adam later
