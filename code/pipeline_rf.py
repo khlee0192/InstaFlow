@@ -946,13 +946,13 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
             if decoder_use_float:
                 image = image.float()
                 if test_beta:
-                    latents, extra_outputs, extra_outputs_another = self.dec_direct(image, latents, vae_float, test_beta=test_beta, adam=False, decoder_inv_steps=decoder_inv_steps, decoder_lr=decoder_lr, verbose=verbose, use_float=decoder_use_float)
+                    latents, extra_outputs, extra_outputs_another = self.dec_direct(image, latents, vae_float, test_beta=test_beta, adam=decoder_adam, decoder_inv_steps=decoder_inv_steps, decoder_lr=decoder_lr, verbose=verbose, use_float=decoder_use_float)
                 else:
                     latents = self.dec_direct(image, latents, vae_float, test_beta=test_beta, adam=decoder_adam, decoder_inv_steps=decoder_inv_steps, decoder_lr=decoder_lr, verbose=verbose, use_float=decoder_use_float)
             else:
                 image = image.half()
                 if test_beta:
-                    latents, extra_outputs, extra_outputs_another, another_output = self.dec_direct(image, latents, test_beta=test_beta, adam=False, decoder_inv_steps=decoder_inv_steps, decoder_lr=decoder_lr, verbose=verbose, use_float=decoder_use_float)
+                    latents, extra_outputs, extra_outputs_another, another_output = self.dec_direct(image, latents, vae_float, test_beta=test_beta, adam=decoder_adam, decoder_inv_steps=decoder_inv_steps, decoder_lr=decoder_lr, verbose=verbose, use_float=decoder_use_float)
                 else:
                     latents = self.dec_direct(image, latents, vae_float, test_beta=test_beta, adam=decoder_adam, decoder_inv_steps=decoder_inv_steps, decoder_lr=decoder_lr, verbose=verbose, use_float=decoder_use_float)
         elif input_type == "encoder":
@@ -1400,7 +1400,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                         z = z - lr * grad
                     if verbose:
                         print(f"{i+1}, NMSE : {(z-z_answer).norm()**2/z_answer.norm()**2}, lr : {lr}") # return shape must be [1, 4, 64, 64]       
-            return z.half(), None, None, None
+            return z.half()
 
         else:
             if not use_float:
