@@ -1,7 +1,9 @@
 #!/bin/bash
 
-# test script
-python main_new_algorithm.py --run_name testing_args --start 0 --end 1 --decoder_inv_steps 20 --decoder_lr 0.01 --decoder_adam True --inversion_type new_alg --with_tracking
+# test script, what is the problem with the performance?
+python main_new_algorithm.py --run_name testing_ours_16 --start 0 --end 5 --decoder_inv_steps 100 --decoder_lr 0.01 --decoder_adam True --inversion_type new_alg --with_tracking --test_beta
+python main_new_algorithm.py --run_name testing_ours_32 --start 0 --end 5 --decoder_inv_steps 100 --decoder_lr 0.01 --decoder_adam True --inversion_type new_alg --with_tracking --use_float --test_beta
+python main_new_algorithm.py --run_name testing_dec_32 --start 0 --end 5 --decoder_inv_steps 100 --decoder_lr 0.01 --decoder_adam True --inversion_type dec_inv --with_tracking --use_float
 
 # ## with 0.01
 # python main_new_algorithm.py --run_name adam_20steps --start 0 --end 100 --decoder_inv_steps 20 --decoder_lr 0.01 --decoder_adam True --inversion_type new_alg --test_beta --with_tracking
