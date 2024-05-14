@@ -1400,7 +1400,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                         z = z - lr * grad
                     if verbose:
                         print(f"{i+1}, NMSE : {(z-z_answer).norm()**2/z_answer.norm()**2}, lr : {lr}") # return shape must be [1, 4, 64, 64]       
-            return z.half(), None, None, None
+            return z.half()
 
         else:
             if not use_float:
@@ -1471,7 +1471,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                     z_list.append(z)
                     z = z_new
 
-                    if decoder_inv_steps == 300 and i == 50:
+                    if i==100:
                         z_return = z
 
                     # if i > 0:
@@ -1537,9 +1537,92 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                     if verbose:
                         print(f"{i+1}, NMSE : {(z-z_answer).norm()**2/z_answer.norm()**2}, lr : {lr}") # return shape must be [1, 4, 64, 64]
             
+            
             z_return = z
 
             return z_return.half(), extra_outputs, extra_outputs_another, another_output
+
+    def ete_inversion(self, x, z_answer, adam=False, decoder_inv_steps=100, decoder_lr=0.01, do_classifier_free_guidance=True, guidance_scale=1.0, prompt_embeds=None, verbose=False, use_float=False):
+        # Implement on adam later
+        t = 1000
+        dt = 1
+        if not use_float:
+            z0 = self.get_image_latents(x, sample=False)
+            zT = self.backward_ot2(z0, do_classifier_free_guidance, guidance_scale, prompt_embeds, t, dt)
+            z = z0.clone()
+            if verbose:
+                print(f"start, NMSE : {(z-z_answer).norm()**2/z_answer.norm()**2}")
+
+            if adam:
+                beta1, beta2 = 0.9 , 0.999
+                eps = 1e-4
+                m, v = 0, 0
+
+            for i in range(decoder_inv_steps):
+                lr = get_lr_cosine_with_warmup(i, num_steps=decoder_inv_steps, num_warmup_steps=10, lr_max=decoder_lr)
+                lr2 = get_lr_cosine_with_warmup(i, num_steps=decoder_inv_steps, num_warmup_steps=10, lr_max=decoder_lr/10)
+                # lr2 = 0.0001 # best
+
+                # 1. calculate grad1, update z0
+                Dz = 2*self.decode_latents_tensor(z)-1
+                EDz = self.get_image_latents(Dz, sample=False)
+                grad = EDz - z0
+
+                if adam:
+                    m = beta1 * m + (1 - beta1) * grad
+                    v = beta2 * v + (1 - beta2) * (grad**2)
+                    m_corr = m / (1 - beta1**(i+1))
+                    v_corr = v / (1 - beta2**(i+1))
+                    z -= lr * m_corr / (torch.sqrt(v_corr) + eps)
+                else:
+                    z = z - lr * grad
+                if verbose:
+                    print(f"{i+1}-1, NMSE : {(z-z_answer).norm()**2/z_answer.norm()**2}, lr : {lr}")
+
+                # 2. calculate grad2, update z0 again
+                zT_new = self.backward_ot2(z, do_classifier_free_guidance, guidance_scale, prompt_embeds, t, dt)
+                diff = self.forward_t2o(zT_new - zT, do_classifier_free_guidance, guidance_scale, prompt_embeds, t, dt)
+                zT = zT_new
+                if adam:
+                    m = beta1 * m + (1 - beta1) * grad
+                    v = beta2 * v + (1 - beta2) * (grad**2)
+                    m_corr = m / (1 - beta1**(i+1))
+                    v_corr = v / (1 - beta2**(i+1))
+                    z -= lr * m_corr / (torch.sqrt(v_corr) + eps)
+                else:
+                    z = z - lr2 * diff
+                if verbose:
+                    print(f"\t{i+1}-2, NMSE : {(z-z_answer).norm()**2/z_answer.norm()**2}, lr : {lr2}")
+
+            return z
+        else:
+            pass
+
+    def forward_t2o(self, noise, do_classifier_free_guidance, guidance_scale, prompt_embeds, t, dt):
+        latent_model_input = torch.cat([noise] * 2) if do_classifier_free_guidance else noise
+        vec_t = torch.ones((latent_model_input.shape[0],), device=noise.device) * t
+        v_pred = self.unet(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds).sample
+
+        if do_classifier_free_guidance:
+            v_pred_neg, v_pred_text = v_pred.chunk(2)
+            v_pred = v_pred_neg + guidance_scale * (v_pred_text - v_pred_neg)
+        
+        latents = noise + dt * v_pred
+        
+        return latents
+    
+    def backward_ot2(self, latents, do_classifier_free_guidance, guidance_scale, prompt_embeds, t, dt):
+        latent_model_input = torch.cat([latents] * 2) if do_classifier_free_guidance else latents
+        vec_t = torch.ones((latent_model_input.shape[0],), device=latents.device) * t
+        v_pred = self.unet(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds).sample
+
+        if do_classifier_free_guidance:
+            v_pred_neg, v_pred_text = v_pred.chunk(2)
+            v_pred = v_pred_neg + guidance_scale * (v_pred_text - v_pred_neg)
+        
+        noise = latents - dt * v_pred
+        
+        return noise
 
     @torch.inference_mode()
     def get_image_latents(self, image, sample=True, rng_generator=None):
@@ -1558,17 +1641,296 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
         # we always cast to float32 as this does not cause significant overhead and is compatible with bfloat16
         return image
 
+    def prompt_optimization(
+            self,
+            prompt: Union[str, List[str]] = None,
+            latents: Optional[torch.FloatTensor] = None,
+            num_inversion_steps: int = 50,
+            num_inference_steps: int = 1,
+            guidance_scale: float = 7.5,
+            use_random_initial_noise: bool = False,
+            verbose: bool = False,
+            negative_prompt: Optional[Union[str, List[str]]] = None,
+            prompt_embeds: Optional[torch.FloatTensor] = None,
+            negative_prompt_embeds: Optional[torch.FloatTensor] = None,
+            num_images_per_prompt: Optional[int] = 1,
+            cross_attention_kwargs: Optional[Dict[str, Any]] = None,
+            generator: Optional[Union[torch.Generator, List[torch.Generator]]] = None,
+            output_type: Optional[str] = "pil",
+            callback: Optional[Callable[[int, int, torch.FloatTensor], None]] = None,
+            callback_steps: int = 1,
+        ):
+        """
+        Prompt optimization of RectifiedFlowPipeline. Gets input of 1,4,64,64 latents (which is denoised), and returns original latents and estimated prompt embeddings by joint optimization.
+        To make it simple, prompt optimization gets prompt to compare the result, but does not use in calculation
+        I don't know how to perform decode_prompt, so I will simply deal with error between original prompt and estimated prompt
+
+        Args:
+            
+        """
+        # To calculate inversion time
+        t_s = time.time()
+
+        do_classifier_free_guidance = guidance_scale > 1.0
+        device = self._execution_device
+        text_encoder_lora_scale = (
+            cross_attention_kwargs.get("scale", None) if cross_attention_kwargs is not None else None
+        )
+
+        answer_prompt_embeds, answer_negative_prompt_embeds = self.encode_prompt(
+            prompt,
+            device,
+            num_images_per_prompt,
+            do_classifier_free_guidance,
+            negative_prompt,
+            prompt_embeds=prompt_embeds,
+            negative_prompt_embeds=negative_prompt_embeds,
+            lora_scale=text_encoder_lora_scale,
+        )
+
+        # initialize prompt embeddings by entering null text
+        prompt_embeds, negative_prompt_embeds = self.encode_prompt(
+            "",
+            device,
+            num_images_per_prompt,
+            do_classifier_free_guidance,
+            negative_prompt,
+            prompt_embeds=prompt_embeds,
+            negative_prompt_embeds=negative_prompt_embeds,
+            lora_scale=text_encoder_lora_scale,
+        )
+
+        if do_classifier_free_guidance:
+            prompt_embeds = torch.cat([negative_prompt_embeds, prompt_embeds])
+
+        # 4. Prepare timesteps, then reverse for inversion
+        timesteps = [(1. - i/num_inversion_steps) * 1000. for i in range(num_inversion_steps)]
+
+        # 5. Prepare extra step kwargs. TODO: Logic should ideally just be moved out of the pipeline
+        #extra_step_kwargs = self.prepare_extra_step_kwargs(generator, eta)
+        dt = 1.0 / num_inversion_steps
+
+        current_latents = latents # Save latents, this is our target
+
+        # Target latent : "current_latents"
+        # Target prompt : "answer_prompt_embeds"
+
+        # 6. Inversion loop of Euler discretization from t = 1 to t = 0
+        # Original concept does not work properly, so we choose to generate a random distribution to make v_pred at the beginning
+        with self.progress_bar(total=num_inversion_steps) as progress_bar:
+            for i, t in enumerate(timesteps):
+                if use_random_initial_noise:
+                    # Instead of using latents, perform inital guess (to make scale reliable)
+                    initial_latents = randn_tensor(latents.shape, generator=generator, device=device, dtype=latents.dtype)
+                    
+                    # expand the latents if we are doing classifier free guidance
+                    latent_model_input = torch.cat([initial_latents] * 2) if do_classifier_free_guidance else initial_latents
+                    vec_t = torch.ones((latent_model_input.shape[0],), device=latents.device) * t
+                    v_pred = self.unet(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds).sample
+                    # perform guidance 
+                    if do_classifier_free_guidance:
+                        v_pred_neg, v_pred_text = v_pred.chunk(2)
+                        v_pred = v_pred_neg + guidance_scale * (v_pred_text - v_pred_neg)
+
+                    # instead of + in generation, switch to - since this is inversion process (not that meaningful since this is only process of setting initial value)
+                    latents = latents - dt * v_pred
+
+                    # Our work : perform forward step method
+                    latents = self.forward_step_method(latents, current_latents, t, dt, prompt_embeds=prompt_embeds, do_classifier_free_guidance=do_classifier_free_guidance, guidance_scale=guidance_scale, verbose=verbose)
+                else:
+                    # expand the latents if we are doing classifier free guidance
+                    latent_model_input = torch.cat([latents] * 2) if do_classifier_free_guidance else latents
+
+                    vec_t = torch.ones((latent_model_input.shape[0],), device=latents.device) * t 
+
+                    v_pred = self.unet(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds).sample
+                    #v_pred = model(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds).sample
+
+                    # perform guidance 
+                    if do_classifier_free_guidance:
+                        v_pred_neg, v_pred_text = v_pred.chunk(2)
+                        v_pred = v_pred_neg + guidance_scale * (v_pred_text - v_pred_neg)
+
+                    current_latents = latents
+                    latents = latents - dt * v_pred # instead of + in generation, switch to - since this is inversion process (not that meaningful since this is only process of setting initial value)
+                    #latents = randn_tensor(latents.shape, generator=generator, device=device, dtype=latents.dtype)
+
+                    # Our work : perform forward step method
+                    latents, prompt_embeds = self.prompt_optimization_gradient_method(
+                        latents, 
+                        current_latents, t, dt, 
+                        prompt_embeds=prompt_embeds,
+                        answer_prompt_embeds=answer_prompt_embeds,
+                        do_classifier_free_guidance=do_classifier_free_guidance, 
+                        guidance_scale=guidance_scale, verbose=verbose)
+            
+
+                if i == len(timesteps) - 1 or ((i + 1) % self.scheduler.order == 0):
+                    progress_bar.update()
+                    if callback is not None and i % callback_steps == 0:
+                        step_idx = i // getattr(self.scheduler, "order", 1)
+                        callback(step_idx, t, latents)
+
+        # Offload all models
+        self.maybe_free_model_hooks()
+
+        # After all process,
+        ## Comparison of latents : current_latents, latents
+        ## Comparison of prompt embeddings : answer_prompt_embeds, prompt_embeds
+
+        inv_time = time.time() - t_s
+
+        print(f"inversion time : {inv_time}")
+
+        # Creating image
+        timesteps = [(1. - i/num_inference_steps) * 1000. for i in range(num_inference_steps)]
+        for i, t in enumerate(timesteps):
+            # expand the latents if we are doing classifier free guidance
+            latent_model_input = torch.cat([latents] * 2) if do_classifier_free_guidance else latents
+
+            vec_t = torch.ones((latent_model_input.shape[0],), device=latents.device) * t 
+
+            v_pred = self.unet(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds).sample
+
+            # perform guidance 
+            if do_classifier_free_guidance:
+                v_pred_neg, v_pred_text = v_pred.chunk(2)
+                v_pred = v_pred_neg + guidance_scale * (v_pred_text - v_pred_neg)
+
+            recon_latents = latents + dt * v_pred
+
+        image = self.vae.decode(recon_latents / self.vae.config.scaling_factor, return_dict=False)[0]
+        do_denormalize = [True] * image.shape[0]
+        image = self.image_processor.postprocess(image, output_type=output_type, do_denormalize=do_denormalize)
+
+        return latents, image
+
+    def prompt_optimization_method(
+        self, 
+        latents,
+        current_latents, 
+        t, dt, prompt_embeds,
+        answer_prompt_embeds,
+        do_classifier_free_guidance,
+        guidance_scale,
+        verbose=True,
+        warmup = False,
+        warmup_time = 0,
+        original_step_size=0.1, step_size=0.1,
+        factor=0.5, patience=20, th=1e-5
+    ):
+        """
+        Our goal is to get latents, prompt_embeds correctly that can guess current_latents
+        """
+
+        latents_s = latents
+        prompt_embeds_s = prompt_embeds
+        step_scheduler = StepScheduler(current_lr=step_size, factor=factor, patience=patience)
+        steps = 1000
+
+        for i in range(steps):
+            if warmup:
+                if i < warmup_time:
+                    step_size = original_step_size * (i+1)/(warmup_time)
+
+            latent_model_input = torch.cat([latents_s] * 2) if do_classifier_free_guidance else latents_s
+            vec_t = torch.ones((latent_model_input.shape[0],), device=latents.device) * t
+            v_pred = self.unet(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds).sample
+
+            if do_classifier_free_guidance:
+                v_pred_neg, v_pred_text = v_pred.chunk(2)
+                v_pred = v_pred_neg + guidance_scale * (v_pred_text - v_pred_neg)
+            
+            latents_t = latents_s + dt * v_pred
+
+            loss = torch.nn.functional.mse_loss(latents_t, current_latents, reduction='mean')
+            #loss = torch.nn.functional.mse_loss(prompt_embeds_s, answer_prompt_embeds, reduction='mean')
+            if loss.item() < th:
+                break
+
+            latents_s = latents_s - step_size * (latents_t - current_latents)
+            prompt_embeds_s = prompt_embeds_s - step_size * (prompt_embeds_s - answer_prompt_embeds)
+            step_size = step_scheduler.step(loss)
+
+            if verbose:
+                print(i, round((latents_t - current_latents).norm().item()/current_latents.norm().item(), 5), end = " ")
+                print(round((prompt_embeds_s - answer_prompt_embeds).norm().item()/(answer_prompt_embeds).norm().item(), 5))
+
+        return latents_s, prompt_embeds_s
+
+    def prompt_optimization_gradient_method(
+        self, 
+        latents,
+        current_latents, 
+        t, dt, prompt_embeds,
+        answer_prompt_embeds,
+        do_classifier_free_guidance,
+        guidance_scale,
+        verbose=True,
+        warmup = False,
+        warmup_time = 0,
+        original_step_size=0.1, step_size=10,
+        factor=0.1, patience=30, th=1e-5
+    ):
+        """
+        Our goal is to get latents, prompt_embeds correctly that can guess current_latents
+        """
+
+        latents_s = latents.clone().requires_grad_(True)
+        prompt_embeds_s = prompt_embeds.clone().requires_grad_(True)
+        step_scheduler = StepScheduler(current_lr=step_size, factor=factor, patience=patience)
+        steps = 10000
+
+        for i in range(steps):
+            if warmup:
+                if i < warmup_time:
+                    step_size = original_step_size * (i + 1) / (warmup_time)
+
+            latent_model_input = torch.cat([latents_s] * 2) if do_classifier_free_guidance else latents_s
+            vec_t = torch.ones((latent_model_input.shape[0],), device=latents.device) * t
+            v_pred = self.unet(latent_model_input, vec_t, encoder_hidden_states=prompt_embeds_s).sample
+
+            if do_classifier_free_guidance:
+                v_pred_neg, v_pred_text = v_pred.chunk(2)
+                v_pred = v_pred_neg + guidance_scale * (v_pred_text - v_pred_neg)
+
+            latents_t = latents_s + dt * v_pred
+
+            loss_latents = torch.nn.functional.mse_loss(latents_t, current_latents, reduction='mean')
+            loss_prompt_embeds = torch.nn.functional.mse_loss(prompt_embeds_s, answer_prompt_embeds, reduction='mean')
+            loss = loss_latents + 100* loss_prompt_embeds
+
+            if loss.item() < th:
+                break
+
+            loss.backward()
+
+            with torch.no_grad():
+                latents_s -= step_size * latents_s.grad
+                prompt_embeds_s -= step_size * prompt_embeds_s.grad
+
+                # Manually zero the gradients after updating the parameters
+                latents_s.grad.zero_()
+                prompt_embeds_s.grad.zero_()
+
+            step_size = step_scheduler.step(loss_latents.item())
+
+            if verbose:
+                print(i, round((latents_t - current_latents).norm().item() / current_latents.norm().item(), 5), end=" ")
+                print(round((prompt_embeds_s - answer_prompt_embeds).norm().item() / answer_prompt_embeds.norm().item(), 5), end=" ")
+                print(step_size)
+
+        return latents_s.detach(), prompt_embeds_s.detach()
+
 def get_lr_cosine_with_warmup(i, num_steps=100, num_warmup_steps=10, lr_max=0.01):
     assert i>=0 and i<num_steps
     if num_steps==300:
-        redef_num_warmup_steps = 5
-        redef_num_steps = 50
-        if i<redef_num_warmup_steps:
-            lr = (i+1)/redef_num_warmup_steps * lr_max
-        elif i>=40:
-            lr = lr_max * (1 + math.cos(math.pi * (40-redef_num_warmup_steps)/ (50 - redef_num_warmup_steps)))/2
-        else:
-            lr = lr_max * (1 + math.cos(math.pi * (i-redef_num_warmup_steps)/ (num_steps - redef_num_warmup_steps)))/2
+        if i<num_warmup_steps:
+            lr = (i+1)/num_warmup_steps * lr_max
+        elif i>=80:
+            lr = lr_max * (1 + math.cos(math.pi * (80-num_warmup_steps)/ (100 - num_warmup_steps)))/2
+        # else:
+        #     lr = lr_max * (1 + math.cos(math.pi * (i-num_warmup_steps)/ (num_steps - num_warmup_steps)))/2
     else:
         if i<num_warmup_steps:
             lr = (i+1)/num_warmup_steps * lr_max
