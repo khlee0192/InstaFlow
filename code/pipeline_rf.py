@@ -1427,8 +1427,10 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                 alpha = 0.9
                 twoxlambdaxbeta = 0.001
                 for i in range(decoder_inv_steps):
-                    lr = get_lr_cosine_with_warmup(i, num_steps=decoder_inv_steps, num_warmup_steps=10, lr_max=decoder_lr)
-                    # lr = decoder_lr
+                    if adam:
+                        lr = get_lr_cosine_with_warmup(i, num_steps=decoder_inv_steps, num_warmup_steps=decoder_inv_steps/10, lr_max=decoder_lr)
+                    else:
+                        lr = decoder_lr
                     Dz = 2*self.decode_latents_tensor(z)-1
                     EDz = self.get_image_latents(Dz, sample=False)
                     grad = EDz - z0
@@ -1485,7 +1487,7 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                     inner_product = torch.inner(torch.flatten(EDz_i.float() - EDz_comp.float()), torch.flatten(z_list[i].float()-z_comp.float()))
                     cocoercivity_rate = inner_product / torch.norm(EDz_i.float()-EDz_comp.float())**2
                     cocoercivity_rate_array_another[i] = cocoercivity_rate
-                    print(cocoercivity_rate, z_list[i].norm().item(), EDz_i.norm().item())
+                    # print(cocoercivity_rate, z_list[i].norm().item(), EDz_i.norm().item())
                     # print(compare1, compare2)
 
                 for i in range(len(z_list)-1):
@@ -1535,6 +1537,9 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
                     if verbose:
                         print(f"{i+1}, NMSE : {(z-z_answer).norm()**2/z_answer.norm()**2}, lr : {lr}") # return shape must be [1, 4, 64, 64]
             
+            
+            z_return = z
+
             return z_return.half(), extra_outputs, extra_outputs_another, another_output
 
     def ete_inversion(self, x, z_answer, adam=False, decoder_inv_steps=100, decoder_lr=0.01, do_classifier_free_guidance=True, guidance_scale=1.0, prompt_embeds=None, verbose=False, use_float=False):
@@ -1919,12 +1924,20 @@ class RectifiedInversableFlowPipeline(RectifiedFlowPipeline):
 
 def get_lr_cosine_with_warmup(i, num_steps=100, num_warmup_steps=10, lr_max=0.01):
     assert i>=0 and i<num_steps
-    if i<num_warmup_steps:
-        lr = (i+1)/num_warmup_steps * lr_max
-    elif i>=80:
-        lr = lr_max * (1 + math.cos(math.pi * (80-num_warmup_steps)/ (num_steps - num_warmup_steps)))/2
+    if num_steps==300:
+        if i<num_warmup_steps:
+            lr = (i+1)/num_warmup_steps * lr_max
+        elif i>=80:
+            lr = lr_max * (1 + math.cos(math.pi * (80-num_warmup_steps)/ (100 - num_warmup_steps)))/2
+        # else:
+        #     lr = lr_max * (1 + math.cos(math.pi * (i-num_warmup_steps)/ (num_steps - num_warmup_steps)))/2
     else:
-        lr = lr_max * (1 + math.cos(math.pi * (i-num_warmup_steps)/ (num_steps - num_warmup_steps)))/2
+        if i<num_warmup_steps:
+            lr = (i+1)/num_warmup_steps * lr_max
+        elif i>=80:
+            lr = lr_max * (1 + math.cos(math.pi * (80-num_warmup_steps)/ (num_steps - num_warmup_steps)))/2
+        else:
+            lr = lr_max * (1 + math.cos(math.pi * (i-num_warmup_steps)/ (num_steps - num_warmup_steps)))/2
     return lr
 
 class StepScheduler(ReduceLROnPlateau):

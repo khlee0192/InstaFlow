@@ -123,9 +123,12 @@ def main():
     dataset, prompt_key = get_dataset(args.dataset)
 
     if args.with_tracking:
-        wandb.init(project='240512 work on KM', name=args.run_name)
+        wandb.init(project='rework on figure 3', name=args.run_name)
         wandb.config.update(args)
-        table = wandb.Table(columns=['original_image', 'recon_image', 'diff_image', 'original_latents_visualized', 'recon_latents_visualized', 'diff_latents_visualized', 'error_TOT', 'error_OTO', 'error_middle', 'output_loss', 'dec_inv memory', 'inf_time', 'inv_time', 'seed', 'prompt', 'cocercivity_process', 'cocercivity_inf'])
+        if args.test_beta:
+            table = wandb.Table(columns=['original_image', 'recon_image', 'diff_image', 'original_latents_visualized', 'recon_latents_visualized', 'diff_latents_visualized', 'error_TOT', 'error_OTO', 'error_middle', 'output_loss', 'dec_inv memory', 'inf_time', 'inv_time', 'seed', 'prompt', 'cocercivity_process', 'cocercivity_inf'])
+        else:
+            table = wandb.Table(columns=['original_image', 'recon_image', 'diff_image', 'original_latents_visualized', 'recon_latents_visualized', 'diff_latents_visualized', 'error_TOT', 'error_OTO', 'error_middle', 'output_loss', 'dec_inv memory', 'inf_time', 'inv_time', 'seed', 'prompt'])
 
     TOT_list = []
     OTO_list = []
@@ -209,7 +212,11 @@ def main():
             prompt = dataset[i][prompt_key] 
             inversion_prompt = prompt
 
-            original_image, recon_image, diff_image, original_latents_visualized, recon_latents_visualized, diff_latents_visualized, error_TOT, error_OTO, error_middle, output_loss, peak_gpu_allocated, inf_time, inv_time, seed, extra_outputs, extra_outputs_another, another_output = single_exp(seed, prompt, inversion_prompt,
+            if args.test_beta:
+                original_image, recon_image, diff_image, original_latents_visualized, recon_latents_visualized, diff_latents_visualized, error_TOT, error_OTO, error_middle, output_loss, peak_gpu_allocated, inf_time, inv_time, seed, extra_outputs, extra_outputs_another, another_output = single_exp(seed, prompt, inversion_prompt,
+                        args.randomize_seed, decoder_inv_steps=args.decoder_inv_steps, decoder_lr=args.decoder_lr, forward_steps=args.forward_steps, tuning_steps=args.tuning_steps, tuning_lr=args.tuning_lr, reg_coeff=args.reg_coeff, num_inference_steps=1, num_inversion_steps=1, guidance_scale=args.guidance_scale)
+            else:
+                original_image, recon_image, diff_image, original_latents_visualized, recon_latents_visualized, diff_latents_visualized, error_TOT, error_OTO, error_middle, output_loss, peak_gpu_allocated, inf_time, inv_time, seed= single_exp(seed, prompt, inversion_prompt,
                         args.randomize_seed, decoder_inv_steps=args.decoder_inv_steps, decoder_lr=args.decoder_lr, forward_steps=args.forward_steps, tuning_steps=args.tuning_steps, tuning_lr=args.tuning_lr, reg_coeff=args.reg_coeff, num_inference_steps=1, num_inversion_steps=1, guidance_scale=args.guidance_scale)
             
             # TOT_list.append(10*math.log10(error_TOT))
@@ -228,11 +235,14 @@ def main():
                 loss_list.append(output_loss.cpu())
             memory_list.append(peak_gpu_allocated)
 
-            cocercivity_process = torch.min(extra_outputs).item()
-            cocercivity_inf = torch.min(extra_outputs_another).item()
 
             if args.with_tracking:
-                table.add_data(wandb.Image(original_image), wandb.Image(recon_image), wandb.Image(diff_image), wandb.Image(original_latents_visualized), wandb.Image(recon_latents_visualized), wandb.Image(diff_latents_visualized), error_TOT, error_OTO, error_middle, output_loss, peak_gpu_allocated, inf_time, inv_time, seed, prompt, cocercivity_process, cocercivity_inf)
+                if args.test_beta:
+                    cocercivity_process = torch.min(extra_outputs).item()
+                    cocercivity_inf = torch.min(extra_outputs_another).item()
+                    table.add_data(wandb.Image(original_image), wandb.Image(recon_image), wandb.Image(diff_image), wandb.Image(original_latents_visualized), wandb.Image(recon_latents_visualized), wandb.Image(diff_latents_visualized), error_TOT, error_OTO, error_middle, output_loss, peak_gpu_allocated, inf_time, inv_time, seed, prompt, cocercivity_process, cocercivity_inf)
+                else:
+                    table.add_data(wandb.Image(original_image), wandb.Image(recon_image), wandb.Image(diff_image), wandb.Image(original_latents_visualized), wandb.Image(recon_latents_visualized), wandb.Image(diff_latents_visualized), error_TOT, error_OTO, error_middle, output_loss, peak_gpu_allocated, inf_time, inv_time, seed, prompt)
 
             if args.test_beta:
                 cocercivity_rate_results[i] = extra_outputs

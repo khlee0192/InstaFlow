@@ -1,0 +1,53 @@
+  0%|                                                                                                                                                                                                                                                                     | 0/100 [00:00<?, ?it/s]
+Traceback (most recent call last):
+  File "/home/icl2/khlee/InstaFlow/code/main_new_algorithm.py", line 295, in <module>
+    main()
+  File "/home/icl2/khlee/InstaFlow/code/main_new_algorithm.py", line 212, in main
+    original_image, recon_image, diff_image, original_latents_visualized, recon_latents_visualized, diff_latents_visualized, error_TOT, error_OTO, error_middle, output_loss, peak_gpu_allocated, inf_time, inv_time, seed, extra_outputs, extra_outputs_another, another_output = single_exp(seed, prompt, inversion_prompt,
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/icl2/khlee/InstaFlow/code/main_new_algorithm.py", line 38, in single_exp
+    output, latents, original_latents = insta_pipe(prompt=prompt, num_inference_steps=num_inference_steps, guidance_scale=guidance_scale, generator=generator)
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/icl2/khlee/InstaFlow/code/pipeline_rf.py", line 635, in __call__
+    prompt_embeds, negative_prompt_embeds = self.encode_prompt(
+  File "/home/icl2/khlee/InstaFlow/code/pipeline_rf.py", line 333, in encode_prompt
+    prompt_embeds = self.text_encoder(
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/transformers/models/clip/modeling_clip.py", line 800, in forward
+    return self.text_model(
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/transformers/models/clip/modeling_clip.py", line 705, in forward
+    encoder_outputs = self.encoder(
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/transformers/models/clip/modeling_clip.py", line 632, in forward
+    layer_outputs = encoder_layer(
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/transformers/models/clip/modeling_clip.py", line 382, in forward
+    hidden_states = self.mlp(hidden_states)
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/transformers/models/clip/modeling_clip.py", line 338, in forward
+    hidden_states = self.activation_fn(hidden_states)
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/icl2/anaconda3/lib/python3.10/site-packages/transformers/activations.py", line 96, in forward
+    return input * torch.sigmoid(1.702 * input)
+KeyboardInterrupt
